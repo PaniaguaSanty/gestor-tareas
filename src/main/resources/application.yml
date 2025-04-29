@@ -3,27 +3,26 @@ spring:
     url: jdbc:postgresql://localhost:5432/todoappdb
     username: todoappuser
     password: secretpassword
+    driver-class-name: org.postgresql.Driver
 
   jpa:
     hibernate:
       ddl-auto: create
     show-sql: true
-    properties:
-      hibernate:
-        format_sql: true
+  sql:
+    init:
+      mode: always
 
+  output:
+    ansi:
+      enabled: always # permite ver el log como colores
+  docker:
+    compose:
+      enabled: true
+      file: docker-compose.yml
+
+server:
+  port: 8080
 logging:
   level:
-    org:
-      hibernate:
-        SQL: debug
-        type:
-          descriptor:
-            sql: trace
-
-# Swagger si lo vas a usar
-springdoc:
-  api-docs:
-    path: /api-docs
-  swagger-ui:
-    path: /swagger-ui.html
+    root: info # permite ver los logs de consola

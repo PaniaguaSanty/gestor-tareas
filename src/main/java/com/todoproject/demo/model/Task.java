@@ -1,4 +1,4 @@
-package model;
+package com.todoproject.demo.model;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -19,10 +19,10 @@ public class Task {
 
     private String tittle;
     private String description;
-    private State state;
+    private TaskState taskState;
 
     // Relación de muchos a uno con Proyect
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "proyect_id") // La columna en la tabla de tareas que se refiere al proyecto
-    private Proyect proyect; // Proyecto asociado a esta tarea
+    private Project project; // Proyecto asociado a esta tarea
 }

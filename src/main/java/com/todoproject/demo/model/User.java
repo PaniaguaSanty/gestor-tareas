@@ -1,4 +1,4 @@
-package model;
+package com.todoproject.demo.model;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;

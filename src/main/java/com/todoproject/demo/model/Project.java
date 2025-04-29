@@ -1,4 +1,4 @@
-package model;
+package com.todoproject.demo.model;
 
 
 import jakarta.persistence.*;
@@ -14,8 +14,8 @@ import java.util.List;
 @Getter
 @Setter
 @Entity
-@Table(name = "proyects")
-public class Proyect {
+@Table(name = "projects")
+public class Project {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
