@@ -1,0 +1,28 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/todoappdb
+    username: todoappuser
+    password: secretpassword
+    driver-class-name: org.postgresql.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: create
+    show-sql: true
+  sql:
+    init:
+      mode: always
+
+  output:
+    ansi:
+      enabled: always # permite ver el log como colores
+  docker:
+    compose:
+      enabled: true
+      file: docker-compose.yml
+
+server:
+  port: 8080
+logging:
+  level:
+    root: info # permite ver los logs de consola
