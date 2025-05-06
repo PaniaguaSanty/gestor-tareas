@@ -28,15 +28,6 @@ public class Task {
 
     @Enumerated(EnumType.STRING)
     private Priority priority;
-
-    // Relación recursiva para subtareas
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "parent_task_id")
-    private Task parentTask;
-
-    @OneToMany(mappedBy = "parentTask", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Task> subtasks = new ArrayList<>();
-
     // Tarea asignada a un usuario
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
