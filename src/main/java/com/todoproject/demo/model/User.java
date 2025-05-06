@@ -1,25 +1,35 @@
 package com.todoproject.demo.model;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
+import java.util.ArrayList;
+import java.util.List;
 
-@AllArgsConstructor
-@NoArgsConstructor
 @Entity
+@Table(name = "users")
 @Getter
 @Setter
-@Table(name = "users")
+@NoArgsConstructor
+@AllArgsConstructor
 public class User {
 
-    @Id()
+    @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String name;
     private String email;
+    // Un usuario puede pertenecer a un solo equipo
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "team_id")
+    private Team team;
 
+    // Un usuario puede tener muchas tareas asignadas
+    @OneToMany(mappedBy = "assignedTo", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Task> tasks = new ArrayList<>();
+
+    // Un usuario puede crear muchos comentarios
+    @OneToMany(mappedBy = "author", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Comment> comments = new ArrayList<>();
 }
