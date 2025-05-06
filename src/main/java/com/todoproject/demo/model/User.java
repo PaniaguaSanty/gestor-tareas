@@ -20,9 +20,10 @@ public class User {
 
     private String name;
     private String email;
-    // Un usuario puede pertenecer a un solo equipo
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "team_id")
+
+    // Un usuario puede pertenecer a un solo equipo (opcional)
+    @ManyToOne(fetch = FetchType.LAZY, optional = true)
+    @JoinColumn(name = "team_id", nullable = true)
     private Team team;
 
     // Un usuario puede tener muchas tareas asignadas
