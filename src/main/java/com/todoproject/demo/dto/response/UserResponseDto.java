@@ -1,5 +1,4 @@
-package com.todoproject.demo.dto.request;
-
+package com.todoproject.demo.dto.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -10,10 +9,11 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class UserRequestDto {
+public class UserResponseDto {
 
     private String name;
     private String email;
     private String dni;
     private boolean active;
+
 }

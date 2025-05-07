@@ -1,19 +1,20 @@
 package com.todoproject.demo.dto.request;
 
-
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.time.LocalDateTime;
+
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class UserRequestDto {
+public class AttachmentRequestDto {
 
-    private String name;
-    private String email;
-    private String dni;
-    private boolean active;
+    private String fileName;
+    private String fileUrl;
+    private LocalDateTime uploadedAt;
+    //task request
 }
