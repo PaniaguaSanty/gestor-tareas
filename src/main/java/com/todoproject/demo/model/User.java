@@ -20,6 +20,8 @@ public class User {
 
     private String name;
     private String email;
+    private String dni;
+    private boolean active;
 
     // Un usuario puede pertenecer a un solo equipo (opcional)
     @ManyToOne(fetch = FetchType.LAZY, optional = true)

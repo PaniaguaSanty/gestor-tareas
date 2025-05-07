@@ -13,4 +13,7 @@ public class UserResponseDto {
 
     private String name;
     private String email;
+    private String dni;
+    private boolean active;
+
 }
