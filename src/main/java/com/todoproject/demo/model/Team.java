@@ -19,7 +19,7 @@ public class Team {
     private Long id;
 
     private String name;
-
+    private boolean active;
     // Un equipo agrupa varios usuarios
     @OneToMany(mappedBy = "team", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<User> users = new ArrayList<>();
