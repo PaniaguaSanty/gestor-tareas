@@ -8,7 +8,7 @@ public interface CrudController<RequestDto, ResponseDto> {
 
     ResponseEntity<ResponseDto> create(RequestDto REQUEST);
 
-    ResponseEntity<ResponseDto> update(Long id, RequestDto REQUEST);
+    ResponseEntity<ResponseDto> update(RequestDto REQUEST);
 
     ResponseEntity<Void> delete(Long id);
 
