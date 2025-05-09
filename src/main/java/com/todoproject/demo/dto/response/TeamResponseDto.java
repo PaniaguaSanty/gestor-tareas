@@ -12,4 +12,5 @@ import lombok.Setter;
 public class TeamResponseDto {
 
     private String name;
+    private boolean active;
 }

@@ -12,5 +12,5 @@ import lombok.Setter;
 public class TeamRequestDto {
 
     private String name;
-
+    private boolean active;
 }
