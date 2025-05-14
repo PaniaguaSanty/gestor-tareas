@@ -5,12 +5,15 @@ import com.todoproject.demo.dto.response.TeamResponseDto;
 import com.todoproject.demo.exception.NotFoundException;
 import com.todoproject.demo.mapper.TeamMapper;
 import com.todoproject.demo.model.Team;
+import com.todoproject.demo.model.User;
 import com.todoproject.demo.repository.TeamRepository;
+import com.todoproject.demo.repository.UserRepository;
 import com.todoproject.demo.util.CRUD;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -19,10 +22,12 @@ public class TeamServiceImpl implements CRUD<TeamResponseDto, TeamRequestDto> {
 
     private final Logger logger = LoggerFactory.getLogger(TeamServiceImpl.class);
     private final TeamRepository teamRepository;
+    private final UserRepository userRepository;
     private final TeamMapper teamMapper;
 
-    public TeamServiceImpl(TeamRepository teamRepository, TeamMapper teamMapper) {
+    public TeamServiceImpl(TeamRepository teamRepository, UserRepository userRepository, TeamMapper teamMapper) {
         this.teamRepository = teamRepository;
+        this.userRepository = userRepository;
         this.teamMapper = teamMapper;
     }
 
@@ -90,6 +95,25 @@ public class TeamServiceImpl implements CRUD<TeamResponseDto, TeamRequestDto> {
         return teamMapper.convertToDto(team);
     }
 
-    //método para agregar users al team...
+    public TeamResponseDto setUser(String dni, TeamRequestDto teamRequestDto) {
+        logger.info("Entering in setUser method...");
+        User user = userRepository.findByDni(dni)
+                .orElseThrow(() -> new NotFoundException("User not found with current DNI..."));
+
+        Team existingTeam = teamRepository.findByName(teamRequestDto.getName())
+                .orElseThrow(() -> new NotFoundException("Team not found with current name..."));
+
+        List<User> currentUsers = existingTeam.getUsers();
+        // Evitar duplicados
+        if (!currentUsers.contains(user)) {
+            currentUsers.add(user);
+        } else {
+            logger.info("User already exists in the team.");
+        }
+        existingTeam.setUsers(currentUsers);
+        Team savedTeam = teamRepository.save(existingTeam);
+        return teamMapper.convertToDto(savedTeam);
+    }
+
 
 }

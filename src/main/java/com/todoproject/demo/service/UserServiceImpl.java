@@ -28,14 +28,10 @@ public class UserServiceImpl implements CRUD<UserResponseDto, UserRequestDto> {
 
     @Override
     public UserResponseDto create(UserRequestDto userRequestDto) {
-        try {
-            logger.info("Entering in create user Method...");
-            User newUser = userMapper.convertToEntity(userRequestDto);
-            User savedUser = userRepository.save(newUser);
-            return userMapper.convertToDto(savedUser);
-        } catch (NotFoundException e) {
-            throw new NotFoundException("Error while creating user..."); //cambiar tipo de excepción.
-        }
+        logger.info("Entering in create user Method...");
+        User newUser = userMapper.convertToEntity(userRequestDto);
+        User savedUser = userRepository.save(newUser);
+        return userMapper.convertToDto(savedUser);
     }
 
     @Override
