@@ -8,15 +8,14 @@ import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @Controller
-public class UserController implements CrudController<UserRequestDto, UserResponseDto> {
+@RequestMapping("/users")
+public class UserController {
 
 
     private final UserServiceImpl userService;
@@ -26,48 +25,57 @@ public class UserController implements CrudController<UserRequestDto, UserRespon
         this.userService = userService;
     }
 
-    @Override
     @PostMapping("/create")
-    public ResponseEntity<UserResponseDto> create(UserRequestDto REQUEST) {
+    public ResponseEntity<UserResponseDto> create(@ModelAttribute UserRequestDto REQUEST) {
         logger.info("Entering in create method..");
         UserResponseDto RESPONSE = userService.create(REQUEST);
         logger.info("Exiting create method..");
         return new ResponseEntity<>(RESPONSE, HttpStatus.CREATED);
     }
 
-    @Override
     @PutMapping("/update/{id}")
-    public ResponseEntity<UserResponseDto> update(UserRequestDto REQUEST) {
+    public ResponseEntity<UserResponseDto> update(@RequestBody UserRequestDto REQUEST) {
         logger.info("Entering in update method..");
         UserResponseDto RESPONSE = userService.update(REQUEST);
         logger.info("Exiting update method..");
         return new ResponseEntity<>(RESPONSE, HttpStatus.OK);
     }
 
-    @Override
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<Void> delete(Long id) {
+    public ResponseEntity<Void> delete(@PathVariable Long id) {
         logger.info("Entering in delete method..");
         userService.delete(String.valueOf(id));
         logger.info("Exiting delete method..");
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
-    @Override
     @GetMapping("/find/{id}")
-    public ResponseEntity<UserResponseDto> findById(Long id) {
+    public ResponseEntity<UserResponseDto> findById(@PathVariable Long id) {
         logger.info("Entering in findById method..");
         UserResponseDto RESPONSE = userService.findOne(String.valueOf(id));
         logger.info("Exiting findById method..");
         return new ResponseEntity<>(RESPONSE, HttpStatus.FOUND);
     }
 
-    @Override
     @GetMapping("/findAll")
     public ResponseEntity<List<UserResponseDto>> findAll() {
         logger.info("Entering in findAll method..");
         List<UserResponseDto> RESPONSES = userService.findAll();
         logger.info("Exiting findAll method..");
         return new ResponseEntity<>(RESPONSES, HttpStatus.FOUND);
+    }
+
+    @GetMapping("/form")
+    public String showCreateForm(Model model) {
+        model.addAttribute("user", new UserRequestDto());
+        return "create-user";
+    }
+
+    @PostMapping("/submit")
+    public String handleForm(@ModelAttribute("user") UserRequestDto user) {
+        // Aquí puedes guardar el usuario, validar, etc.
+        System.out.println("Name: " + user.getName());
+        System.out.println("Email: " + user.getEmail());
+        return "redirect:/users/form";
     }
 }
