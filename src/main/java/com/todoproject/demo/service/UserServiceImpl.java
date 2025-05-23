@@ -30,6 +30,7 @@ public class UserServiceImpl implements CRUD<UserResponseDto, UserRequestDto> {
     public UserResponseDto create(UserRequestDto userRequestDto) {
         logger.info("Entering in create user Method...");
         User newUser = userMapper.convertToEntity(userRequestDto);
+        newUser.setActive(true);
         User savedUser = userRepository.save(newUser);
         return userMapper.convertToDto(savedUser);
     }
@@ -53,9 +54,9 @@ public class UserServiceImpl implements CRUD<UserResponseDto, UserRequestDto> {
     }
 
     @Override
-    public void delete(String id) {
+    public void delete(String dni) {
         logger.info("Entering in delete method...");
-        User user = userRepository.findById(Long.parseLong(id))
+        User user = userRepository.findByDni(dni)
                 .orElseThrow(() -> new NotFoundException("User not found.."));
         userRepository.delete(user);
     }
@@ -71,21 +72,38 @@ public class UserServiceImpl implements CRUD<UserResponseDto, UserRequestDto> {
     }
 
     @Override
-    public UserResponseDto findOne(String id) {
+    public UserResponseDto findOne(String dni) {
         logger.info("Entering in findOne method...");
-        User user = userRepository.findById(Long.parseLong(id))
+        User user = userRepository.findByDni(dni)
                 .orElseThrow(() -> new NotFoundException("User not found.."));
         return userMapper.convertToDto(user);
     }
 
     @Override
-    public UserResponseDto disable(String id) {
+    public UserResponseDto disable(String dni) {
         logger.info("Entering in disable user method...");
-        User user = userRepository.findById(Long.parseLong(id))
+        User user = userRepository.findByDni(dni)
                 .orElseThrow(() -> new NotFoundException("User not found.."));
         user.setActive(false);
         userRepository.save(user);
         return userMapper.convertToDto(user);
     }
 
+    public void enableUser(String dni) {
+        logger.info("Entering in enable user method...");
+        User user = userRepository.findByDni(dni)
+                .orElseThrow(() -> new NotFoundException("User not found.."));
+        user.setActive(true);
+        userRepository.save(user);
+        userMapper.convertToDto(user);
+    }
+
+    //search method.
+    public List<UserResponseDto> search(String search, boolean status) {
+
+        List<User> users = userRepository.search(search, status);
+        return users.stream()
+                .map(userMapper::convertToDto)
+                .toList();
+    }
 }
