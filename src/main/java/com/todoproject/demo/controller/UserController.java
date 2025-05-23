@@ -17,7 +17,6 @@ import java.util.List;
 @RequestMapping("/users")
 public class UserController {
 
-
     private final UserServiceImpl userService;
     private final Logger logger = LoggerFactory.getLogger(UserController.class);
 
@@ -26,14 +25,14 @@ public class UserController {
     }
 
     @PostMapping("/create")
-    public ResponseEntity<UserResponseDto> create(@ModelAttribute UserRequestDto REQUEST) {
+    public ResponseEntity<UserResponseDto> create(@RequestBody UserRequestDto REQUEST) {
         logger.info("Entering in create method..");
         UserResponseDto RESPONSE = userService.create(REQUEST);
         logger.info("Exiting create method..");
         return new ResponseEntity<>(RESPONSE, HttpStatus.CREATED);
     }
 
-    @PutMapping("/update/{id}")
+    @PutMapping("/update/{dni}")
     public ResponseEntity<UserResponseDto> update(@RequestBody UserRequestDto REQUEST) {
         logger.info("Entering in update method..");
         UserResponseDto RESPONSE = userService.update(REQUEST);
@@ -41,41 +40,117 @@ public class UserController {
         return new ResponseEntity<>(RESPONSE, HttpStatus.OK);
     }
 
-    @DeleteMapping("/delete/{id}")
-    public ResponseEntity<Void> delete(@PathVariable Long id) {
+    @DeleteMapping("/delete/{dni}")
+    public ResponseEntity<Void> delete(@PathVariable String dni) {
         logger.info("Entering in delete method..");
-        userService.delete(String.valueOf(id));
+        userService.delete(dni);
         logger.info("Exiting delete method..");
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
-    @GetMapping("/find/{id}")
-    public ResponseEntity<UserResponseDto> findById(@PathVariable Long id) {
+    @GetMapping("/find/{dni}")
+    public ResponseEntity<UserResponseDto> findById(@PathVariable String dni) {
         logger.info("Entering in findById method..");
-        UserResponseDto RESPONSE = userService.findOne(String.valueOf(id));
+        UserResponseDto RESPONSE = userService.findOne(dni);
         logger.info("Exiting findById method..");
         return new ResponseEntity<>(RESPONSE, HttpStatus.FOUND);
     }
 
-    @GetMapping("/findAll")
-    public ResponseEntity<List<UserResponseDto>> findAll() {
+    //url para probar el método: http://localhost:8080/users/list
+    @GetMapping("/list")
+    public String findAllUsers(Model model) {
         logger.info("Entering in findAll method..");
-        List<UserResponseDto> RESPONSES = userService.findAll();
+        List<UserResponseDto> users = userService.findAll();
+        model.addAttribute("users", users);
         logger.info("Exiting findAll method..");
-        return new ResponseEntity<>(RESPONSES, HttpStatus.FOUND);
+        return "userManagement";
     }
 
+
+    //url para probar el método: http://localhost:8080/users/form
     @GetMapping("/form")
     public String showCreateForm(Model model) {
         model.addAttribute("user", new UserRequestDto());
+
         return "create-user";
     }
 
-    @PostMapping("/submit")
+    @PostMapping("/save")
     public String handleForm(@ModelAttribute("user") UserRequestDto user) {
-        // Aquí puedes guardar el usuario, validar, etc.
-        System.out.println("Name: " + user.getName());
-        System.out.println("Email: " + user.getEmail());
-        return "redirect:/users/form";
+        userService.create(user); // <--- Guarda el usuario en la base de datos
+        return "redirect:/users/list"; //hacer que redireccione a "create-user-success con pantalla de carga".
     }
+
+    /**
+     * Muestra el formulario para editar un usuario
+     */
+    @GetMapping("/update/{dni}")
+    public String showUpdateForm(@PathVariable String dni, Model model) {
+        // 1) Recupera el usuario existente
+        UserResponseDto existing = userService.findOne(dni);
+        // 2) Mapea a RequestDto para el form
+        UserRequestDto formDto = new UserRequestDto();
+        formDto.setName(existing.getName());
+        formDto.setEmail(existing.getEmail());
+        formDto.setDni(existing.getDni());
+        formDto.setActive(existing.isActive());
+        model.addAttribute("user", formDto);
+        // 3) Retorna la plantilla Thymeleaf
+        return "update-user";
+    }
+
+    /**
+     * Procesa el submit del formulario de edición
+     */
+    @PostMapping("/update")
+    public String handleUpdate(@ModelAttribute("user") UserRequestDto user) {
+        userService.update(user);
+        return "redirect:/users/list";
+    }
+
+    /**
+     * Borra el usuario y redirige
+     */
+    @GetMapping("/delete/{dni}")
+    public String deleteUser(@PathVariable String dni) {
+        userService.delete(dni);
+        return "redirect:/users/list";
+    }
+
+    @GetMapping("/disable/{dni}")
+    public String disableUser(@PathVariable String dni) {
+        logger.info("Entering disableUser method for DNI: {}", dni);
+        userService.disable(dni);
+        return "redirect:/users/list";
+    }
+
+    @GetMapping("/enableUser/{dni}")
+    public String enableUser(@PathVariable String dni) {
+        logger.info("Entering enableUser method for DNI: {}", dni);
+        userService.enableUser(dni);
+        return "redirect:/users/list";
+    }
+
+    @GetMapping("/searchBar")
+    public String searchUsers(
+            @RequestParam(required = false) String search,
+            @RequestParam(required = false) Boolean status,
+            Model model
+    ) {
+        // Asigna true por defecto si status es null (puedes cambiar esto a false si lo prefieres)
+        boolean statusValue = (status != null) ? status : true;
+
+        List<UserResponseDto> users = userService.search(search, statusValue);
+
+        model.addAttribute("users", users);
+        model.addAttribute("paramSearch", search);
+        model.addAttribute("paramStatus", status);
+        return "userManagement";
+    }
+
+    @GetMapping("/")
+    public String home() {
+        return "home";
+    }
+
 }

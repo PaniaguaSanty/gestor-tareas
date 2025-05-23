@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>User Management</title>
+    <link
+            href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+            rel="stylesheet"/>
+    <link
+            href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css"
+            rel="stylesheet"/>
+</head>
+<body class="bg-secondary">
+
+<!-- Header -->
+<header class="bg-dark-subtle text-white text-center py-4 mb-4">
+    <h1>To do app User Management</h1>
+</header>
+
+<div class="d-flex" style="min-height: 100vh;">
+    <!-- Sidebar -->
+    <nav class="bg-light p-3" style="width: 250px;">
+        <div class="list-group">
+            <a th:href="@{/}"
+               class="list-group-item list-group-item-action">
+                Inicio
+            </a>
+            <a th:href="@{/users/list}"
+               class="list-group-item list-group-item-action active">
+                Users
+            </a>
+            <a th:href="@{/projects}"
+               class="list-group-item list-group-item-action">
+                Projects
+            </a>
+            <a th:href="@{/tasks}"
+               class="list-group-item list-group-item-action">
+                Tasks
+            </a>
+        </div>
+    </nav>
+
+    <!-- Contenido principal -->
+    <div class="flex-grow-1 p-4">
+        <!-- Filtro GET -->
+        <form th:action="@{/users/searchBar}" method="get" class="row g-2 mb-4">
+            <div class="col-md-6">
+                <input type="text"
+                       name="search"
+                       th:value="${paramSearch}"
+                       class="form-control"
+                       placeholder="Buscar usuario..."/>
+            </div>
+            <div class="col-md-3">
+                <select name="status" class="form-select">
+                    <option value=""
+                            th:selected="${paramStatus == null}">
+                        Todos
+                    </option>
+                    <option th:value="true"
+                            th:selected="${paramStatus == true}">
+                        Activos
+                    </option>
+                    <option th:value="false"
+                            th:selected="${paramStatus == false}">
+                        Inactivos
+                    </option>
+                </select>
+            </div>
+            <div class="col-md-3">
+                <button class="btn btn-primary w-100">Filtrar</button>
+            </div>
+        </form>
+
+        <!-- Tabla de usuarios -->
+        <table class="table table-light table-bordered mb-0">
+            <thead class="table-secondary">
+            <tr>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Dni</th>
+                <th>Estado</th>
+                <th>Acciones</th>
+            </tr>
+            </thead>
+            <tbody class="table-group-divider">
+            <tr th:each="user : ${users}">
+                <td th:text="${user.name}">Name</td>
+                <td th:text="${user.email}">Email</td>
+                <td th:text="${user.dni}">Dni</td>
+                <td>
+              <span th:classappend="${user.active} ? 'badge bg-success' : 'badge bg-secondary'"
+                    th:text="${user.active} ? 'Activo' : 'Inactivo'">
+              </span>
+                </td>
+                <td>
+                    <!-- Editar -->
+                    <a th:href="@{/users/update/{dni}(dni=${user.dni})}"
+                       class="btn btn-sm btn-outline-primary me-1"
+                       title="Editar">
+                        <i class="bi bi-pencil"></i>
+                    </a>
+                    <!-- Deshabilitar -->
+                    <a th:href="@{/users/disable/{dni}(dni=${user.dni})}"
+                       class="btn btn-sm btn-outline-warning"
+                       onclick="return confirm('¿Seguro que deseas deshabilitar este usuario?')">
+                        <i class="bi bi-slash-circle"></i> Deshabilitar
+                    </a>
+                    <!-- Rehabilitar -->
+                    <a th:href="@{/users/enableUser/{dni}(dni=${user.dni})}"
+                       class="btn btn-sm btn-outline-success"
+                       th:if="${!user.active}">
+                        <i class="bi bi-check-circle"></i> Habilitar
+                    </a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<!-- Footer -->
+<footer class="bg-dark text-white text-center py-3 mt-4">
+    <p>&copy; 2025 To-do app. Todos los derechos reservados.</p>
+</footer>
+
+</body>
+</html>
