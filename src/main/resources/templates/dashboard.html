@@ -1,0 +1,150 @@
+<!-- Client view  -->
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Dashboard</title>
+    <!-- 1) Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- 2) Bootstrap Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+    <!-- 3) Tu CSS personalizado -->
+    <link rel="stylesheet" th:href="@{/css/dashboard.css}" href="/static/css/dashboard.css">
+</head>
+
+<body class="bg-dashboard">
+<!-- Navbar -->
+<header>
+    <!-- TODO: CAMBIAR EL BACKGROUND COLOR Y DEJARLO MEJOR. -->
+    <nav class="navbar navbar-expand-lg border-bottom">
+        <div class="container-fluid" >
+            <a class="navbar-brand" href="#">Navbar</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                    aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item"><a class="nav-link active" href="#">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#">Link</a></li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                           aria-expanded="false">Dropdown</a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="#">Home</a></li>
+                            <li><a class="dropdown-item" href="#">Another action</a></li>
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
+                            <li><a class="dropdown-item" href="#">Something else here</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item"><a class="nav-link disabled" aria-disabled="true">Disabled</a></li>
+                </ul>
+                <form class="d-flex" role="search">
+                    <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                    <button class="btn btn-outline-success" type="submit">Search</button>
+                </form>
+            </div>
+        </div>
+    </nav>
+</header>
+
+<!-- Team section -->
+<div class="container-fluid p-4">
+    <div class="d-flex mb-3">
+        <h2 class="text-white ">Team board</h2>
+        <a
+                th:href="@{/teams/form}"
+                href="/teams/form"
+                class="btn btn-primary">
+            Crear Team Board
+        </a>
+    </div>
+
+<!-- Dashboard -->
+<div class="container-fluid p-4">
+    <div class="row">
+
+        <!-- To Do -->
+        <div class="col-md-4">
+            <h5 class="text-white mb-3">To Do</h5>
+            <div class="card card-trello">
+                <img src="https://via.placeholder.com/600x120?text=Cover" class="card-img-top" alt="cover">
+                <div class="card-body">
+                    <h6 class="card-title">Título de la tarea</h6>
+                    <p class="card-text text-muted">Descripción breve…</p>
+                    <div class="mb-2">
+                        <span class="badge bg-primary">Front</span>
+                        <span class="badge bg-success">API</span>
+                    </div>
+                </div>
+                <div class="card-footer border-0 bg-white d-flex justify-content-between align-items-center">
+                    <small><i class="bi bi-chat-left-text"></i> 5</small>
+                    <small><i class="bi bi-paperclip"></i> 3</small>
+                    <div class="avatar-group">
+                        <img src="avatar1.jpg" class="rounded-circle" width="30" height="30" alt="User 1">
+                        <img src="avatar2.jpg" class="rounded-circle" width="30" height="30" alt="User 2">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Doing -->
+        <div class="col-md-4">
+            <h5 class="text-white mb-3">Doing</h5>
+            <div class="card card-trello">
+                <img src="https://via.placeholder.com/600x120?text=Cover" class="card-img-top" alt="cover">
+                <div class="card-body">
+                    <h6 class="card-title">Título de la tarea</h6>
+                    <p class="card-text text-muted">Descripción breve…</p>
+                    <div class="mb-2">
+                        <span class="badge bg-primary">Front</span>
+                        <span class="badge bg-success">API</span>
+                    </div>
+                </div>
+                <div class="card-footer border-0 bg-white d-flex justify-content-between align-items-center">
+                    <small><i class="bi bi-chat-left-text"></i> 5</small>
+                    <small><i class="bi bi-paperclip"></i> 3</small>
+                    <div class="avatar-group">
+                        <img src="avatar1.jpg" class="rounded-circle" width="30" height="30" alt="User 1">
+                        <img src="avatar2.jpg" class="rounded-circle" width="30" height="30" alt="User 2">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Done -->
+        <div class="col-md-4">
+            <h5 class="text-white mb-3">Done</h5>
+            <div class="card card-trello">
+                <img src="https://via.placeholder.com/600x120?text=Cover" class="card-img-top" alt="cover">
+                <div class="card-body">
+                    <h6 class="card-title">Título de la tarea</h6>
+                    <p class="card-text text-muted">Descripción breve…</p>
+                    <div class="mb-2">
+                        <span class="badge bg-primary">Front</span>
+                        <span class="badge bg-success">API</span>
+                    </div>
+                </div>
+                <div class="card-footer border-0 bg-white d-flex justify-content-between align-items-center">
+                    <small><i class="bi bi-chat-left-text"></i> 5</small>
+                    <small><i class="bi bi-paperclip"></i> 3</small>
+                    <div class="avatar-group">
+                        <img src="avatar1.jpg" class="rounded-circle" width="30" height="30" alt="User 1">
+                        <img src="avatar2.jpg" class="rounded-circle" width="30" height="30" alt="User 2">
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+</div>
+
+<!-- Bootstrap JS + Popper -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

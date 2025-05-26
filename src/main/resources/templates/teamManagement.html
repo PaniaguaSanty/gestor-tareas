@@ -3,7 +3,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>User Management</title>
+    <title>Team management</title>
     <link
             href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
             rel="stylesheet"/>
@@ -15,7 +15,7 @@
 
 <!-- Header -->
 <header class="bg-dark-subtle text-white text-center py-4 mb-4">
-    <h1>To do app User Management</h1>
+    <h1>To do app Team Management</h1>
 </header>
 
 <div class="d-flex" style="min-height: 100vh;">
@@ -52,13 +52,13 @@
     <!-- Contenido principal -->
     <div class="flex-grow-1 p-4">
         <!-- Filtro GET -->
-        <form th:action="@{/users/searchBar}" method="get" class="row g-2 mb-4">
+        <form th:action="@{/teams/searchBar}" method="get" class="row g-2 mb-4">
             <div class="col-md-6">
                 <input type="text"
                        name="search"
                        th:value="${paramSearch}"
                        class="form-control"
-                       placeholder="Buscar usuario..."/>
+                       placeholder="Buscar equipo..."/>
             </div>
             <div class="col-md-3">
                 <select name="status" class="form-select">
@@ -81,44 +81,44 @@
             </div>
         </form>
 
-        <!-- Tabla de usuarios -->
+        <!-- Tabla de equipos -->
         <table class="table table-light table-bordered mb-0">
             <thead class="table-secondary">
             <tr>
                 <th>Name</th>
-                <th>Email</th>
-                <th>Dni</th>
-                <th>Estado</th>
+                <th>Description</th>
+                <th>Team Code</th>
+                <th>Status</th>
                 <th>Acciones</th>
             </tr>
             </thead>
             <tbody class="table-group-divider">
-            <tr th:each="user : ${users}">
-                <td th:text="${user.name}">Name</td>
-                <td th:text="${user.email}">Email</td>
-                <td th:text="${user.dni}">Dni</td>
+            <tr th:each="team : ${teams}">
+                <td th:text="${team.name}">Name</td>
+                <td th:text="${team.description}">Description</td>
+                <td th:text="${team.dni}">Team code</td>
                 <td>
-              <span th:classappend="${user.active} ? 'badge bg-success' : 'badge bg-secondary'"
-                    th:text="${user.active} ? 'Activo' : 'Inactivo'">
+              <span th:classappend="${team.active} ? 'badge bg-success' : 'badge bg-secondary'"
+                    th:text="${team.active} ? 'Activo' : 'Inactivo'">
               </span>
                 </td>
                 <td>
                     <!-- Editar -->
-                    <a th:href="@{/users/update/{dni}(dni=${user.dni})}"
+                    <a th:href="@{/teams/update/{dni}(dni=${team.dni})}"
                        class="btn btn-sm btn-outline-primary me-1"
                        title="Editar">
                         <i class="bi bi-pencil"></i>
                     </a>
                     <!-- Deshabilitar -->
-                    <a th:href="@{/users/disable/{dni}(dni=${user.dni})}"
+                    <a th:href="@{/teams/disableTeam/{dni}(dni=${team.dni})}"
                        class="btn btn-sm btn-outline-warning"
-                       onclick="return confirm('¿Seguro que deseas deshabilitar este usuario?')">
+                       onclick="return confirm('¿Seguro que deseas deshabilitar este equipo?')">
                         <i class="bi bi-slash-circle"></i> Deshabilitar
                     </a>
                     <!-- Rehabilitar -->
-                    <a th:href="@{/users/enableUser/{dni}(dni=${user.dni})}"
+                    <a th:href="@{/teams/enableTeam/{dni}(dni=${team.dni})}"
                        class="btn btn-sm btn-outline-success"
-                       th:if="${!user.active}">
+                       th:if="${!team.active}">
                         <i class="bi bi-check-circle"></i> Habilitar
                     </a>
                 </td>

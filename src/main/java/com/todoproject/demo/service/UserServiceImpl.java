@@ -98,9 +98,7 @@ public class UserServiceImpl implements CRUD<UserResponseDto, UserRequestDto> {
         userMapper.convertToDto(user);
     }
 
-    //search method.
     public List<UserResponseDto> search(String search, boolean status) {
-
         List<User> users = userRepository.search(search, status);
         return users.stream()
                 .map(userMapper::convertToDto)
