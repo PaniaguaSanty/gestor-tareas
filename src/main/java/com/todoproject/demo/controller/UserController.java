@@ -66,18 +66,16 @@ public class UserController {
         return "userManagement";
     }
 
-
     //url para probar el método: http://localhost:8080/users/form
     @GetMapping("/form")
     public String showCreateForm(Model model) {
         model.addAttribute("user", new UserRequestDto());
-
         return "create-user";
     }
 
     @PostMapping("/save")
     public String handleForm(@ModelAttribute("user") UserRequestDto user) {
-        userService.create(user); // <--- Guarda el usuario en la base de datos
+        userService.create(user);
         return "redirect:/users/list"; //hacer que redireccione a "create-user-success con pantalla de carga".
     }
 
@@ -137,9 +135,8 @@ public class UserController {
             @RequestParam(required = false) Boolean status,
             Model model
     ) {
-        // Asigna true por defecto si status es null (puedes cambiar esto a false si lo prefieres)
+        // Asigna true por defecto si status es null
         boolean statusValue = (status != null) ? status : true;
-
         List<UserResponseDto> users = userService.search(search, statusValue);
 
         model.addAttribute("users", users);
@@ -148,9 +145,21 @@ public class UserController {
         return "userManagement";
     }
 
+    //TODO: LOS ROOTS TIENEN QUE IR EN UN CONTROLLER A PARTE (PUEDE SER HOMECONTROLLER U OTRO)
     @GetMapping("/")
     public String home() {
         return "home";
+    }
+
+    //login de users. TODO: IMPLEMENTACIÓN
+    @GetMapping("/login")
+    public String loginPage() {
+        return "login";
+    }
+
+    @GetMapping("/dashboard")
+    public String dashboard() {
+        return "dashboard";
     }
 
 }

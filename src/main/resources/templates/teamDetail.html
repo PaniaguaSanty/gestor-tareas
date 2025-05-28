@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="'Equipo: ' + ${team.name}">Team Detail</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="bg-light py-5">
+
+<div class="container">
+    <!-- Encabezado -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1 th:text="${team.name}">Nombre del Equipo</h1>
+        <a class="btn btn-secondary" th:href="@{/users/dashboard}">Volver al Dashboard</a>
+    </div>
+
+    <!-- Descripción -->
+    <p class="lead" th:text="${team.description}">Descripción del equipo...</p>
+
+    <!-- Sección de Usuarios -->
+    <div class="card mb-4">
+        <div class="card-header">
+            <h5 class="mb-0">Miembros del Equipo</h5>
+        </div>
+        <div class="card-body">
+            <ul class="list-group mb-3">
+                <!-- Lista de usuarios asignados -->
+                <li class="list-group-item d-flex justify-content-between align-items-center"
+                    th:each="user : ${team.users}">
+                    <span>
+                        <img th:src="@{${user.avatarUrl}}" class="rounded-circle me-2" width="30" height="30" alt="">
+                        <span th:text="${user.name}">Nombre Usuario</span>
+                    </span>
+
+                    <!-- Botón para quitar usuario -->
+                    <form th:action="@{/teams/{teamDni}/users/{userDni}(teamDni=${team.dni}, userDni=${user.dni})}"
+                          method="post">
+                        <input type="hidden" name="_method" value="DELETE"/>
+                        <button type="submit" class="btn btn-sm btn-outline-danger">Quitar</button>
+                    </form>
+                </li>
+            </ul>
+
+            <!-- Formulario para añadir usuario -->
+            <form id="addUserForm" method="post" class="row g-2" th:inline="javascript">
+                <div class="col-auto">
+                    <select id="userSelect" class="form-select" required>
+                        <option value="" disabled selected>Selecciona un usuario</option>
+                        <option th:each="u : ${allUsers}"
+                                th:value="${u.dni}"
+                                th:text="${u.name}"
+                                th:if="${!#lists.contains(team.users, u)}">
+                        </option>
+                    </select>
+                </div>
+                <div class="col-auto">
+                    <button type="submit" class="btn btn-primary">Añadir al Equipo</button>
+                </div>
+            </form>
+
+            <!-- Script JavaScript para enviar el formulario dinámicamente -->
+            <script th:inline="javascript">
+                /*<![CDATA[*/
+                const teamDni = /*[[${team.dni}]]*/ 'teamDniFallback';
+
+                document.getElementById("addUserForm").addEventListener("submit", function (e) {
+                    e.preventDefault();
+                    const selectedDni = document.getElementById("userSelect").value;
+                    if (!selectedDni) {
+                        alert('Por favor selecciona un usuario.');
+                        return;
+                    }
+
+                    const actionUrl = '/teams/' + teamDni + '/users/' + selectedDni;
+
+                    const dynamicForm = document.createElement("form");
+                    dynamicForm.method = "POST";
+                    dynamicForm.action = actionUrl;
+
+                    // El formulario debe añadirse al body y enviarse
+                    document.body.appendChild(dynamicForm);
+                    dynamicForm.submit();
+                });
+                /*]]>*/
+            </script>
+
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

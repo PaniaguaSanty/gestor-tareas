@@ -13,8 +13,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
-import java.util.Collections;
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
@@ -33,20 +33,26 @@ public class TeamServiceImpl implements CRUD<TeamResponseDto, TeamRequestDto> {
 
     @Override
     public TeamResponseDto create(TeamRequestDto teamRequestDto) {
-        try {
-            logger.info("Entering in create user Method...");
-            Team newTeam = teamMapper.convertToEntity(teamRequestDto);
-            Team savedTeam = teamRepository.save(newTeam);
-            return teamMapper.convertToDto(savedTeam);
-        } catch (NotFoundException e) {
-            throw new NotFoundException("Error while creating team..."); //cambiar tipo de excepción.
-        }
+        logger.info("Entering in create team Method...");
+
+        Team newTeam = teamMapper.convertToEntity(teamRequestDto);
+        newTeam.setActive(true);
+
+        // Generar un DNI único aleatorio (8 caracteres alfanuméricos)
+        String generatedDni;
+        do {
+            generatedDni = UUID.randomUUID().toString().replace("-", "").substring(0, 8);
+        } while (teamRepository.existsByDni(generatedDni));
+        newTeam.setDni(generatedDni);
+
+        Team savedTeam = teamRepository.save(newTeam);
+        return teamMapper.convertToDto(savedTeam);
     }
 
     @Override
     public TeamResponseDto update(TeamRequestDto teamRequestDto) {
         try {
-            logger.info("Entering in update user method...");
+            logger.info("Entering in update team method...");
             Team existingTeam = teamRepository.findByName(teamRequestDto.getName())
                     .orElseThrow(() -> new NotFoundException("Error, team not found..."));
             existingTeam.setName(teamRequestDto.getName());
@@ -60,9 +66,9 @@ public class TeamServiceImpl implements CRUD<TeamResponseDto, TeamRequestDto> {
     }
 
     @Override
-    public void delete(String id) {
+    public void delete(String dni) {
         logger.info("Entering in delete team method...");
-        Team team = teamRepository.findById(Long.parseLong(id))
+        Team team = teamRepository.findByDni(dni)
                 .orElseThrow(() -> new NotFoundException("User not found.."));
         teamRepository.delete(team);
     }
@@ -78,42 +84,81 @@ public class TeamServiceImpl implements CRUD<TeamResponseDto, TeamRequestDto> {
     }
 
     @Override
-    public TeamResponseDto findOne(String id) {
+    public TeamResponseDto findOne(String dni) {
         logger.info("Entering in findOne method...");
-        Team team = teamRepository.findById(Long.parseLong(id))
+        Team team = teamRepository.findByDni(dni)
                 .orElseThrow(() -> new NotFoundException("team not found.."));
         return teamMapper.convertToDto(team);
     }
 
+    public void enableTeam(String dni) {
+        logger.info("Entering in enableTeam method...");
+        Team team = teamRepository.findByDni(dni)
+                .orElseThrow(() -> new NotFoundException("team not found.."));
+        team.setActive(true);
+        teamRepository.save(team);
+        teamMapper.convertToDto(team);
+    }
+
     @Override
-    public TeamResponseDto disable(String id) {
-        logger.info("Entering in disable user method...");
-        Team team = teamRepository.findById(Long.parseLong(id))
+    public TeamResponseDto disable(String dni) {
+        logger.info("Entering in disable team method...");
+        Team team = teamRepository.findByDni(dni)
                 .orElseThrow(() -> new NotFoundException("Team not found.."));
         team.setActive(false);
         teamRepository.save(team);
         return teamMapper.convertToDto(team);
     }
 
-    public TeamResponseDto setUser(String dni, TeamRequestDto teamRequestDto) {
-        logger.info("Entering in setUser method...");
-        User user = userRepository.findByDni(dni)
-                .orElseThrow(() -> new NotFoundException("User not found with current DNI..."));
+    public TeamResponseDto addUserToTeam(String userDni, String teamDni) {
+        logger.info("Entering in addUserToTeam method...");
 
-        Team existingTeam = teamRepository.findByName(teamRequestDto.getName())
-                .orElseThrow(() -> new NotFoundException("Team not found with current name..."));
+        User user = userRepository.findByDni(userDni)
+                .orElseThrow(() -> new NotFoundException("User not found with DNI " + userDni));
 
-        List<User> currentUsers = existingTeam.getUsers();
-        // Evitar duplicados
-        if (!currentUsers.contains(user)) {
-            currentUsers.add(user);
+        Team team = teamRepository.findByDni(teamDni)
+                .orElseThrow(() -> new NotFoundException("Team not found with DNI " + teamDni));
+
+        if (!team.getUsers().contains(user)) {
+            user.setTeam(team);             // 1. Set team on user (owner of relation)
+            userRepository.save(user);     // 2. Save the user first
+
+            team.getUsers().add(user);     // 3. Optional, keeps list updated in memory (not needed for DB)
+            // teamRepository.save(team);  // 4. Not necessary unless other changes in Team
         } else {
             logger.info("User already exists in the team.");
         }
-        existingTeam.setUsers(currentUsers);
-        Team savedTeam = teamRepository.save(existingTeam);
-        return teamMapper.convertToDto(savedTeam);
+
+        return teamMapper.convertToDto(team);
     }
 
 
+    public TeamResponseDto removeUserFromTeam(String userDni, String teamDni) {
+        logger.info("Entering in removeUserFromTeam method...");
+
+        User user = userRepository.findByDni(userDni)
+                .orElseThrow(() -> new NotFoundException("User not found with DNI " + userDni));
+        Team team = teamRepository.findByDni(teamDni)
+                .orElseThrow(() -> new NotFoundException("Team not found with DNI " + teamDni));
+
+        if (team.getUsers().contains(user)) {
+            user.setTeam(null);                // 1. Romper la relación
+            userRepository.save(user);        // 2. Guardar al user para actualizar en la DB
+
+            team.getUsers().remove(user);     // 3. Solo para mantener sincronizado en memoria
+            logger.info("User {} removed from team {}", userDni, teamDni);
+        } else {
+            logger.info("User {} is not in team {}, nothing to remove.", userDni, teamDni);
+        }
+
+        return teamMapper.convertToDto(team);
+    }
+
+
+    public List<TeamResponseDto> search(String search, boolean status) {
+        List<Team> teams = teamRepository.search(search, status);
+        return teams.stream()
+                .map(teamMapper::convertToDto)
+                .toList();
+    }
 }

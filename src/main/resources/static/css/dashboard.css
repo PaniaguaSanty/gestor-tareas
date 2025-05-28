@@ -1,0 +1,47 @@
+.card-trello {
+  width: 280px;                /* ancho fijo para alinear columnas */
+  border: none;                /* quita el borde por defecto */
+  border-radius: 8px;          /* esquinas suaves */
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  overflow: hidden;            /* para que no se salgan las esquinas redondeadas */
+  margin-bottom: 1rem;
+  background-color: #fff;
+}
+.card-trello .card-img-top {
+  height: 120px;               /* igual altura en todas */
+  object-fit: cover;           /* recorta/ajusta la imagen */
+}
+
+.avatar-group {
+  display: flex;
+}
+.avatar-group img {
+  margin-left: -8px;     /* solapa un poco cada avatar */
+  border: 2px solid #fff;/* separa con borde blanco */
+  background-color: #fff;
+}
+.avatar-group img:first-child {
+  margin-left: 0;
+}
+.bg-dashboard {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  min-height: 100vh;
+}
+.fixed-carousel-height {
+  height: 800px; /* Ajustá según tu segunda imagen */
+}
+
+.carousel-caption h5,
+.carousel-caption p {
+ color: #fff;
+ font-weight: bold;
+ text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.7); /* Mejora contraste */
+ }
+
+.carousel-caption h5 {
+ font-size: 1.8rem;
+ }
+
+.carousel-caption p {
+ font-size: 1.1rem;
+ }

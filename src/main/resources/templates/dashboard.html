@@ -1,0 +1,227 @@
+<!-- Client view  -->
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Dashboard</title>
+    <!-- 1) Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- 2) Bootstrap Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+    <!-- 3) Tu CSS personalizado -->
+    <link rel="stylesheet" th:href="@{/css/dashboard.css}" href="/static/css/dashboard.css">
+</head>
+
+<body class="bg-dashboard">
+<!-- Navbar -->
+<header>
+    <!-- TODO: CAMBIAR EL BACKGROUND COLOR Y DEJARLO MEJOR. -->
+    <nav class="navbar navbar-expand-lg border-bottom">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">Navbar</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                    aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item"><a class="nav-link active" href="#">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#">Link</a></li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                           aria-expanded="false">Dropdown</a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="#">Home</a></li>
+                            <li><a class="dropdown-item" href="#">Another action</a></li>
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
+                            <li><a class="dropdown-item" href="#">Something else here</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item"><a class="nav-link disabled" aria-disabled="true">Disabled</a></li>
+                </ul>
+                <form class="d-flex" role="search">
+                    <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                    <button class="btn btn-outline-success" type="submit">Search</button>
+                </form>
+            </div>
+        </div>
+    </nav>
+</header>
+<!-- About Us section for To-Do App -->
+<section class="bg-dashboard py-5">
+    <div class="container">
+        <div class="row align-items-center bg-white rounded-4 shadow-sm px-4 py-5">
+            <!-- Texto informativo -->
+            <div class="col-md-6 mb-4 mb-md-0">
+                <h2 class="fw-bold text-primary mb-3">About Us</h2>
+                <p class="text-muted fs-5">
+                    Welcome to our Team-based To-Do App! This platform is designed to help you and your team stay
+                    organized, focused, and productive.
+                    Whether you're managing a small team project or coordinating tasks in a company, our intuitive
+                    interface makes it easy to track progress and collaborate efficiently.
+                </p>
+                <p class="text-muted">
+                    <strong>How to get started:</strong><br>
+                    1. Create an account or log in.<br>
+                    2. Set up your first team and invite members.<br>
+                    3. Start adding tasks, assigning priorities, and tracking progress together!
+                </p>
+                <a href="#get-started" class="btn btn-outline-primary mt-3">Get Started</a>
+            </div>
+
+            <!-- Carrusel de imágenes -->
+            <div class="col-md-6">
+                <div id="carouselExampleDark" class="carousel carousel-dark slide" data-bs-ride="carousel">
+                    <div class="carousel-indicators">
+                        <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="0" class="active"
+                                aria-current="true" aria-label="Slide 1"></button>
+                        <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="1"
+                                aria-label="Slide 2"></button>
+                        <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="2"
+                                aria-label="Slide 3"></button>
+                    </div>
+                    <div class="carousel-inner rounded-3 fixed-carousel-height">
+                        <div class="carousel-item active" data-bs-interval="10000">
+                            <img src="/img/group.jpg" class="d-block w-100" alt="Team Dashboard">
+                            <div class="carousel-caption d-none d-md-block">
+                                <h5>Team Dashboard</h5>
+                                <p><strong>View tasks and deadlines for your whole team.</strong></p>
+                            </div>
+                        </div>
+                        <div class="carousel-item" data-bs-interval="10000">
+                            <img src="/img/team.jpg" class="d-block w-100" alt="Task View">
+                            <div class="carousel-caption d-none d-md-block">
+                                <h5>Organized Task View</h5>
+                                <p><strong>Break down your goals with task categories and priorities.</strong></p>
+                            </div>
+                        </div>
+                        <div class="carousel-item" data-bs-interval="10000">
+                            <img src="/img/persons.jpg" class="d-block w-100" alt="Collaboration Tools">
+                            <div class="carousel-caption d-none d-md-block">
+                                <h5>Real-Time Collaboration</h5>
+                                <p><strong>Work together with live updates and comments.</strong></p>
+                            </div>
+                        </div>
+                    </div>
+                    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleDark"
+                            data-bs-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Previous</span>
+                    </button>
+                    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleDark"
+                            data-bs-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Next</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<!-- Team section -->
+<div class="container-fluid p-4">
+    <div class="d-flex mb-3">
+        <h2 class="text-white ">Team board</h2>
+        <a
+                th:href="@{/teams/form}"
+                href="/teams/form"
+                class="btn btn-primary">
+            Crear Team
+        </a>
+    </div>
+
+    <!-- Dashboard -->
+    <div class="container-fluid p-4">
+        <div class="row">
+            <!-- To Do -->
+            <div class="col-md-4">
+                <h5 class="text-white mb-3">To Do</h5>
+                <div class="card card-trello">
+                    <img src="https://via.placeholder.com/600x120?text=Cover" class="card-img-top" alt="cover">
+                    <div class="card-body">
+                        <h6 class="card-title">Título de la tarea</h6>
+                        <p class="card-text text-muted">Descripción breve…</p>
+                        <div class="mb-2">
+                            <span class="badge bg-primary">Front</span>
+                            <span class="badge bg-success">API</span>
+                        </div>
+                    </div>
+                    <div class="card-footer border-0 bg-white d-flex justify-content-between align-items-center">
+                        <small><i class="bi bi-chat-left-text"></i> 5</small>
+                        <small><i class="bi bi-paperclip"></i> 3</small>
+                        <div class="avatar-group">
+                            <img src="avatar1.jpg" class="rounded-circle" width="30" height="30" alt="User 1">
+                            <img src="avatar2.jpg" class="rounded-circle" width="30" height="30" alt="User 2">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Doing -->
+            <div class="col-md-4">
+                <h5 class="text-white mb-3">Doing</h5>
+                <div class="card card-trello">
+                    <img src="https://via.placeholder.com/600x120?text=Cover" class="card-img-top" alt="cover">
+                    <div class="card-body">
+                        <h6 class="card-title">Título de la tarea</h6>
+                        <p class="card-text text-muted">Descripción breve…</p>
+                        <div class="mb-2">
+                            <span class="badge bg-primary">Front</span>
+                            <span class="badge bg-success">API</span>
+                        </div>
+                    </div>
+                    <div class="card-footer border-0 bg-white d-flex justify-content-between align-items-center">
+                        <small><i class="bi bi-chat-left-text"></i> 5</small>
+                        <small><i class="bi bi-paperclip"></i> 3</small>
+                        <div class="avatar-group">
+                            <img src="avatar1.jpg" class="rounded-circle" width="30" height="30" alt="User 1">
+                            <img src="avatar2.jpg" class="rounded-circle" width="30" height="30" alt="User 2">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Done -->
+            <div class="col-md-4">
+                <h5 class="text-white mb-3">Done</h5>
+                <div class="card card-trello">
+                    <img src="https://via.placeholder.com/600x120?text=Cover" class="card-img-top" alt="cover">
+                    <div class="card-body">
+                        <h6 class="card-title">Título de la tarea</h6>
+                        <p class="card-text text-muted">Descripción breve…</p>
+                        <div class="mb-2">
+                            <span class="badge bg-primary">Front</span>
+                            <span class="badge bg-success">API</span>
+                        </div>
+                    </div>
+                    <div class="card-footer border-0 bg-white d-flex justify-content-between align-items-center">
+                        <small><i class="bi bi-chat-left-text"></i> 5</small>
+                        <small><i class="bi bi-paperclip"></i> 3</small>
+                        <div class="avatar-group">
+                            <img src="avatar1.jpg" class="rounded-circle" width="30" height="30" alt="User 1">
+                            <img src="avatar2.jpg" class="rounded-circle" width="30" height="30" alt="User 2">
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Footer -->
+<footer class="bg-dark text-white text-center py-3 mt-5">
+    <p>&copy; 2025 To-do app. Todos los derechos reservados.</p>
+</footer>
+
+
+<!-- Bootstrap JS + Popper -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
