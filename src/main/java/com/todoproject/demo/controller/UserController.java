@@ -66,7 +66,6 @@ public class UserController {
         return "userManagement";
     }
 
-
     //url para probar el método: http://localhost:8080/users/form
     @GetMapping("/form")
     public String showCreateForm(Model model) {
@@ -146,8 +145,7 @@ public class UserController {
         return "userManagement";
     }
 
-    //TODO: LOS ROOTS TIENEN QUE IR EN UN CONTROLLER A PARTE (PUEDE SER HOMECONTROLLER U OTRO).
-
+    //TODO: LOS ROOTS TIENEN QUE IR EN UN CONTROLLER A PARTE (PUEDE SER HOMECONTROLLER U OTRO)
     @GetMapping("/")
     public String home() {
         return "home";

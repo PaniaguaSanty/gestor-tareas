@@ -2,7 +2,9 @@ package com.todoproject.demo.controller;
 
 import com.todoproject.demo.dto.request.TeamRequestDto;
 import com.todoproject.demo.dto.response.TeamResponseDto;
+import com.todoproject.demo.dto.response.UserResponseDto;
 import com.todoproject.demo.service.TeamServiceImpl;
+import com.todoproject.demo.service.UserServiceImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -18,10 +20,12 @@ import java.util.List;
 public class TeamController {
 
     private final TeamServiceImpl teamService;
+    private final UserServiceImpl userService;
     private final Logger logger = LoggerFactory.getLogger(TeamController.class);
 
-    public TeamController(TeamServiceImpl teamService) {
+    public TeamController(TeamServiceImpl teamService, UserServiceImpl userService) {
         this.teamService = teamService;
+        this.userService = userService;
     }
 
     @PostMapping("/create")
@@ -64,33 +68,8 @@ public class TeamController {
         return new ResponseEntity<>(RESPONSES, HttpStatus.FOUND);
     }
 
-    /**
-     * Asigna un usuario a un equipo existente.
-     * Ejemplo: POST /api/teams/Alpha/users/12345678A
-     */
-    @PostMapping("/{teamName}/users/{userDni}")
-    public ResponseEntity<TeamResponseDto> addUserToTeam(
-            @PathVariable String teamName,
-            @PathVariable String userDni
-    ) {
-        TeamResponseDto updated = teamService.addUserToTeam(userDni, teamName);
-        return ResponseEntity.ok(updated);
-    }
-
-    /**
-     * Elimina un usuario de un equipo.
-     * Ejemplo: DELETE /api/teams/Alpha/users/12345678A
-     */
-    @DeleteMapping("/{teamName}/users/{userDni}")
-    public ResponseEntity<TeamResponseDto> removeUserFromTeam(
-            @PathVariable String teamName,
-            @PathVariable String userDni
-    ) {
-        TeamResponseDto updated = teamService.removeUserFromTeam(userDni, teamName);
-        return ResponseEntity.ok(updated);
-    }
-
     //url para probar el método: http://localhost:8080/teams/list
+
     @GetMapping("/list")
     public String findAllTeams(Model model) {
         logger.info("Entering in findAllTeams method..");
@@ -99,8 +78,8 @@ public class TeamController {
         logger.info("Exiting findAllTeams method..");
         return "teamManagement";
     }
-
     //url para probar el método: http://localhost:8080/teams/form
+
     @GetMapping("/form")
     public String showCreateForm(Model model) {
         model.addAttribute("team", new TeamRequestDto());
@@ -110,7 +89,7 @@ public class TeamController {
     @PostMapping("/save")
     public String handleForm(@ModelAttribute("team") TeamRequestDto team) {
         teamService.create(team);
-        return "redirect:/teams/list"; //hacer que redireccione al dashboard
+        return "redirect:/teams/list"; //hacer que redireccione al team dashboard
     }
 
     /**
@@ -168,4 +147,36 @@ public class TeamController {
         return "teamManagement";
     }
 
+    /**
+     * Muestra el detalle del equipo
+     */
+    @GetMapping("/detail/{dni}")
+    public String showTeamDetail(@PathVariable String dni, Model model) {
+        logger.info("Entering showTeamDetail method for DNI: {}", dni);
+        TeamResponseDto team = teamService.findOne(dni);
+        List<UserResponseDto> allUsers = userService.findAll();
+        model.addAttribute("team", team);
+        model.addAttribute("allUsers", allUsers);
+        return "teamDetail";
+    }
+
+    // Agregar usuario (ruta debe coincidir con la que usas en el formulario)
+    @PostMapping("/{teamDni}/users/{userDni}")
+    public String addUserToTeam(
+            @PathVariable("teamDni") String teamDni,
+            @PathVariable("userDni") String userDni
+    ) {
+        teamService.addUserToTeam(userDni, teamDni);
+        return "redirect:/teams/detail/" + teamDni;
+    }
+
+    // Quitar usuario (usando POST con _method=DELETE)
+    @PostMapping(value = "/{teamDni}/users/{userDni}", params = "_method=DELETE")
+    public String removeUserFromTeam(
+            @PathVariable("teamDni") String teamDni,
+            @PathVariable("userDni") String userDni
+    ) {
+        teamService.removeUserFromTeam(userDni, teamDni);
+        return "redirect:/teams/detail/" + teamDni;
+    }
 }

@@ -27,3 +27,21 @@
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   min-height: 100vh;
 }
+.fixed-carousel-height {
+  height: 800px; /* Ajustá según tu segunda imagen */
+}
+
+.carousel-caption h5,
+.carousel-caption p {
+ color: #fff;
+ font-weight: bold;
+ text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.7); /* Mejora contraste */
+ }
+
+.carousel-caption h5 {
+ font-size: 1.8rem;
+ }
+
+.carousel-caption p {
+ font-size: 1.1rem;
+ }

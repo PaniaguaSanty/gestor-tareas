@@ -15,5 +15,6 @@ public class UserRequestDto {
     private String name;
     private String email;
     private String dni;
+    private String avatarUrl;
     private boolean active;
 }

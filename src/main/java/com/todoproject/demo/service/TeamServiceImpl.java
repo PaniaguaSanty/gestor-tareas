@@ -110,39 +110,50 @@ public class TeamServiceImpl implements CRUD<TeamResponseDto, TeamRequestDto> {
         return teamMapper.convertToDto(team);
     }
 
-    public TeamResponseDto addUserToTeam(String userDni, String teamName) {
+    public TeamResponseDto addUserToTeam(String userDni, String teamDni) {
         logger.info("Entering in addUserToTeam method...");
+
         User user = userRepository.findByDni(userDni)
                 .orElseThrow(() -> new NotFoundException("User not found with DNI " + userDni));
 
-        Team team = teamRepository.findByName(teamName)
-                .orElseThrow(() -> new NotFoundException("Team not found with name " + teamName));
+        Team team = teamRepository.findByDni(teamDni)
+                .orElseThrow(() -> new NotFoundException("Team not found with DNI " + teamDni));
 
         if (!team.getUsers().contains(user)) {
-            team.getUsers().add(user);
-            team = teamRepository.save(team);
+            user.setTeam(team);             // 1. Set team on user (owner of relation)
+            userRepository.save(user);     // 2. Save the user first
+
+            team.getUsers().add(user);     // 3. Optional, keeps list updated in memory (not needed for DB)
+            // teamRepository.save(team);  // 4. Not necessary unless other changes in Team
         } else {
             logger.info("User already exists in the team.");
         }
+
         return teamMapper.convertToDto(team);
     }
 
-    public TeamResponseDto removeUserFromTeam(String userDni, String teamName) {
+
+    public TeamResponseDto removeUserFromTeam(String userDni, String teamDni) {
         logger.info("Entering in removeUserFromTeam method...");
+
         User user = userRepository.findByDni(userDni)
                 .orElseThrow(() -> new NotFoundException("User not found with DNI " + userDni));
-        Team team = teamRepository.findByName(teamName)
-                .orElseThrow(() -> new NotFoundException("Team not found with name " + teamName));
+        Team team = teamRepository.findByDni(teamDni)
+                .orElseThrow(() -> new NotFoundException("Team not found with DNI " + teamDni));
 
         if (team.getUsers().contains(user)) {
-            team.getUsers().remove(user);
-            team = teamRepository.save(team);
-            logger.info("User {} removed from team {}", userDni, teamName);
+            user.setTeam(null);                // 1. Romper la relación
+            userRepository.save(user);        // 2. Guardar al user para actualizar en la DB
+
+            team.getUsers().remove(user);     // 3. Solo para mantener sincronizado en memoria
+            logger.info("User {} removed from team {}", userDni, teamDni);
         } else {
-            logger.info("User {} is not in team {}, nothing to remove.", userDni, teamName);
+            logger.info("User {} is not in team {}, nothing to remove.", userDni, teamDni);
         }
+
         return teamMapper.convertToDto(team);
     }
+
 
     public List<TeamResponseDto> search(String search, boolean status) {
         List<Team> teams = teamRepository.search(search, status);
