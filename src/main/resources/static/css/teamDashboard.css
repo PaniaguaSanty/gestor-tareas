@@ -1,0 +1,72 @@
+/* Fondo general */
+body {
+    background: linear-gradient(135deg, #5f27cd, #341f97);
+    font-family: 'Segoe UI', sans-serif;
+    color: #fff;
+    min-height: 100vh;
+}
+
+/* Contenedor principal */
+.container {
+    background-color: rgba(255, 255, 255, 0.1);
+    padding: 2rem;
+    border-radius: 1rem;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+}
+
+/* Título principal */
+h1 {
+    color: #ffffff;
+    font-weight: 600;
+    font-size: 2.5rem;
+}
+
+/* Botón de volver al dashboard */
+.btn-secondary {
+    background-color: #82589F;
+    border: none;
+    color: #fff;
+    font-weight: 500;
+    transition: background-color 0.3s ease;
+    border-radius: 0.5rem;
+}
+
+.btn-secondary:hover {
+    background-color: #574b90;
+}
+
+/* Tarjetas de equipos */
+.card {
+    background-color: #ffffff;
+    border: none;
+    border-radius: 1rem;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+    transition: transform 0.2s ease;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+}
+
+.card-title {
+    color: #341f97;
+    font-size: 1.3rem;
+    font-weight: bold;
+}
+
+.card-text {
+    color: #555;
+}
+
+/* Botón ver detalles */
+.btn-primary {
+    background-color: #10ac84;
+    border: none;
+    border-radius: 0.5rem;
+    font-weight: 500;
+    transition: background-color 0.3s ease;
+}
+
+.btn-primary:hover {
+    background-color: #079e6d;
+}

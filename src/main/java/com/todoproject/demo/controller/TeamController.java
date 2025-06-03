@@ -69,17 +69,16 @@ public class TeamController {
     }
 
     //url para probar el método: http://localhost:8080/teams/list
-
     @GetMapping("/list")
     public String findAllTeams(Model model) {
         logger.info("Entering in findAllTeams method..");
         List<TeamResponseDto> teams = teamService.findAll();
         model.addAttribute("teams", teams);
         logger.info("Exiting findAllTeams method..");
-        return "teamManagement";
+        return "teamDashboard";
     }
-    //url para probar el método: http://localhost:8080/teams/form
 
+    //url para probar el método: http://localhost:8080/teams/form
     @GetMapping("/form")
     public String showCreateForm(Model model) {
         model.addAttribute("team", new TeamRequestDto());
@@ -137,7 +136,6 @@ public class TeamController {
             @RequestParam(required = false) Boolean status,
             Model model
     ) {
-        // Asigna true por defecto si status es null
         boolean statusValue = (status != null) ? status : true;
         List<TeamResponseDto> teams = teamService.search(search, statusValue);
 
@@ -160,7 +158,6 @@ public class TeamController {
         return "teamDetail";
     }
 
-    // Agregar usuario (ruta debe coincidir con la que usas en el formulario)
     @PostMapping("/{teamDni}/users/{userDni}")
     public String addUserToTeam(
             @PathVariable("teamDni") String teamDni,
@@ -170,7 +167,6 @@ public class TeamController {
         return "redirect:/teams/detail/" + teamDni;
     }
 
-    // Quitar usuario (usando POST con _method=DELETE)
     @PostMapping(value = "/{teamDni}/users/{userDni}", params = "_method=DELETE")
     public String removeUserFromTeam(
             @PathVariable("teamDni") String teamDni,
@@ -179,4 +175,5 @@ public class TeamController {
         teamService.removeUserFromTeam(userDni, teamDni);
         return "redirect:/teams/detail/" + teamDni;
     }
+
 }

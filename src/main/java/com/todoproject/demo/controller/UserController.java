@@ -157,9 +157,13 @@ public class UserController {
         return "login";
     }
 
+    @GetMapping("/mainPage")
+    public String mainPage() {
+        return "mainPage";
+    }
+
     @GetMapping("/dashboard")
     public String dashboard() {
         return "dashboard";
     }
-
 }

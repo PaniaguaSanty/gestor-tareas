@@ -132,7 +132,6 @@ public class TeamServiceImpl implements CRUD<TeamResponseDto, TeamRequestDto> {
         return teamMapper.convertToDto(team);
     }
 
-
     public TeamResponseDto removeUserFromTeam(String userDni, String teamDni) {
         logger.info("Entering in removeUserFromTeam method...");
 
@@ -154,11 +153,12 @@ public class TeamServiceImpl implements CRUD<TeamResponseDto, TeamRequestDto> {
         return teamMapper.convertToDto(team);
     }
 
-
     public List<TeamResponseDto> search(String search, boolean status) {
         List<Team> teams = teamRepository.search(search, status);
         return teams.stream()
                 .map(teamMapper::convertToDto)
                 .toList();
     }
+
+
 }

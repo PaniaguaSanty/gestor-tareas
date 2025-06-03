@@ -1,3 +1,9 @@
+.bg-dashboard {
+  background: linear-gradient(200deg, #690eea 0%, #764ba2 100%);
+  min-height: 100vh;
+}
+
+
 .card-trello {
   width: 280px;                /* ancho fijo para alinear columnas */
   border: none;                /* quita el borde por defecto */
@@ -23,25 +29,3 @@
 .avatar-group img:first-child {
   margin-left: 0;
 }
-.bg-dashboard {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  min-height: 100vh;
-}
-.fixed-carousel-height {
-  height: 800px; /* Ajustá según tu segunda imagen */
-}
-
-.carousel-caption h5,
-.carousel-caption p {
- color: #fff;
- font-weight: bold;
- text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.7); /* Mejora contraste */
- }
-
-.carousel-caption h5 {
- font-size: 1.8rem;
- }
-
-.carousel-caption p {
- font-size: 1.1rem;
- }

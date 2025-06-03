@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Todos los Equipos</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/css/teamDashboard.css}">
+</head>
+<body class="bg-light py-5">
+
+<div class="container">
+    <!-- Encabezado -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1>Lista de Equipos</h1>
+        <a class="btn btn-secondary" th:href="@{/users/dashboard}">Volver al Dashboard</a>
+    </div>
+
+    <!-- Lista de Equipos -->
+    <div class="row">
+        <div class="col-md-4 mb-4" th:each="team : ${teams}">
+            <div class="card h-100 shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title" th:text="${team.name}">Nombre del Equipo</h5>
+                    <p class="card-text" th:text="${team.description}">Descripción del equipo...</p>
+                    <a th:href="@{/teams/detail/{dni}(dni=${team.dni})}" class="btn btn-primary">Ver Detalles</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
