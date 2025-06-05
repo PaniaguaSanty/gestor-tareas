@@ -1,0 +1,93 @@
+body {
+    background: linear-gradient(290deg, #660eea 0%, #760ba2 100%);
+    font-family: 'Segoe UI', sans-serif;
+    color: #fff;
+    min-height: 100vh;
+}
+
+.container {
+    background-color: rgba(255, 255, 255, 0.1);
+    padding: 2rem;
+    border-radius: 1rem;
+    box-shadow: 0 0 25px rgba(0, 0, 0, 0.25);
+}
+
+.card {
+    background-color: rgba(255, 255, 255, 0.05);
+    border: none;
+    border-radius: 1rem;
+    backdrop-filter: blur(5px);
+}
+
+.card-header {
+    background-color: rgba(255, 255, 255, 0.05);
+    font-weight: bold;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.list-group-item {
+    background-color: rgba(255, 255, 255, 0.05);
+    border: none;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.list-group-item:last-child {
+    border-bottom: none;
+}
+
+img.rounded-circle {
+    object-fit: cover;
+    border: 2px solid #fff;
+}
+
+.btn-outline-danger {
+    border-color: #ff4d4d;
+    color: #ff4d4d;
+}
+
+.btn-outline-danger:hover {
+    background-color: #ff4d4d;
+    color: white;
+}
+
+.btn-success {
+    background-color: #28a745;
+    border: none;
+}
+
+.btn-success:hover {
+    background-color: #218838;
+}
+
+.btn-outline-light {
+    color: white;
+    border-color: white;
+}
+
+.btn-outline-light:hover {
+    background-color: white;
+    color: #660eea;
+}
+
+.btn-primary {
+    background-color: #90489F;
+    border: none;
+    border-radius: 0.5rem;
+    font-weight: 500;
+    transition: background-color 0.3s ease;
+}
+
+/* Botón de volver al dashboard */
+.btn-secondary {
+    background-color: #82589F;
+    border: none;
+    color: #fff;
+    font-weight: 500;
+    transition: background-color 0.3s ease;
+    border-radius: 0.5rem;
+}
+
+.btn-secondary:hover {
+    background-color: #574b90;
+}
+

@@ -1,0 +1,165 @@
+<!-- Client view  -->
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Home</title>
+    <!-- 1) Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- 2) Bootstrap Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+    <!-- 3) Tu CSS personalizado -->
+    <link rel="stylesheet" th:href="@{/css/mainPage.css}" href="/static/css/mainPage.css">
+</head>
+
+<body class="bg-dashboard">
+<!-- Navbar -->
+<header>
+    <!-- TODO: CAMBIAR EL BACKGROUND COLOR Y DEJARLO MEJOR. -->
+    <ul class="nav nav-pills nav-fill">
+        <li class="nav-item">
+            <a class="nav-link" aria-current="page" href="#">Home</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="#">Application Name</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="#">Configuration</a>
+        </li>
+
+    </ul>
+</header>
+<!-- About Us section for To-Do App -->
+<section class="bg-dashboard py-4">
+    <div class="container border border-0">
+        <div class="row align-items-center rounded-4 shadow-lg p-3 mb-5 rounded px-4 py-2 border-bottom">
+            <div class="col-md-6 mb-4 mb-md-0">
+                <h2 class="fw-bold text-primary mb-3">About Us</h2>
+                <p class="text-light fs-5">
+                    ¡Bienvenido a nuestra aplicación de tareas en equipo! Esta plataforma está diseñada para ayudar a
+                    usted y a su equipo a mantenerse organizados, enfocados y productivos. Ya sea que esté gestionando
+                    un pequeño proyecto en equipo o coordinando tareas en una empresa, nuestra interfaz intuitiva
+                    facilita el seguimiento del progreso y la colaboración de manera eficiente.
+                </p>
+            </div>
+            <!-- Carrusel de imágenes -->
+            <div class="col-md-6">
+                <div id="carouselExampleDark" class="carousel carousel-dark slide carousel-fade"
+                     data-bs-ride="carousel">
+                    <div class="carousel-indicators">
+                        <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="0" class="active"
+                                aria-current="true" aria-label="Slide 1"></button>
+                        <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="1"
+                                aria-label="Slide 2"></button>
+                        <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="2"
+                                aria-label="Slide 3"></button>
+                    </div>
+                    <div class="carousel-inner rounded-3 fixed-carousel-height">
+                        <div class="carousel-item active" data-bs-interval="10000">
+                            <img src="/img/group.jpg" alt="Team Dashboard">
+                            <div class="carousel-caption d-none d-md-block">
+                                <h5>Team Dashboard</h5>
+                                <p><strong>View tasks and deadlines for your whole team.</strong></p>
+                            </div>
+                        </div>
+                        <div class="carousel-item" data-bs-interval="10000">
+                            <img src="/img/team.jpg" alt="Task View">
+                            <div class="carousel-caption d-none d-md-block">
+                                <h5>Organized Task View</h5>
+                                <p><strong>Break down your goals with task categories and priorities.</strong></p>
+                            </div>
+                        </div>
+                        <div class="carousel-item" data-bs-interval="10000">
+                            <img src="/img/persons.jpg" alt="Collaboration Tools">
+                            <div class="carousel-caption d-none d-md-block">
+                                <h5>Real-Time Collaboration</h5>
+                                <p><strong>Work together with live updates and comments.</strong></p>
+                            </div>
+                        </div>
+                    </div>
+                    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleDark"
+                            data-bs-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Previous</span>
+                    </button>
+                    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleDark"
+                            data-bs-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Next</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="info-section">
+    <div class="container">
+        <div class="row gy-4">
+            <!-- Columna Izquierda: Problema que resuelve la app -->
+            <div class="col-md-6">
+                <div class="p-4 border-bottom shadow-lg p-3 mb-5 rounded h-100">
+                    <h2 class="mb-3">¿Qué problema resuelve?</h2>
+                    <p>
+                        Muchas veces es difícil coordinar tareas, hacer seguimiento del
+                        progreso y mantener a todo el equipo alineado. Nuestra aplicación
+                        te brinda una vista clara tipo tablero donde puedes:
+                    </p>
+                    <ul>
+                        <li>Crear tableros y listas personalizables.</li>
+                        <li>Arrastrar y soltar tareas para cambiar su estado.</li>
+                        <li>Asignar responsables y fechas de entrega.</li>
+                        <li>Recibir notificaciones en tiempo real.</li>
+                    </ul>
+                    <p>
+                        Olvídate de las hojas de cálculo desordenadas y los emails
+                        infinitos. Con esta app tendrás todo centralizado y fácil de
+                        entender.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Columna Derecha: Otras imágenes o información -->
+            <div class="col-md-6">
+                <div class="p-4 border-bottom shadow-lg p-3 mb-5 rounded h-100 d-flex flex-column justify-content-center align-items-center">
+                    <!-- Aquí podrías poner más imágenes, un video o estadísticas -->
+                    <img
+                            src="https://via.placeholder.com/500x300?text=Otra+Imagen"
+                            class="img-fluid rounded mb-3"
+                            alt="Otra información"
+                    />
+                    <h3 class="mt-3">Funcionalidades Destacadas</h3>
+                    <p class="text-center">
+                        Explora todo lo que nuestra aplicación te ofrece: etiquetas,
+                        comentarios, adjuntos y más.
+                    </p>
+                    <a href="#" class="btn btn-outline-secondary mt-auto">Ver más</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- =======================
+     Sección Final / Call To Action
+======================= -->
+<section class="cta-section">
+    <div class="container">
+        <h2 class="mb-4">¿Listo para empezar?</h2>
+        <p class="mb-4">
+            Regístrate ahora y lleva la productividad de tu equipo al siguiente
+            nivel. ¡Es gratis y sin compromiso!
+        </p>
+        <a href="" class="btn btn-primary btn-lg">Comenzar Ahora</a>
+    </div>
+</section>
+
+<!-- Footer -->
+<footer class="bg-dark text-white text-center py-3">
+    <p>&copy; 2025 To-do app. Todos los derechos reservados.</p>
+</footer>
+
+
+<!-- Bootstrap JS + Popper -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
