@@ -34,7 +34,6 @@ public class ProjectServiceImpl implements CRUD<ProjectResponseDto, ProjectReque
     @Override
     public ProjectResponseDto create(ProjectRequestDto projectRequestDto) {
         logger.info("Entering create Project...");
-
         Team team = teamRepository.findByDni(projectRequestDto.getTeamDni())
                 .orElseThrow(() -> new NotFoundException("Team not found with DNI: " + projectRequestDto.getTeamDni()));
 
@@ -84,6 +83,15 @@ public class ProjectServiceImpl implements CRUD<ProjectResponseDto, ProjectReque
                 .collect(Collectors.toList());
     }
 
+    public List<ProjectResponseDto> findAllActive() {
+        List<Project> projects = projectRepository.findAll();
+
+        return projects.stream()
+                .filter(Project::isActive)
+                .map(projectMapper::convertToDto)
+                .collect(Collectors.toList());
+    }
+
     @Override
     public ProjectResponseDto findOne(String code) {
         logger.info("Entering findOne Project...");
@@ -98,6 +106,15 @@ public class ProjectServiceImpl implements CRUD<ProjectResponseDto, ProjectReque
         Project project = projectRepository.findByCode(code)
                 .orElseThrow(() -> new NotFoundException("Project not found with code: " + code));
         projectRepository.delete(project);
+    }
+
+    public ProjectResponseDto enable(String code) {
+        logger.info("Entering enable Project...");
+        Project project = projectRepository.findByCode(code)
+                .orElseThrow(() -> new NotFoundException("Project not found with current code..."));
+        project.setActive(true);
+        projectRepository.save(project);
+        return projectMapper.convertToDto(project);
     }
 
     @Override

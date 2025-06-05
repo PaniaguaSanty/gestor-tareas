@@ -76,7 +76,6 @@ public class TeamController {
         return new ResponseEntity<>(RESPONSES, HttpStatus.FOUND);
     }
 
-
     //url para probar el método: http://localhost:8080/teams/list
     @GetMapping("/list")
     public String findAllTeams(Model model) {
