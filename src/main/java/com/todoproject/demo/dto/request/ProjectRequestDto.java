@@ -1,17 +1,23 @@
 package com.todoproject.demo.dto.request;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
+
+import java.time.LocalDate;
 
 @Getter
 @Setter
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class ProjectRequestDto {
 
+    private String code;
     private String name;
+    private LocalDate startDate;
+    private LocalDate finishDate;
+    private String description;
+    private boolean active;
 
-    //team request {para crear un proyecto, siempre debe asignarse un teams
+    // ID del equipo al que pertenece el proyecto
+    private String teamDni;
 }
