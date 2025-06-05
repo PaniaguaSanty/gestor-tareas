@@ -3,6 +3,7 @@ package com.todoproject.demo.model;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,6 +11,7 @@ import java.util.List;
 @Table(name = "projects")
 @Getter
 @Setter
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 public class Project {
@@ -18,7 +20,13 @@ public class Project {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    private String code;
     private String name;
+    private LocalDate startDate;
+    private LocalDate finishDate;
+    private String description;
+    private boolean active;
+
 
     // Un proyecto pertenece a un equipo
     @ManyToOne(fetch = FetchType.LAZY)
