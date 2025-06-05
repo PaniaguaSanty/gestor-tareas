@@ -4,39 +4,40 @@
     <meta charset="UTF-8">
     <title th:text="'Equipo: ' + ${team.name}">Team Detail</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/css/teamDetail.css}" href="/static/css/teamDetail.css">
 </head>
 <body class="bg-light py-5">
-
 <div class="container">
-    <!-- Encabezado -->
-    <div class="d-flex justify-content-between align-items-center mb-4">
+    <div class="d-flex justify-content-between align-items-center mb-4 border-bottom">
         <h1 th:text="${team.name}">Nombre del Equipo</h1>
-        <a class="btn btn-secondary" th:href="@{/users/dashboard}">Volver al Dashboard</a>
+        <a class="btn btn-secondary" th:href="@{/users/dashboard}">
+            <i class="bi bi-arrow-left"></i> Volver al Dashboard
+        </a>
     </div>
-
-    <!-- Descripción -->
     <p class="lead" th:text="${team.description}">Descripción del equipo...</p>
 
     <!-- Sección de Usuarios -->
     <div class="card mb-4">
         <div class="card-header">
-            <h5 class="mb-0">Miembros del Equipo</h5>
+            <h5 class="mb-0"><i class="bi bi-people-fill me-2"></i>Miembros del Equipo</h5>
         </div>
         <div class="card-body">
             <ul class="list-group mb-3">
                 <!-- Lista de usuarios asignados -->
                 <li class="list-group-item d-flex justify-content-between align-items-center"
                     th:each="user : ${team.users}">
-                    <span>
+                    <span class="d-flex align-items-center">
                         <img th:src="@{${user.avatarUrl}}" class="rounded-circle me-2" width="30" height="30" alt="">
                         <span th:text="${user.name}">Nombre Usuario</span>
                     </span>
-
                     <!-- Botón para quitar usuario -->
                     <form th:action="@{/teams/{teamDni}/users/{userDni}(teamDni=${team.dni}, userDni=${user.dni})}"
                           method="post">
                         <input type="hidden" name="_method" value="DELETE"/>
-                        <button type="submit" class="btn btn-sm btn-outline-danger">Quitar</button>
+                        <button type="submit" class="btn btn-sm btn-outline-danger">
+                            <i class="bi bi-person-x"></i> Quitar
+                        </button>
                     </form>
                 </li>
             </ul>
@@ -54,7 +55,9 @@
                     </select>
                 </div>
                 <div class="col-auto">
-                    <button type="submit" class="btn btn-primary">Añadir al Equipo</button>
+                    <button type="submit" class="btn btn-primary">
+                        <i class="bi bi-person-plus"></i> Añadir al Equipo
+                    </button>
                 </div>
             </form>
 
@@ -77,17 +80,14 @@
                     dynamicForm.method = "POST";
                     dynamicForm.action = actionUrl;
 
-                    // El formulario debe añadirse al body y enviarse
                     document.body.appendChild(dynamicForm);
                     dynamicForm.submit();
                 });
                 /*]]>*/
             </script>
-
         </div>
     </div>
 </div>
-
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

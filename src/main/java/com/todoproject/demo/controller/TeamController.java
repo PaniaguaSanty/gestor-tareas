@@ -68,11 +68,20 @@ public class TeamController {
         return new ResponseEntity<>(RESPONSES, HttpStatus.FOUND);
     }
 
+    @GetMapping("/findAllActive")
+    public ResponseEntity<List<TeamResponseDto>> findAllActive() {
+        logger.info("Entering in findAllActive method..");
+        List<TeamResponseDto> RESPONSES = teamService.findAllActive();
+        logger.info("Exiting findAllActive method..");
+        return new ResponseEntity<>(RESPONSES, HttpStatus.FOUND);
+    }
+
+
     //url para probar el método: http://localhost:8080/teams/list
     @GetMapping("/list")
     public String findAllTeams(Model model) {
         logger.info("Entering in findAllTeams method..");
-        List<TeamResponseDto> teams = teamService.findAll();
+        List<TeamResponseDto> teams = teamService.findAllActive();
         model.addAttribute("teams", teams);
         logger.info("Exiting findAllTeams method..");
         return "teamDashboard";
@@ -94,17 +103,14 @@ public class TeamController {
     /**
      * Muestra el formulario para editar un team
      */
-    @GetMapping("/update/{dni}")
+    @GetMapping("/showUpdateForm/{dni}")
     public String showUpdateForm(@PathVariable String dni, Model model) {
-        // 1) Recupera el usuario existente
         TeamResponseDto existing = teamService.findOne(dni);
-        // 2) Mapea a RequestDto para el form
         TeamRequestDto formDto = new TeamRequestDto();
         formDto.setName(existing.getName());
         formDto.setDni(existing.getDni());
         model.addAttribute("team", formDto);
-        // 3) Retorna la plantilla Thymeleaf
-        return "update-team";
+        return "update-team";  // El nombre del html con el formulario para editar
     }
 
     /**

@@ -4,32 +4,31 @@
     <meta charset="UTF-8">
     <title>Crear Team</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" th:href="@{/css/createTeam.css}">
+    <link rel="stylesheet" th:href="@{/css/teamForm.css}" href="/static/css/teamForm.css">
 </head>
-<body class="d-flex align-items-center justify-content-center min-vh-100">
-<div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-6 col-lg-5">
-            <div class="card p-4 shadow-sm">
-                <h2 class="text-center mb-4 border-bottom p-4">Create Team</h2>
-                <form th:action="@{/teams/save}" th:object="${team}" method="post">
-                    <div class="mb-3">
-                        <label for="name" class="form-label">Name</label>
-                        <input type="text" class="form-control" id="name" th:field="*{name}" required>
-                    </div>
-
-                    <div class="mb-3">
-                        <label for="description" class="form-label mt-4">Description</label>
-                        <textarea class="form-control" id="description" th:field="*{description}"></textarea>
-                    </div>
-
-                    <button type="submit" class="btn btn-primary w-100">
-                        <span class="spinner-border spinner-border-sm" aria-hidden="true"></span>
-                        Guardar
-                    </button>
-                </form>
+<body>
+<div class="form-wrapper">
+    <div class="card position-relative">
+        <a th:href="@{/teams/list}" class="btn btn-outline-light position-absolute top-0 start-0 m-3">
+            ←
+        </a>
+        <h2>Create Team</h2>
+        <form th:action="@{/teams/save}" th:object="${team}" method="post">
+            <div class="mb-3">
+                <label for="name" class="form-label">Name</label>
+                <input type="text" class="form-control" id="name" th:field="*{name}" required>
             </div>
-        </div>
+
+            <div class="mb-3">
+                <label for="description" class="form-label">Description</label>
+                <textarea class="form-control" id="description" th:field="*{description}"></textarea>
+            </div>
+
+            <button type="submit" class="btn btn-primary w-100">
+                <span class="spinner-border spinner-border-sm" aria-hidden="true"></span>
+                Guardar
+            </button>
+        </form>
     </div>
 </div>
 </body>

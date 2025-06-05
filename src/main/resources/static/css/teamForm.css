@@ -1,6 +1,6 @@
 /* Fondo general */
 body {
-    background: linear-gradient(135deg, #5f27cd, #341f97);
+    background: linear-gradient(255deg, #660eea 0%, #760ba2 100%);
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     min-height: 100vh;
     color: #fff;
@@ -10,21 +10,27 @@ body {
     justify-content: center;
 }
 
-/* Contenedor principal */
-.container {
-    max-width: 450px;
-    width: 100%;
-    padding: 2rem;
-}
 
 /* Tarjeta del formulario */
 .card {
+    width: 100%;
+    max-width: 500px; /* mejor que min-width: 300px */
+    min-width: 300px;
     background-color: rgba(255, 255, 255, 0.15);
     border-radius: 1rem;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
     padding: 2rem;
     color: #fff;
     backdrop-filter: blur(10px);
+}
+
+/* Centrado total del formulario */
+.form-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    padding: 1rem;
 }
 
 /* Título del formulario */
@@ -35,16 +41,15 @@ body {
     border-bottom: 2px solid #10ac84;
     padding-bottom: 1rem;
     text-align: center;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
 }
 
-/* Labels */
-.form-label {
-    font-weight: 600;
-    color: #e0e0e0;
-}
 
 /* Inputs y textarea */
 .form-control {
+    width: 400px;
     background-color: rgba(255, 255, 255, 0.9);
     border: none;
     border-radius: 0.5rem;
@@ -96,6 +101,7 @@ textarea.form-control {
     }
 
     .card {
+        min-width: 100%;
         padding: 1.5rem;
     }
 }

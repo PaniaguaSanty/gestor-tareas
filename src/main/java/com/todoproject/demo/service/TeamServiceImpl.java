@@ -56,6 +56,7 @@ public class TeamServiceImpl implements CRUD<TeamResponseDto, TeamRequestDto> {
             Team existingTeam = teamRepository.findByName(teamRequestDto.getName())
                     .orElseThrow(() -> new NotFoundException("Error, team not found..."));
             existingTeam.setName(teamRequestDto.getName());
+            existingTeam.setDescription(teamRequestDto.getDescription());
             // existingTeam.setUsers();
             // existingTeam.setProjects();
             Team savedTeam = teamRepository.save(existingTeam);
@@ -79,6 +80,15 @@ public class TeamServiceImpl implements CRUD<TeamResponseDto, TeamRequestDto> {
         List<Team> teams = teamRepository.findAll();
 
         return teams.stream()
+                .map(teamMapper::convertToDto)
+                .collect(Collectors.toList());
+    }
+
+    public List<TeamResponseDto> findAllActive() {
+        List<Team> teams = teamRepository.findAll();
+
+        return teams.stream()
+                .filter(Team::isActive)
                 .map(teamMapper::convertToDto)
                 .collect(Collectors.toList());
     }
