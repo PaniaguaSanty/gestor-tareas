@@ -121,17 +121,17 @@ public class TeamController {
         return "redirect:/teams/list";
     }
 
-    @GetMapping("/disableTeam/{dni}")
-    public String disableTeam(@PathVariable String dni) {
-        logger.info("Entering disableTeam method for DNI: {}", dni);
-        teamService.disable(dni);
-        return "redirect:/teams/list";
-    }
-
     @GetMapping("/enableTeam/{dni}")
     public String enableTeam(@PathVariable String dni) {
         logger.info("Entering enableTeam method for DNI: {}", dni);
         teamService.enableTeam(dni);
+        return "redirect:/teams/list";
+    }
+
+    @GetMapping("/disableTeam/{dni}")
+    public String disableTeam(@PathVariable String dni) {
+        logger.info("Entering disableTeam method for DNI: {}", dni);
+        teamService.disable(dni);
         return "redirect:/teams/list";
     }
 
@@ -163,6 +163,9 @@ public class TeamController {
         return "teamDetail";
     }
 
+    /**
+     * Formulario de usuarios del equipo
+     */
     @PostMapping("/{teamDni}/users/{userDni}")
     public String addUserToTeam(
             @PathVariable("teamDni") String teamDni,
@@ -180,5 +183,7 @@ public class TeamController {
         teamService.removeUserFromTeam(userDni, teamDni);
         return "redirect:/teams/detail/" + teamDni;
     }
+
+    //TODO: método para mostrar el dashboard del proyecto...
 
 }

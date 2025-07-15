@@ -13,6 +13,7 @@ import java.time.LocalDate;
 @NoArgsConstructor
 public class TaskResponseDto {
 
+    private String code;
     private String tittle;
     private String description;
     private LocalDate dueDate;

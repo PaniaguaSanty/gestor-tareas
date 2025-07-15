@@ -3,5 +3,7 @@ package com.todoproject.demo.model;
 public enum TaskState {
     TODO,
     COMPLETED,
-    DELETED
+    DELETED,
+    DELAYED,
+    STASHED
 }

@@ -18,6 +18,5 @@ public class ProjectRequestDto {
     private String description;
     private boolean active;
 
-    // ID del equipo al que pertenece el proyecto
     private String teamDni;
 }

@@ -19,4 +19,5 @@ public class TeamResponseDto {
     private String description;
     private boolean active;
     private List<UserResponseDto> users;
+    private List<ProjectResponseDto> projects;
 }
