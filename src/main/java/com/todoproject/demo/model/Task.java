@@ -19,9 +19,11 @@ public class Task {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    private String code;
     private String title;
     private String description;
     private LocalDate dueDate;
+    private boolean active;
 
     @Enumerated(EnumType.STRING)
     private TaskState state;

@@ -119,7 +119,9 @@ public class TeamServiceImpl implements CRUD<TeamResponseDto, TeamRequestDto> {
         teamRepository.save(team);
         return teamMapper.convertToDto(team);
     }
-
+    /**
+     * Gestión de usuarios en el equipo
+     */
     public TeamResponseDto addUserToTeam(String userDni, String teamDni) {
         logger.info("Entering in addUserToTeam method...");
 
@@ -170,5 +172,9 @@ public class TeamServiceImpl implements CRUD<TeamResponseDto, TeamRequestDto> {
                 .toList();
     }
 
+
+    /**
+     * Gestión de proyectos en el equipo
+     */
 
 }

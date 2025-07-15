@@ -75,32 +75,6 @@ public class ProjectServiceImpl implements CRUD<ProjectResponseDto, ProjectReque
     }
 
     @Override
-    public List<ProjectResponseDto> findAll() {
-        logger.info("Entering findAll Projects...");
-        return projectRepository.findAll()
-                .stream()
-                .map(projectMapper::convertToDto)
-                .collect(Collectors.toList());
-    }
-
-    public List<ProjectResponseDto> findAllActive() {
-        List<Project> projects = projectRepository.findAll();
-
-        return projects.stream()
-                .filter(Project::isActive)
-                .map(projectMapper::convertToDto)
-                .collect(Collectors.toList());
-    }
-
-    @Override
-    public ProjectResponseDto findOne(String code) {
-        logger.info("Entering findOne Project...");
-        Project project = projectRepository.findByCode(code)
-                .orElseThrow(() -> new NotFoundException("Project not found with code: " + code));
-        return projectMapper.convertToDto(project);
-    }
-
-    @Override
     public void delete(String code) {
         logger.info("Entering delete Project...");
         Project project = projectRepository.findByCode(code)
@@ -127,9 +101,37 @@ public class ProjectServiceImpl implements CRUD<ProjectResponseDto, ProjectReque
         return projectMapper.convertToDto(saved);
     }
 
+    @Override
+    public ProjectResponseDto findOne(String code) {
+        logger.info("Entering findOne Project...");
+        Project project = projectRepository.findByCode(code)
+                .orElseThrow(() -> new NotFoundException("Project not found with code: " + code));
+        return projectMapper.convertToDto(project);
+    }
+
     public List<ProjectResponseDto> findByTeamDni(String dni) {
         logger.info("Entering findByTeamDni...");
         List<Project> projects = projectRepository.findByTeam_Dni(dni);
         return projects.stream().map(projectMapper::convertToDto).toList();
     }
+
+    @Override
+    public List<ProjectResponseDto> findAll() {
+        logger.info("Entering findAll Projects...");
+        return projectRepository.findAll()
+                .stream()
+                .map(projectMapper::convertToDto)
+                .collect(Collectors.toList());
+    }
+
+    public List<ProjectResponseDto> findAllActive() {
+        List<Project> projects = projectRepository.findAll();
+        return projects.stream()
+                .filter(Project::isActive)
+                .map(projectMapper::convertToDto)
+                .collect(Collectors.toList());
+    }
+
+    //function to add a task in the project...
+
 }
