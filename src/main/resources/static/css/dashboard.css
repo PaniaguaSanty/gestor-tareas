@@ -1,31 +1,86 @@
 .bg-dashboard {
-  background: linear-gradient(200deg, #690eea 0%, #764ba2 100%);
+  background: linear-gradient(
+    180deg,
+    #764ba2 0%,     /* morado profundo arriba */
+    #8e79d3 20%,    /* morado medio */
+    #ff9a9e 40%,    /* rosa pastel */
+    #ff7eb3 60%,    /* rosa más fuerte */
+    #667eea 80%,    /* azul violeta */
+    #764ba2 100%    /* vuelta a morado */
+  );
   min-height: 100vh;
 }
-
-
+/* Card tipo Trello */
 .card-trello {
-  width: 280px;                /* ancho fijo para alinear columnas */
-  border: none;                /* quita el borde por defecto */
-  border-radius: 8px;          /* esquinas suaves */
-  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-  overflow: hidden;            /* para que no se salgan las esquinas redondeadas */
+  width: 280px;
+  border: none;
+  border-radius: 12px;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
   margin-bottom: 1rem;
-  background-color: #fff;
-}
-.card-trello .card-img-top {
-  height: 120px;               /* igual altura en todas */
-  object-fit: cover;           /* recorta/ajusta la imagen */
+  background-color: #ffffff;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
+/* Hover: da sensación de elevación */
+.card-trello:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+}
+
+/* Imagen de la card */
+.card-trello .card-img-top {
+  height: 120px;
+  object-fit: cover;
+}
+
+/* Título y descripción */
+.card-trello .card-title {
+  font-family: 'Poppins', sans-serif;
+  font-weight: 600;
+  color: #2e1065;
+  margin-bottom: 0.5rem;
+}
+
+.card-trello .card-text {
+  color: #6b7280;
+  font-size: 0.9rem;
+}
+
+/* Grupo de avatares */
 .avatar-group {
   display: flex;
+  align-items: center;
 }
 .avatar-group img {
-  margin-left: -8px;     /* solapa un poco cada avatar */
-  border: 2px solid #fff;/* separa con borde blanco */
+  margin-left: -8px;
+  border: 2px solid #fff;
   background-color: #fff;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  object-fit: cover;
 }
 .avatar-group img:first-child {
   margin-left: 0;
+}
+
+/* Tags (Front, API, etc) */
+.tag {
+  display: inline-block;
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: white;
+  padding: 0.25rem 0.6rem;
+  border-radius: 999px;
+  margin-right: 0.25rem;
+}
+.tag-front {
+  background-color: #3b82f6;
+}
+.tag-api {
+  background-color: #10b981;
+}
+.tag-ui {
+  background-color: #f472b6;
 }
