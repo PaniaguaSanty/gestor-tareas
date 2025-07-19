@@ -1,0 +1,25 @@
+.welcome-container {
+  max-width: 600px;
+  margin: 5rem auto;
+  padding: 2rem;
+  text-align: center;
+  border: 1px solid #e0e0e0;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.btn-access {
+  display: block;
+  background: #4361ee;
+  color: white;
+  padding: 12px 24px;
+  border-radius: 6px;
+  text-decoration: none;
+  font-weight: bold;
+  margin: 2rem 0;
+  transition: background 0.3s;
+}
+
+.btn-access:hover {
+  background: #3a56e4;
+}
