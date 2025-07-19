@@ -13,7 +13,11 @@ import org.springframework.security.web.authentication.www.BasicAuthenticationFi
 @EnableWebSecurity
 public class SecurityConfig {
 
-    private static final String ACCESS_TOKEN = "TEAM123";
+    // Lee la API_KEY de las variables de entorno
+    private static final String ACCESS_TOKEN = System.getenv("API_KEY") != null
+            ? System.getenv("API_KEY")
+            : "TEAM123";  // Default para desarrollo local
+
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
