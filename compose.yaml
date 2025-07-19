@@ -1,9 +1,14 @@
 services:
   postgres:
-    image: 'postgres:latest'
+    image: postgres:latest
     environment:
-      - 'POSTGRES_DB=mydatabase'
-      - 'POSTGRES_PASSWORD=secret'
-      - 'POSTGRES_USER=myuser'
+      POSTGRES_DB: todoappdb    # Debe coincidir con tu application-dev.yml
+      POSTGRES_USER: todoappuser
+      POSTGRES_PASSWORD: secretpassword
     ports:
-      - '5432'
+      - "5432:5432"  # Exponer el puerto 5432 directamente
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+
+volumes:
+  postgres-data:
