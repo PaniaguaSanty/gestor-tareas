@@ -3,6 +3,7 @@ package com.todoproject.demo.dto.response;
 import lombok.*;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Getter
 @Setter
@@ -22,4 +23,5 @@ public class ProjectResponseDto {
     // Info básica del equipo (solo el nombre, pero se puede extender)
     private String teamDni;
     private String teamName;
+    private List<TaskResponseDto> tasks;
 }
