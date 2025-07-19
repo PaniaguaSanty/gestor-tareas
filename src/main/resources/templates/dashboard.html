@@ -2,151 +2,276 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Dashboard</title>
-    <!-- 1) Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-    <!-- 2) Bootstrap Icons -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
-    <!-- 3) Tu CSS personalizado -->
-    <link rel="stylesheet" th:href="@{/css/dashboard.css}" href="/static/css/mainPage.css">
+    <title>Dashboard - Team Board</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Bootstrap Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+
+    <!-- Dragula para drag & drop -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/dragula/3.7.3/dragula.min.css" rel="stylesheet">
+
+    <!-- Fuentes -->
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+
+    <!-- CSS personalizado -->
+    <link rel="stylesheet" th:href="@{/css/dashboard.css}" href="/static/css/dashboard.css">
 </head>
 <body class="bg-dashboard d-flex flex-column min-vh-100">
 
-<header>
-    <!-- TODO: CAMBIAR EL BACKGROUND COLOR Y DEJARLO MEJOR. -->
-    <ul class="nav nav-pills nav-fill">
-        <li class="nav-item">
-            <a class="nav-link" aria-current="page" href="#">Home</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" href="#">Application Name</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" href="#">Configuration</a>
-        </li>
-    </ul>
+<!-- HEADER STICKY -->
+<header class="sticky-header py-2">
+    <div class="container d-flex justify-content-between align-items-center">
+        <div class="d-flex align-items-center">
+            <i class="bi bi-kanban-fill text-white me-2 fs-4"></i>
+            <h1 class="text-white fs-5 fw-bold m-0">Team Board</h1>
+        </div>
+        <nav class="d-flex align-items-center gap-3">
+            <a href="#" class="text-white text-decoration-none small"><i class="bi bi-house me-1"></i> Home</a>
+            <a href="#" class="text-white text-decoration-none small"><i class="bi bi-app-indicator me-1"></i> App</a>
+            <a href="#" class="text-white text-decoration-none small"><i class="bi bi-gear me-1"></i> Config</a>
+            <a th:href="@{/teams/list}" class="btn btn-sm btn-outline-light">
+                <i class="bi bi-people me-1"></i> Ver equipos
+            </a>
+            <button class="btn btn-sm btn-light">
+                <i class="bi bi-person-plus-fill me-1"></i> Invitar
+            </button>
+        </nav>
+    </div>
 </header>
-<!-- =======================
-       SECCIÓN SUPERIOR: TEAM BOARD + AVATARES + INVITAR
-  ======================= -->
-<section class="py-3">
+
+<!-- SECCIÓN DE EQUIPO -->
+<section class="team-section">
     <div class="container-fluid px-4">
         <div class="row align-items-center">
-            <div class="d-flex mb-3 justify-content-between align-items-center">
-                <h2 class="text-white">Team board</h2>
-                <div class="d-flex gap-2">
-                    <a th:href="@{/teams/list}" href="/teams/list" class="btn btn-primary">Ver equipos</a>
-                </div>
-            </div>
-            <!-- Nombre del equipo en el que está trabajando el usuario -->
             <div class="col-auto">
-                <div class="border border-white rounded px-3 py-2">
-                    <span>Nombre del Equipo</span>
+                <div class="team-badge text-white d-flex align-items-center">
+                    <i class="bi bi-people-fill me-2"></i>
+                    <span th:text="${project.teamName}">Development Team</span>
                 </div>
             </div>
 
             <!-- Avatares de los usuarios -->
-            <div class="col-auto d-flex align-items-center gap-2">
-                <img src="https://via.placeholder.com/40" alt="Avatar 1" class="rounded-circle avatar-circle">
-                <img src="https://via.placeholder.com/40" alt="Avatar 2" class="rounded-circle avatar-circle">
-                <img src="https://via.placeholder.com/40" alt="Avatar 3" class="rounded-circle avatar-circle">
+            <div class="col d-flex align-items-center gap-2">
+                <div th:each="user : ${team.users}">
+                    <img th:src="@{${user.avatarUrl}}"
+                         class="assignee-avatar rounded-circle"
+                         width="30" height="30"
+                         alt="avatar">
+                </div>
             </div>
 
-            <!-- Botón para invitar usuarios (alineado a la derecha) -->
-            <div class="col text-end">
-                <button class="btn btn-outline-light">
-                    <i class="bi bi-person-plus-fill"></i> Invitar Usuarios
+            <div class="col-auto">
+                <button class="btn btn-sm btn-outline-light">
+                    <i class="bi bi-plus-circle me-1"></i> Invitar
                 </button>
             </div>
         </div>
     </div>
 </section>
 
-<main class="flex-grow-1">
-    <!-- Dashboard -->
-    <section class="scrollable-section px-4">
-        <div class="row">
-            <!-- To Do -->
-            <div class="col-md-4 mb-4">
-                <h5 class="text-white mb-3">To Do</h5>
-                <div class="card card-trello">
-                    <img src="https://via.placeholder.com/600x120?text=Cover" class="card-img-top" alt="cover">
-                    <div class="card-body">
-                        <h6 class="card-title">Título de la tarea</h6>
-                        <p class="card-text text-muted">Descripción breve…</p>
-                        <div class="mb-2">
-                            <span class="badge bg-primary">Front</span>
-                            <span class="badge bg-success">API</span>
+<!-- TABLERO KANBAN -->
+<main class="flex-grow-1 py-4">
+    <div class="container-fluid">
+        <div class="row g-4">
+            <!-- COLUMNA TODO -->
+            <div class="col-lg-4">
+                <div class="kanban-column">
+                    <div class="kanban-column-header todo-header d-flex justify-content-between align-items-center">
+                        <div>
+                            <i class="bi bi-card-checklist me-2"></i>
+                            <span class="align-middle">TODO</span>
                         </div>
+                        <span class="task-count" th:text="${#lists.size(tasksByState.get('TODO'))}">3</span>
                     </div>
-                    <div class="card-footer border-0 bg-white d-flex justify-content-between align-items-center">
-                        <small><i class="bi bi-chat-left-text"></i> 5</small>
-                        <small><i class="bi bi-paperclip"></i> 3</small>
-                        <div class="avatar-group">
-                            <img src="avatar1.jpg" class="rounded-circle" width="30" height="30" alt="User 1">
-                            <img src="avatar2.jpg" class="rounded-circle" width="30" height="30" alt="User 2">
+
+                    <div class="p-2" id="todo-column">
+                        <div th:each="task : ${tasksByState.get('TODO')}"
+                             class="task-card"
+                             th:attr="data-task-id=${task.id}"
+                             th:classappend="${task.priority == 'HIGH'} ? 'high-priority' :
+                                       (${task.priority == 'MEDIUM'} ? 'medium-priority' : 'low-priority')">
+                            <button class="delete-task-btn">
+                                <i class="bi bi-trash"></i>
+                            </button>
+                            <div class="card-body">
+                                <h6 class="task-title" th:text="${task.title}">Implementar drag & drop</h6>
+                                <p class="task-meta mb-0" th:text="${task.description}">Agregar funcionalidad de
+                                    arrastrar y soltar entre columnas</p>
+                                <!-- Usuario asignado (si existe) -->
+                                <div class="assignee-container" th:if="${task.assignedUserName}">
+                                    <img th:src="@{${task.assignedUserAvatarUrl}}"
+                                         class="assignee-avatar rounded-circle"
+                                         width="24" height="24"
+                                         alt="avatar">
+                                </div>
+                            </div>
                         </div>
+
+                        <button class="add-task-btn">
+                            <i class="bi bi-plus-circle me-2"></i> Agregar tarea
+                        </button>
                     </div>
                 </div>
             </div>
 
-            <!-- Doing -->
-            <div class="col-md-4 mb-4">
-                <h5 class="text-white mb-3">Doing</h5>
-                <div class="card card-trello">
-                    <img src="https://via.placeholder.com/600x120?text=Cover" class="card-img-top" alt="cover">
-                    <div class="card-body">
-                        <h6 class="card-title">Título de la tarea</h6>
-                        <p class="card-text text-muted">Descripción breve…</p>
-                        <div class="mb-2">
-                            <span class="badge bg-primary">Front</span>
-                            <span class="badge bg-success">API</span>
+            <!-- COLUMNA DOING -->
+            <div class="col-lg-4">
+                <div class="kanban-column">
+                    <div class="kanban-column-header doing-header d-flex justify-content-between align-items-center">
+                        <div>
+                            <i class="bi bi-lightning-charge me-2"></i>
+                            <span class="align-middle">DOING</span>
                         </div>
+                        <span class="task-count" th:text="${#lists.size(tasksByState.get('DOING'))}">2</span>
                     </div>
-                    <div class="card-footer border-0 bg-white d-flex justify-content-between align-items-center">
-                        <small><i class="bi bi-chat-left-text"></i> 5</small>
-                        <small><i class="bi bi-paperclip"></i> 3</small>
-                        <div class="avatar-group">
-                            <img src="avatar1.jpg" class="rounded-circle" width="30" height="30" alt="User 1">
-                            <img src="avatar2.jpg" class="rounded-circle" width="30" height="30" alt="User 2">
+
+                    <div class="p-2" id="doing-column">
+                        <div th:each="task : ${tasksByState.get('DOING')}"
+                             class="task-card"
+                             th:attr="data-task-id=${task.id}"
+                             th:classappend="${task.priority == 'HIGH'} ? 'high-priority' :
+                                               (${task.priority == 'MEDIUM'} ? 'medium-priority' : 'low-priority')">
+                            <button class="delete-task-btn">
+                                <i class="bi bi-trash"></i>
+                            </button>
+                            <div class="card-body">
+                                <h6 class="task-title" th:text="${task.title}">Diseñar tarjetas de tareas</h6>
+                                <p class="task-meta mb-0" th:text="${task.description}">Crear diseño visual para las
+                                    tarjetas de tareas</p>
+                                <!-- Usuario asignado (si existe) -->
+                                <div class="assignee-container" th:if="${task.assignedUserName}">
+                                    <img th:src="@{${task.assignedUserAvatarUrl}}"
+                                         class="assignee-avatar rounded-circle"
+                                         width="24" height="24"
+                                         alt="avatar">
+                                </div>
+                            </div>
                         </div>
+
+                        <button class="add-task-btn">
+                            <i class="bi bi-plus-circle me-2"></i> Agregar tarea
+                        </button>
                     </div>
                 </div>
             </div>
 
-            <!-- Done -->
-            <div class="col-md-4 mb-4">
-                <h5 class="text-white mb-3">Done</h5>
-                <div class="card card-trello">
-                    <img src="https://via.placeholder.com/600x120?text=Cover" class="card-img-top" alt="cover">
-                    <div class="card-body">
-                        <h6 class="card-title">Título de la tarea</h6>
-                        <p class="card-text text-muted">Descripción breve…</p>
-                        <div class="mb-2">
-                            <span class="badge bg-primary">Front</span>
-                            <span class="badge bg-success">API</span>
+            <!-- COLUMNA DONE -->
+            <div class="col-lg-4">
+                <div class="kanban-column">
+                    <div class="kanban-column-header done-header d-flex justify-content-between align-items-center">
+                        <div>
+                            <i class="bi bi-check-circle me-2"></i>
+                            <span class="align-middle">DONE</span>
                         </div>
+                        <span class="task-count" th:text="${#lists.size(tasksByState.get('DONE'))}">1</span>
                     </div>
-                    <div class="card-footer border-0 bg-white d-flex justify-content-between align-items-center">
-                        <small><i class="bi bi-chat-left-text"></i> 5</small>
-                        <small><i class="bi bi-paperclip"></i> 3</small>
-                        <div class="avatar-group">
-                            <img src="avatar1.jpg" class="rounded-circle" width="30" height="30" alt="User 1">
-                            <img src="avatar2.jpg" class="rounded-circle" width="30" height="30" alt="User 2">
+
+                    <div class="p-2" id="done-column">
+                        <div th:each="task : ${tasksByState.get('DONE')}"
+                             class="task-card"
+                             th:attr="data-task-id=${task.id}"
+                             th:classappend="${task.priority == 'HIGH'} ? 'high-priority' :
+                                               (${task.priority == 'MEDIUM'} ? 'medium-priority' : 'low-priority')">
+                            <button class="delete-task-btn">
+                                <i class="bi bi-trash"></i>
+                            </button>
+                            <div class="card-body">
+                                <h6 class="task-title" th:text="${task.title}">Crear estructura HTML</h6>
+                                <p class="task-meta mb-0" th:text="${task.description}">Diseñar la estructura básica del
+                                    tablero Kanban</p>
+                                <!-- Usuario asignado (si existe) -->
+                                <div class="assignee-container" th:if="${task.assignedUserName}">
+                                    <img th:src="@{${task.assignedUserAvatarUrl}}"
+                                         class="assignee-avatar rounded-circle"
+                                         width="24" height="24"
+                                         alt="avatar">
+                                </div>
+                            </div>
                         </div>
+
+                        <button class="add-task-btn">
+                            <i class="bi bi-plus-circle me-2"></i> Agregar tarea
+                        </button>
                     </div>
                 </div>
             </div>
         </div>
-    </section>
+    </div>
 </main>
 
-<footer class="bg-dark text-white text-center py-3">
-    <p>&copy; 2025 To-do app. Todos los derechos reservados.</p>
+<footer class="text-center text-white-50 small py-3 mt-auto">
+    &copy; 2025 Team Board. Todos los derechos reservados.
 </footer>
 
 <!-- Bootstrap JS + Popper -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+<!-- Dragula para drag & drop -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/dragula/3.7.3/dragula.min.js"></script>
+
+<script>
+    // Funcionalidad para botones de eliminar
+    document.querySelectorAll('.delete-task-btn').forEach(button => {
+        button.addEventListener('click', function(e) {
+            e.stopPropagation();
+            const taskCard = this.closest('.task-card');
+            const taskId = taskCard.getAttribute('data-task-id');
+
+
+            // Enviar solicitud al backend para desactivar la tarea
+            disableTask(taskId, taskCard);
+        });
+    });
+
+    // Función para desactivar la tarea en el backend
+    function disableTask(taskId, taskCard) {
+        fetch(`/tasks/disable/${taskId}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-Requested-With': 'XMLHttpRequest'
+            }
+        })
+        .then(response => {
+            if (response.ok) {
+                // Animación de desvanecimiento
+                taskCard.style.opacity = '0';
+                setTimeout(() => {
+                    taskCard.remove();
+                    updateTaskCounts();
+                }, 300);
+            } else if (response.status === 404) {
+                throw new Error('Tarea no encontrada');
+            } else {
+                throw new Error('Error del servidor');
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('Error al eliminar la tarea: ' + error.message);
+        });
+    }
+
+    // Actualizar contadores de tareas
+    function updateTaskCounts() {
+        document.querySelectorAll('.kanban-column').forEach(column => {
+            const header = column.querySelector('.kanban-column-header');
+            const countElement = header.querySelector('.task-count');
+            const tasks = column.querySelectorAll('.task-card');
+            countElement.textContent = tasks.length;
+        });
+    }
+
+    // Inicializar drag & drop
+    dragula([
+        document.getElementById('todo-column'),
+        document.getElementById('doing-column'),
+        document.getElementById('done-column')
+    ]);
+</script>
 </body>
 </html>

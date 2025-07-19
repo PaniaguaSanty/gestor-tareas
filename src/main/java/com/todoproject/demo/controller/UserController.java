@@ -145,26 +145,4 @@ public class UserController {
         return "userManagement";
     }
 
-    //TODO: LOS ROOTS TIENEN QUE IR EN UN CONTROLLER A PARTE (PUEDE SER HOMECONTROLLER U OTRO)
-    @GetMapping("/")
-    public String home() {
-        return "home";
-    }
-
-    //login de users. TODO: IMPLEMENTACIÓN
-    @GetMapping("/login")
-    public String loginPage() {
-        return "login";
-    }
-
-    @GetMapping("/mainPage")
-    public String mainPage() {
-        return "mainPage";
-    }
-
-    @GetMapping("/dashboard")
-    public String dashboard() {
-        return "dashboard";
-    }
-
 }

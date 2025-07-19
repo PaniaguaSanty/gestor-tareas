@@ -107,43 +107,10 @@
                         <p class="card-text" th:text="${project.description}">Descripción del proyecto...</p>
                     </div>
                     <!-- Método para ver el dashboard del project... -->
-                    <a class="btn btn-secondary" th:href="@{/projects/detail/{code}(code=${project.code})}">Ver en Dashboard</a>
+                    <a class="btn btn-secondary" th:href="@{/projects/detail/{code}(code=${project.code})}">Ver en
+                        Dashboard</a>
                 </div>
             </div>
-            <!--
-            <div class="container">
-                <div class="row">
-                    <div class="col-md-4 col-lg-4 column">
-                        <div class="card gr-1">
-                            <div class="txt">
-                                <h2 class="card-title" th:text="${project.name}" >Nombre del proyecto</h2>
-                                <p class="card-text" th:text="${project.description}">Descripción del proyecto...</p>
-                            </div>
-                            <a href="#">more</a>
-                            <div class="ico-card">
-                                <i class="fa fa-rebel"></i>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            -->
-            <!-- Lista de Proyectos TODO: AL FINALIZAR LA FASE DE PROYECTOS, ACTUALIZAR LA SIGUIENTE LISTA CON LOS PROYECTOS:
-            <div class="row">
-                <div class="col-md-4 mb-4" th:each="project : ${projects}">
-                    <div class="card h-100 shadow-sm">
-                        <div class="card-body">
-                            <h5 class="card-title" th:text="${project.name}">Nombre del Equipo</h5>
-                            <p class="card-text" th:text="${project.description}">Descripción del equipo...</p>
-                            <a class="btn btn-primary" th:href="@{/projects/disableTeam/{dni}(dni=${team.dni})}"> - Eliminar
-                                Equipo</a>
-                        </div>
-                        <a class="btn btn-secondary" th:href="@{/teams/showUpdateForm/{dni}(dni=${team.dni})}">Modificar
-                            Equipo</a>
-                    </div>
-                </div>
-            </div>
-            -->
         </div>
     </div>
 </section>

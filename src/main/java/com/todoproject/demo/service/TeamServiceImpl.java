@@ -101,6 +101,12 @@ public class TeamServiceImpl implements CRUD<TeamResponseDto, TeamRequestDto> {
         return teamMapper.convertToDto(team);
     }
 
+    public TeamResponseDto findByDni(String dni) {
+        Team team = teamRepository.findByDni(dni)
+                .orElseThrow(() -> new NotFoundException("Team not found with DNI: " + dni));
+        return teamMapper.convertToDto(team);
+    }
+
     public void enableTeam(String dni) {
         logger.info("Entering in enableTeam method...");
         Team team = teamRepository.findByDni(dni)
@@ -119,6 +125,7 @@ public class TeamServiceImpl implements CRUD<TeamResponseDto, TeamRequestDto> {
         teamRepository.save(team);
         return teamMapper.convertToDto(team);
     }
+
     /**
      * Gestión de usuarios en el equipo
      */
