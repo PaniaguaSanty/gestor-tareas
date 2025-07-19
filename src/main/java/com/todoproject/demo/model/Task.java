@@ -35,6 +35,7 @@ public class Task {
     @JoinColumn(name = "user_id")
     private User assignedTo;
 
+
     // Tarea pertenece a un proyecto
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "project_id")

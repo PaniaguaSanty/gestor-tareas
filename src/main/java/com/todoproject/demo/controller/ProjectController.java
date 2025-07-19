@@ -2,7 +2,11 @@ package com.todoproject.demo.controller;
 
 import com.todoproject.demo.dto.request.ProjectRequestDto;
 import com.todoproject.demo.dto.response.ProjectResponseDto;
+import com.todoproject.demo.dto.response.TaskResponseDto;
+import com.todoproject.demo.dto.response.TeamResponseDto;
 import com.todoproject.demo.service.ProjectServiceImpl;
+import com.todoproject.demo.service.TaskServiceImpl;
+import com.todoproject.demo.service.TeamServiceImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
@@ -11,6 +15,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/projects")
@@ -18,9 +25,13 @@ public class ProjectController {
 
     private final Logger logger = LoggerFactory.getLogger(ProjectController.class);
     private final ProjectServiceImpl projectService;
+    private final TaskServiceImpl taskService;
+    private final TeamServiceImpl teamService;
 
-    public ProjectController(ProjectServiceImpl projectService) {
+    public ProjectController(ProjectServiceImpl projectService, TaskServiceImpl taskService, TeamServiceImpl teamService) {
         this.projectService = projectService;
+        this.taskService = taskService;
+        this.teamService = teamService;
     }
 
     @PostMapping
@@ -106,15 +117,41 @@ public class ProjectController {
         return "create-project";
     }
 
-    //Método showProjectDashboard para mostrar la ventana de dashboard con los tasks.
-    //tengo que ajustar este método para que muestre dashboard.
     @GetMapping("/detail/{code}")
     public String showProjectDetail(@PathVariable String code, Model model) {
-        logger.info("Entering showProjectDetail method for DNI: {}", code);
+        logger.info("Entering showProjectDetail method for project code: {}", code);
+
+        // 1) Proyecto principal
         ProjectResponseDto project = projectService.findOne(code);
-        List<ProjectResponseDto> allProjects = projectService.findAll();
         model.addAttribute("project", project);
-        model.addAttribute("allProjects", allProjects);
-        return "teamDetail";
+
+        // 2) Todas las tareas ACTIVAS de este proyecto
+        List<TaskResponseDto> tasks = taskService.findActiveByProjectCode(code);
+        model.addAttribute("tasks", tasks);
+
+        // 3) Estados que usaremos en el tablero
+        List<String> states = List.of("TODO", "DOING", "DONE");
+        model.addAttribute("states", states);
+
+        // 4) Agrupamos las tareas por estado (incluye listas vacías)
+        Map<String, List<TaskResponseDto>> tasksByState = states.stream()
+                .collect(Collectors.toMap(
+                        Function.identity(),
+                        estado -> tasks.stream()
+                                .filter(t -> estado.equalsIgnoreCase(t.getState().trim()))
+                                .collect(Collectors.toList())
+                ));
+
+        model.addAttribute("tasksByState", tasksByState);
+
+        // 5) Equipo (opcional)
+        if (project.getTeamDni() != null) {
+            TeamResponseDto team = teamService.findByDni(project.getTeamDni());
+            model.addAttribute("team", team);
+        }
+
+        return "dashboard";
     }
+
+
 }
