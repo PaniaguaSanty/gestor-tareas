@@ -1,0 +1,15 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/todoappdb
+    username: todoappuser
+    password: secretpassword
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update  # En desarrollo usa 'update'
+  sql:
+    init:
+      mode: always
+
+server:
+  port: 8080

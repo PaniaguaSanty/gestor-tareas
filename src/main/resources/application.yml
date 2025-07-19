@@ -1,28 +1,42 @@
+# application.yml
 spring:
-  datasource:
-    url: jdbc:postgresql://localhost:5432/todoappdb
-    username: todoappuser
-    password: secretpassword
-    driver-class-name: org.postgresql.Driver
-
   jpa:
-    hibernate:
-      ddl-auto: update
     show-sql: true
-  sql:
-    init:
-      mode: always
-
+    properties:
+      hibernate:
+        format_sql: true
+  mvc:
+    static-path-pattern: /**  # Actualizado para permitir todas las rutas estáticas
   output:
     ansi:
-      enabled: always # permite ver el log como colores
-  docker:
-    compose:
-      enabled: true
-      file: docker-compose.yml
+      enabled: always
+  profiles:
+    active: prod  # Perfil activo para producción
 
 server:
-  port: 8080
+  servlet:
+    session:
+      timeout: 30m
+    encoding:
+      charset: UTF-8
+  port: ${PORT:8080}  # Usa variable de entorno PORT para Render
+
 logging:
   level:
-    root: info # permite ver los logs de consola
+    root: info
+    org.hibernate.SQL: debug
+    org.springframework.web: WARN  # Reduce logging en producción
+
+# Configuración específica para producción (perfil 'prod')
+---
+spring:
+  config:
+    activate:
+      on-profile: prod
+  web:
+    resources:
+      cache:
+        period: 31536000  # 1 año de caché
+  security:
+    filter:
+      order: 0

@@ -184,6 +184,5 @@ public class TeamController {
         return "redirect:/teams/detail/" + teamDni;
     }
 
-    //TODO: método para mostrar el dashboard del proyecto...
 
 }
