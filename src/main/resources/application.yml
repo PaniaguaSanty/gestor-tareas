@@ -1,3 +1,4 @@
+#application.yml
 spring:
   jpa:
     show-sql: true

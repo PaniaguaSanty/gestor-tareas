@@ -1,3 +1,4 @@
+#render.yaml
 services:
   - type: web
     name: todoapp-java
@@ -9,7 +10,7 @@ services:
       - key: SPRING_PROFILES_ACTIVE
         value: prod
       - key: SPRING_DATASOURCE_URL
-        value: jdbc:postgresql://dpg-dlv6r11db04c73f81uq0-a.flycast.render.com:5432/todoappdb_o:Zu
+        value: jdbc:postgresql://dpg-d1v6riidbo4c73f8iuq0-a.oregon-postgres.render.com:5432/todoappdb_oz2u
       - key: SPRING_DATASOURCE_USERNAME
         value: todoappuser
       - key: SPRING_DATASOURCE_PASSWORD
