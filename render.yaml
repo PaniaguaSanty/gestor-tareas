@@ -9,7 +9,7 @@ services:
       - key: SPRING_PROFILES_ACTIVE
         value: prod
       - key: SPRING_DATASOURCE_URL
-        value: jdbc:postgresql://dpg-dlv6r11db04c73f81uq0-a:5432/todoappdb_oZu
+        value: jdbc:postgresql://dpg-dlv6r11db04c73f81uq0-a.flycast.render.com:5432/todoappdb_o:Zu
       - key: SPRING_DATASOURCE_USERNAME
         value: todoappuser
       - key: SPRING_DATASOURCE_PASSWORD
