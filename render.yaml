@@ -1,13 +1,18 @@
 services:
   - type: web
-    name: team-board-prod
-    runtime: java
-    buildCommand: ./mvnw clean package
-    startCommand: java -jar target/*.jar
+    name: todoapp-java
+    runtime: docker
+    env: docker
+    build:
+      dockerfile: Dockerfile
     envVars:
       - key: SPRING_PROFILES_ACTIVE
         value: prod
-      - key: JAVA_VERSION
-        value: 17
-      - key: JVM_ARGS
-        value: -Xmx512m -Xss512k -XX:+UseContainerSupport
+      - key: SPRING_DATASOURCE_URL
+        value: jdbc:postgresql://dpg-dlv6r11db04c73f81uq0-a:5432/todoappdb_o:Zu
+      - key: SPRING_DATASOURCE_USERNAME
+        value: todoappuser
+      - key: SPRING_DATASOURCE_PASSWORD
+        sync: false  # IMPORTANTE: Esto evita que la contraseña quede en el repo
+      - key: PORT
+        value: 8080

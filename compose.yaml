@@ -2,13 +2,22 @@ services:
   postgres:
     image: postgres:latest
     environment:
-      POSTGRES_DB: todoappdb    # Debe coincidir con tu application-dev.yml
+      POSTGRES_DB: todoappdb
       POSTGRES_USER: todoappuser
       POSTGRES_PASSWORD: secretpassword
     ports:
-      - "5432:5432"  # Exponer el puerto 5432 directamente
+      - "5432:5432"
     volumes:
       - postgres-data:/var/lib/postgresql/data
+
+  app:  # ¡Nuevo servicio para tu app!
+    build: .
+    ports:
+      - "8080:8080"
+    environment:
+      SPRING_PROFILES_ACTIVE: dev
+    depends_on:
+      - postgres
 
 volumes:
   postgres-data:
