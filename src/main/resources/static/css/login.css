@@ -1,0 +1,344 @@
+:root {
+  --deep-purple: #690eea;
+  --medium-purple: #764ba2;
+  --light-purple: #8e79d3;
+  --pink: #ff9a9e;
+  --hot-pink: #ff7eb3;
+  --blue: #667eea;
+  --white: #ffffff;
+  --light-gray: rgba(255, 255, 255, 0.7);
+  --error-red: #ff6b6b;
+}
+
+html {
+  font-size: 16px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  background: linear-gradient(
+      135deg,
+      var(--deep-purple) 0%,
+      var(--medium-purple) 20%,
+      var(--pink) 40%,
+      var(--hot-pink) 60%,
+      var(--blue) 80%,
+      var(--deep-purple) 100%
+  );
+  min-height: 100vh;
+  background-attachment: fixed;
+  background-size: cover;
+  margin: 0;
+  padding: 0;
+  color: var(--white);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  display: flex;
+  flex-direction: column;
+}
+
+.welcome-container {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  border-radius: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  max-width: 800px;
+  margin: 5% auto;
+  padding: 40px 20px;
+  text-align: center;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+  animation: fadeIn 1.2s ease-out;
+  z-index: 1;
+}
+
+.h1 {
+  font-size: 3rem;
+  font-weight: 800;
+  margin-bottom: 20px;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.subtitle {
+  font-size: 1.5rem;
+  opacity: 0.9;
+  margin-bottom: 40px;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+.access-box {
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(5px);
+  border-radius: 15px;
+  padding: 30px;
+  display: block;
+  margin: 5px auto;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 500px;
+}
+
+/* Estilos para botones OAuth */
+.oauth-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px 20px;
+  margin: 10px auto;
+  border-radius: 50px;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  border: none;
+  cursor: pointer;
+  text-decoration: none;
+  width: 90%;
+}
+
+.oauth-btn i {
+  margin-right: 10px;
+  font-size: 1.2rem;
+}
+
+.oauth-btn.google {
+  background: var(--white);
+  color: #757575;
+}
+
+.oauth-btn.github {
+  background: #24292e;
+  color: var(--white);
+}
+
+.oauth-btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+}
+
+/* Divisor */
+.divider {
+  display: flex;
+  align-items: center;
+  margin: 20px auto;
+}
+
+.divider::before, .divider::after {
+  content: "";
+  flex: 1;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.divider-text {
+  padding: 0 15px;
+  color: var(--light-gray);
+  font-size: 0.9rem;
+}
+
+/* Formulario */
+.input-group {
+  position: relative;
+  margin-bottom: 20px;
+  text-align: left;
+}
+
+.input-group label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 500;
+}
+
+.input-group input {
+  width: 100%;
+  padding: 10px 10px;
+  border-radius: 50px;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  background: rgba(255, 255, 255, 0.1);
+  color: var(--white);
+  font-size: 1rem;
+  transition: all 0.3s ease;
+}
+
+.input-group input:focus {
+  outline: none;
+  border-color: var(--light-purple);
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.input-group i {
+  position: absolute;
+  left: 15px;
+  bottom: 12px;
+  color: var(--light-gray);
+}
+
+/* Botón de acceso */
+.btn-access {
+  background: linear-gradient(135deg, var(--blue) 0%, var(--light-purple) 100%);
+  border: none;
+  border-radius: 50px;
+  color: white;
+  padding: 12px 30px;
+  font-size: 1.1rem;
+  font-weight: 700;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+  cursor: pointer;
+}
+
+.btn-access i {
+  margin-left: 10px;
+  transition: transform 0.3s ease;
+}
+
+.btn-access:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6);
+  background: linear-gradient(135deg, var(--light-purple) 0%, var(--blue) 100%);
+}
+
+.btn-access:hover i {
+  transform: translateX(3px);
+}
+
+.btn-access:active {
+  transform: translateY(1px);
+}
+
+/* Mensaje de error */
+.error-message {
+  background: rgba(255, 107, 107, 0.2);
+  border: 1px solid var(--error-red);
+  border-radius: 12px;
+  padding: 15px;
+  margin-bottom: 25px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  color: var(--error-red);
+  font-weight: 600;
+  text-align: center;
+  animation: fadeIn 0.5s ease-out;
+  max-width: 100%;
+}
+
+.error-message i {
+  margin-right: 10px;
+  color: var(--error-red);
+}
+
+/* Nota */
+.note {
+  font-size: 0.9rem;
+  opacity: 0.8;
+  margin-top: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.note i {
+  margin-right: 8px;
+}
+
+/* Partículas */
+.particles {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.particle {
+  position: absolute;
+  background: rgba(255, 255, 255, 0.6);
+  border-radius: 50%;
+  animation: float 6s infinite ease-in-out;
+}
+
+@keyframes float {
+  0% { transform: translateY(0px); }
+  50% { transform: translateY(-20px); }
+  100% { transform: translateY(0px); }
+}
+
+/* Animación de entrada */
+@keyframes fadeIn {
+  0% { opacity: 0; transform: translateY(20px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+
+@media (max-width: 768px) {
+  html {
+    font-size: 18px; /* Aumentar tamaño base para móviles */
+  }
+
+  .welcome-container {
+    margin: 0;
+    padding: 2rem 1rem;
+    width: 100%;
+    min-height: 100vh;
+    border-radius: 0;
+    background: rgba(255, 255, 255, 0.2);
+  }
+
+  h1, .h1 {
+    font-size: 2.5rem;
+    margin-top: 1rem;
+  }
+
+  .subtitle {
+    font-size: 1.3rem;
+    margin-bottom: 2rem;
+  }
+
+  .access-box {
+    padding: 1.5rem;
+    width: 95%;
+    margin: 0 auto;
+  }
+
+  .oauth-btn, .btn-access {
+    padding: 1rem;
+    font-size: 1rem;
+  }
+
+  .input-group input {
+    padding: 1rem;
+    font-size: 1rem;
+  }
+
+  .note {
+    font-size: 0.9rem;
+    margin-top: 1.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  html {
+    font-size: 20px; /* Tamaño aún mayor para pantallas muy pequeñas */
+  }
+
+  .welcome-container {
+    padding: 1.5rem 0.5rem;
+  }
+
+  h1, .h1 {
+    font-size: 2rem;
+  }
+
+  .subtitle {
+    font-size: 1.1rem;
+  }
+}

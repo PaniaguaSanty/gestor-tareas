@@ -12,11 +12,9 @@ import org.springframework.security.web.authentication.www.BasicAuthenticationFi
 @EnableWebSecurity
 public class SecurityConfig {
 
-    // Lee la API_KEY de las variables de entorno
     private static final String ACCESS_TOKEN = System.getenv("API_KEY") != null
             ? System.getenv("API_KEY")
-            : "TEAM123";  // Default para desarrollo local
-
+            : "TEAM123";
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -27,10 +25,17 @@ public class SecurityConfig {
                         .requestMatchers("/css/**", "/img/**", "/js/**").permitAll()
                         .anyRequest().authenticated()
                 )
-                .formLogin().disable() // Deshabilita completamente formLogin
+                .formLogin(form -> form
+                        .loginPage("/login")  // Página de login personalizada
+                        .permitAll()
+                )
+                .oauth2Login(oauth -> oauth
+                        .loginPage("/login")  // Misma página para login OAuth
+                        .defaultSuccessUrl("/welcome", true)
+                )
                 .addFilterBefore(new ApiKeyFilter(ACCESS_TOKEN), BasicAuthenticationFilter.class)
                 .sessionManagement(session -> session
-                        .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                        .sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)  // Cambiado a IF_REQUIRED para OAuth
                 );
 
         return http.build();

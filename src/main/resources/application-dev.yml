@@ -1,16 +1,38 @@
-#applicatio-dev.yml
 spring:
   config:
     activate:
       on-profile: dev  # Perfil específico para desarrollo
+
   datasource:
     url: jdbc:postgresql://localhost:5432/todoappdb
     username: todoappuser
     password: secretpassword
     driver-class-name: org.postgresql.Driver
+
   jpa:
     hibernate:
       ddl-auto: update
+
   sql:
     init:
       mode: always
+
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            client-id: ${GOOGLE_CLIENT_ID}
+            client-secret: ${GOOGLE_CLIENT_SECRET}
+            scope:
+              - openid
+              - profile
+              - email
+            redirect-uri: "{baseUrl}/login/oauth2/code/google"
+          github:
+            client-id: ${GITHUB_CLIENT_ID}
+            client-secret: ${GITHUB_CLIENT_SECRET}
+            scope:
+              - read:user
+              - user:email
+            redirect-uri: "{baseUrl}/login/oauth2/code/github"
