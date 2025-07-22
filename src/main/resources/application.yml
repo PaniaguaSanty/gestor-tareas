@@ -1,4 +1,4 @@
-# application.yml
+#application.yml
 spring:
   jpa:
     show-sql: true
@@ -6,12 +6,12 @@ spring:
       hibernate:
         format_sql: true
   mvc:
-    static-path-pattern: /**  # Actualizado para permitir todas las rutas estáticas
+    static-path-pattern: /**
   output:
     ansi:
       enabled: always
   profiles:
-    active: prod  # Perfil activo para producción
+    active: dev  # Perfil por defecto para desarrollo
 
 server:
   servlet:
@@ -19,24 +19,35 @@ server:
       timeout: 30m
     encoding:
       charset: UTF-8
-  port: ${PORT:8080}  # Usa variable de entorno PORT para Render
+  port: ${PORT:8080}
 
 logging:
   level:
     root: info
     org.hibernate.SQL: debug
-    org.springframework.web: WARN  # Reduce logging en producción
+    org.springframework.web: WARN
 
-# Configuración específica para producción (perfil 'prod')
 ---
+# Configuración de PRODUCCIÓN (se activa con perfil 'prod')
 spring:
   config:
     activate:
       on-profile: prod
-  web:
-    resources:
-      cache:
-        period: 31536000  # 1 año de caché
-  security:
-    filter:
-      order: 0
+  datasource:
+    url: ${SPRING_DATASOURCE_URL}
+    username: ${SPRING_DATASOURCE_USERNAME}
+    password: ${SPRING_DATASOURCE_PASSWORD}
+  jpa:
+    hibernate:
+      ddl-auto: none
+  sql:
+    init:
+      mode: never
+
+server:
+  compression:
+    enabled: true
+
+logging:
+  file:
+    name: application.log

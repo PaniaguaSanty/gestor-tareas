@@ -14,18 +14,16 @@
   background-size: cover;
 }
 
-/* Header con efecto vidrio */
 .sticky-header {
   position: sticky;
   top: 0;
   z-index: 1020;
-  background: rgba(118, 75, 162, 0.7); /* morado con transparencia */
+  background: rgba(118, 75, 162, 0.7);
   backdrop-filter: blur(10px);
   box-shadow: 0 2px 10px rgba(0,0,0,0.1);
   border-bottom: 1px solid rgba(255,255,255,0.1);
 }
 
-/* Sección de equipo */
 .team-section {
   background: rgba(255,255,255,0.1);
   backdrop-filter: blur(5px);
@@ -42,7 +40,6 @@
   color: white;
 }
 
-/* Columnas Kanban transparentes */
 .kanban-column {
   background: rgba(255, 255, 255, 0.15); /* fondo muy transparente */
   border-radius: 12px;
@@ -66,15 +63,15 @@
 }
 
 .todo-header {
-  background: rgba(255, 154, 158, 0.4); /* Más opaco */
+  background: rgba(255, 154, 158, 0.4);
 }
 
 .doing-header {
-  background: rgba(102, 126, 234, 0.4); /* Más opaco */
+  background: rgba(102, 126, 234, 0.4);
 }
 
 .done-header {
-  background: rgba(142, 121, 211, 0.4); /* Más opaco */
+  background: rgba(142, 121, 211, 0.4);
 }
 
 .task-count {
@@ -173,12 +170,10 @@
    box-shadow: 0 0 0 1px rgba(0,0,0,0.1);
 }
 
-/* Texto blanco en todo el dashboard */
 .text-white {
   color: white !important;
 }
 
-/* Mejoras adicionales para botones y efectos */
 .add-task-btn {
    background: rgba(255, 255, 255, 0.2);
    border: 1px dashed rgba(255, 255, 255, 0.4);

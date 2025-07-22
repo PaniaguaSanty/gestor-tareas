@@ -1,21 +1,24 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Dashboard - Team Board</title>
     <title>Welcome - Team Board</title>
+
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Bootstrap Icons -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
-
+    <!-- Estilos personalizados -->
     <link rel="stylesheet" th:href="@{/css/welcome.css}" href="/static/css/welcome.css">
-
 </head>
 <body>
+
+<!-- Partículas decorativas -->
+<div class="particles" id="particles"></div>
+
 <div class="welcome-container">
-    <h1>¡Bienvenido a Team Board! 🚀</h1>
+    <h1>¡Bienvenido a Team Board! <span class="rocket">🚀</span></h1>
     <p class="subtitle">Sistema de gestión de proyectos en versión beta</p>
 
     <div class="access-box">
@@ -32,5 +35,41 @@
         </ul>
     </div>
 </div>
+
+<footer>
+    Team Board &copy; 2023 - Todos los derechos reservados
+</footer>
+
+<script>
+    // Generador de partículas decorativas
+    document.addEventListener('DOMContentLoaded', function () {
+        const particlesContainer = document.getElementById('particles');
+        const colors = ['#ff9a9e', '#ff7eb3', '#667eea', '#8e79d3', '#ffffff'];
+
+        for (let i = 0; i < 25; i++) {
+            const particle = document.createElement('div');
+            particle.classList.add('particle');
+
+            const posX = Math.random() * 100;
+            const posY = Math.random() * 100;
+            particle.style.left = `${posX}%`;
+            particle.style.top = `${posY}%`;
+
+            const size = Math.random() * 10 + 2;
+            particle.style.width = `${size}px`;
+            particle.style.height = `${size}px`;
+
+            const colorIndex = Math.floor(Math.random() * colors.length);
+            particle.style.backgroundColor = colors[colorIndex];
+
+            const duration = Math.random() * 10 + 5;
+            particle.style.animationDuration = `${duration}s`;
+            particle.style.animationDelay = `${Math.random() * 5}s`;
+
+            particlesContainer.appendChild(particle);
+        }
+    });
+</script>
+
 </body>
 </html>
