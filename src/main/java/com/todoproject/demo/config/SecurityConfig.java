@@ -21,7 +21,7 @@ public class SecurityConfig {
         http
                 .csrf().disable()
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/", "/welcome", "/login", "/error", "/favicon.ico").permitAll()
+                        .requestMatchers("/", "/welcome", "/login", "/error","/mainPage" ,"/favicon.ico").permitAll()
                         .requestMatchers("/css/**", "/img/**", "/js/**").permitAll()
                         .anyRequest().authenticated()
                 )
@@ -31,7 +31,7 @@ public class SecurityConfig {
                 )
                 .oauth2Login(oauth -> oauth
                         .loginPage("/login")  // Misma página para login OAuth
-                        .defaultSuccessUrl("/welcome", true)
+                        .defaultSuccessUrl("/mainPage", true)
                 )
                 .addFilterBefore(new ApiKeyFilter(ACCESS_TOKEN), BasicAuthenticationFilter.class)
                 .sessionManagement(session -> session

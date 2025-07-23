@@ -53,6 +53,7 @@ public class ApiKeyFilter extends OncePerRequestFilter {
         if (path.equals("/") ||
             path.equals("/welcome") ||
             path.equals("/login") ||
+            path.equals("/mainPage") ||
             path.equals("/error") ||
             path.equals("/favicon.ico") ||
             path.startsWith("/css") ||

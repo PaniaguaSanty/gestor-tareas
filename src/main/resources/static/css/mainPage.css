@@ -1,56 +1,122 @@
-.bg-dashboard {
-  background: linear-gradient(200deg, #690eea 0%, #764ba2 100%);
-  min-height: 100vh;
+/* mainPage.css */
+/* Variables de color */
+:root {
+  --deep-purple: #690eea;
+  --medium-purple: #764ba2;
+  --light-purple: #8e79d3;
+  --pink: #ff9a9e;
+  --hot-pink: #ff7eb3;
+  --blue: #667eea;
+  --white: #ffffff;
+  --light-gray: rgba(255, 255, 255, 0.7);
+  --dark: #1a1a2e;
 }
 
-.fixed-carousel-height {
-  height: 100%;
-  min-height: 600px;
-  display: flex;
-  align-items: center;
+/* Estilos generales */
+body {
+  background: linear-gradient(
+    135deg,
+    var(--deep-purple) 0%,
+    var(--medium-purple) 20%,
+    var(--pink) 40%,
+    var(--hot-pink) 60%,
+    var(--blue) 80%,
+    var(--deep-purple) 100%
+  );
+  background-attachment: fixed;
+  background-size: cover;
+  color: var(--white);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  overflow-x: hidden;
 }
 
-.carousel-item {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 400px;
+/* Secciones */
+section {
+  padding: 5rem 0;
 }
 
-.carousel-item img {
-  max-height: 100%;
-  max-width: 100%
-  object-fit: contain;
-  display: block;
-  margin: auto;
+.hero-section {
+  padding-top: 80px;
+  padding-bottom: 60px;
 }
 
-.carousel-caption {
-  background-color: rgba(0, 0, 0, 0.1);
-  border-radius: 10px;
-  padding: 1rem;
-  color: #fff;
-  bottom: 20px;
+.features-section {
+  background: rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(5px);
+  padding: 5rem 0;
 }
 
-.nav-link {
- font-weight: bold;
- color: #fff;
+.team-section {
+  background: linear-gradient(135deg, var(--blue), var(--light-purple));
+  padding: 6rem 0;
 }
 
-.info-section {
-  background: linear-gradient(300deg, #690eea 0%, #794ba2 100%);
-  padding: 60px 0;
+.functionality-sections {
+  padding: 5rem 0;
+  background: rgba(0, 0, 0, 0.05);
+  backdrop-filter: blur(3px);
+}
+
+.testimonials {
+  padding: 5rem 0;
+  background: linear-gradient(135deg, var(--pink), var(--hot-pink));
 }
 
 .cta-section {
-  background: linear-gradient(135deg, #668eea 0%, #761ba2 100%);
-  padding: 50px 0;
-  justify-content: center;
-  text-align: center;
+  background: linear-gradient(135deg, var(--light-purple), var(--deep-purple));
+  border-radius: 20px;
+  margin: 0 auto;
+  max-width: 1200px;
 }
 
-p, h3, h2, h5, li {
-  color: white;
+/* Tarjetas de características */
+.feature-card {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  border-radius: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  padding: 30px;
+  height: 100%;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
+.feature-card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+}
+
+.feature-icon {
+  font-size: 3rem;
+  margin-bottom: 20px;
+  color: var(--light-purple);
+}
+
+/* Sección de testimonios */
+.testimonial-card {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 15px;
+}
+
+/* Footer */
+.footer {
+  background: rgba(0, 0, 0, 0.2);
+  backdrop-filter: blur(10px);
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .display-3 {
+    font-size: 2.5rem;
+  }
+  
+  section {
+    padding: 3rem 0;
+  }
+  
+  .hero-section .col-lg-6:first-child {
+    margin-bottom: 2rem;
+  }
+}

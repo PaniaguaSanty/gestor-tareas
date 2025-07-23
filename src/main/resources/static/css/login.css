@@ -10,8 +10,15 @@
   --error-red: #ff6b6b;
 }
 
+html, body {
+  height: 90%;
+  margin: 0;
+  padding: 0;
+  overflow: auto;
+}
+
 html {
-  font-size: 16px;
+  font-size: 15px;
 }
 
 * {
@@ -20,85 +27,195 @@ html {
 
 body {
   background: linear-gradient(
-      135deg,
-      var(--deep-purple) 0%,
-      var(--medium-purple) 20%,
-      var(--pink) 40%,
-      var(--hot-pink) 60%,
-      var(--blue) 80%,
-      var(--deep-purple) 100%
+    135deg,
+    var(--deep-purple) 0%,
+    var(--medium-purple) 20%,
+    var(--pink) 40%,
+    var(--hot-pink) 60%,
+    var(--blue) 80%,
+    var(--deep-purple) 100%
   );
-  min-height: 100vh;
   background-attachment: fixed;
   background-size: cover;
-  margin: 0;
-  padding: 0;
   color: var(--white);
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   display: flex;
+  align-items: flex-end;
+  justify-content: flex-end;
+  padding: 20px 0;
+  min-height: 100vh;
   flex-direction: column;
 }
 
+/* Contenedor principal */
 .welcome-container {
   background: rgba(255, 255, 255, 0.1);
   backdrop-filter: blur(10px);
   border-radius: 20px;
   border: 1px solid rgba(255, 255, 255, 0.2);
-  max-width: 800px;
-  margin: 5% auto;
-  padding: 40px 20px;
+  width: 85%;
+  max-width: 600px;
+  padding: 20px;
   text-align: center;
+  margin-right: 20px;
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
   animation: fadeIn 1.2s ease-out;
   z-index: 1;
 }
 
-.h1 {
-  font-size: 3rem;
+/* Títulos */
+h1 {
+  font-size: 30px;
   font-weight: 800;
-  margin-bottom: 20px;
   text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
 }
 
 .subtitle {
-  font-size: 1.5rem;
+  font-size: 1.3rem;
   opacity: 0.9;
-  margin-bottom: 40px;
-  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+  margin-bottom: 10px;
 }
 
+/* Caja de acceso */
 .access-box {
   background: rgba(255, 255, 255, 0.15);
   backdrop-filter: blur(5px);
   border-radius: 15px;
-  padding: 30px;
-  display: block;
-  margin: 5px auto;
+  padding: 15px;
+  margin: 0 auto;
   border: 1px solid rgba(255, 255, 255, 0.3);
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
   width: 100%;
-  max-width: 500px;
+  max-width: 480px;
 }
 
-/* Estilos para botones OAuth */
+/* Checklist */
+.access-box ul {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 20px 0;
+  text-align: left;
+}
+
+.access-box li {
+  position: relative;
+  padding-left: 28px;
+  margin-bottom: 10px;
+  font-size: 1rem;
+}
+
+.access-box li:before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 2px;
+  width: 18px;
+  height: 18px;
+  border: 2px solid var(--light-gray);
+  border-radius: 3px;
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.access-box li[aria-checked="true"]:before {
+  background: var(--light-purple);
+  border-color: var(--light-purple);
+}
+
+.access-box li[aria-checked="true"]:after {
+  content: "✓";
+  position: absolute;
+  left: 4px;
+  top: -1px;
+  color: white;
+  font-size: 14px;
+}
+
+/* Inputs */
+.input-group {
+  position: relative;
+  margin-bottom: 20px;
+  text-align: left;
+}
+
+.input-group label {
+  display: block;
+  margin-bottom: 10px;
+  font-weight: 500;
+  font-size: 1rem;
+}
+
+.input-group input {
+  width: 100%;
+  padding: 12px 16px 12px 42px;
+  border-radius: 50px;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  background: rgba(255, 255, 255, 0.1);
+  color: var(--white);
+  font-size: 1rem;
+}
+
+.input-group input:focus {
+  outline: none;
+  border-color: var(--light-purple);
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.input-group i {
+  position: absolute;
+  left: 16px;
+  bottom: 14px;
+  color: var(--light-gray);
+  font-size: 1.1rem;
+}
+
+/* Botón de acceso */
+.btn-access {
+  background: linear-gradient(135deg, var(--blue), var(--light-purple));
+  border: none;
+  border-radius: 50px;
+  color: white;
+  padding: 12px 25px;
+  font-size: 1rem;
+  font-weight: 700;
+  width: 100%;
+  cursor: pointer;
+  margin-top: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.btn-access i {
+  margin-left: 10px;
+}
+
+.btn-access:hover {
+  background: linear-gradient(135deg, var(--light-purple), var(--blue));
+  transform: translateY(-2px);
+}
+
+.btn-access:active {
+  transform: translateY(1px);
+}
+
+/* Botones OAuth */
 .oauth-btn {
   display: flex;
   align-items: center;
   justify-content: center;
   padding: 12px 20px;
-  margin: 10px auto;
+  margin: 12px auto;
   border-radius: 50px;
   font-weight: 600;
-  transition: all 0.3s ease;
-  border: none;
+  font-size: 0.95rem;
+  width: 90%;
   cursor: pointer;
   text-decoration: none;
-  width: 90%;
+  border: none;
 }
 
 .oauth-btn i {
-  margin-right: 10px;
-  font-size: 1.2rem;
+  margin-right: 8px;
 }
 
 .oauth-btn.google {
@@ -112,11 +229,10 @@ body {
 }
 
 .oauth-btn:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+  transform: translateY(-2px);
 }
 
-/* Divisor */
+/* Divider */
 .divider {
   display: flex;
   align-items: center;
@@ -130,126 +246,38 @@ body {
 }
 
 .divider-text {
-  padding: 0 15px;
+  padding: 0 12px;
   color: var(--light-gray);
-  font-size: 0.9rem;
+  font-size: 0.95rem;
 }
 
-/* Formulario */
-.input-group {
-  position: relative;
-  margin-bottom: 20px;
-  text-align: left;
-}
-
-.input-group label {
-  display: block;
-  margin-bottom: 8px;
-  font-weight: 500;
-}
-
-.input-group input {
-  width: 100%;
-  padding: 10px 10px;
-  border-radius: 50px;
-  border: 1px solid rgba(255, 255, 255, 0.3);
-  background: rgba(255, 255, 255, 0.1);
-  color: var(--white);
-  font-size: 1rem;
-  transition: all 0.3s ease;
-}
-
-.input-group input:focus {
-  outline: none;
-  border-color: var(--light-purple);
-  background: rgba(255, 255, 255, 0.2);
-}
-
-.input-group i {
-  position: absolute;
-  left: 15px;
-  bottom: 12px;
-  color: var(--light-gray);
-}
-
-/* Botón de acceso */
-.btn-access {
-  background: linear-gradient(135deg, var(--blue) 0%, var(--light-purple) 100%);
-  border: none;
-  border-radius: 50px;
-  color: white;
-  padding: 12px 30px;
-  font-size: 1.1rem;
-  font-weight: 700;
-  text-decoration: none;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  transition: all 0.3s ease;
-  box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
-  position: relative;
-  overflow: hidden;
-  width: 100%;
-  cursor: pointer;
-}
-
-.btn-access i {
-  margin-left: 10px;
-  transition: transform 0.3s ease;
-}
-
-.btn-access:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6);
-  background: linear-gradient(135deg, var(--light-purple) 0%, var(--blue) 100%);
-}
-
-.btn-access:hover i {
-  transform: translateX(3px);
-}
-
-.btn-access:active {
-  transform: translateY(1px);
-}
-
-/* Mensaje de error */
+/* Error message */
 .error-message {
   background: rgba(255, 107, 107, 0.2);
   border: 1px solid var(--error-red);
   border-radius: 12px;
-  padding: 15px;
-  margin-bottom: 25px;
+  padding: 12px;
+  margin-bottom: 20px;
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 10px;
   color: var(--error-red);
   font-weight: 600;
-  text-align: center;
-  animation: fadeIn 0.5s ease-out;
-  max-width: 100%;
 }
 
-.error-message i {
-  margin-right: 10px;
-  color: var(--error-red);
-}
-
-/* Nota */
+/* Footer note */
 .note {
-  font-size: 0.9rem;
+  font-size: 0.85rem;
   opacity: 0.8;
-  margin-top: 20px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  margin-top: 15px;
+  text-align: center;
 }
 
 .note i {
-  margin-right: 8px;
+  margin-right: 6px;
 }
 
-/* Partículas */
+/* Particles (opcional) */
 .particles {
   position: fixed;
   top: 0;
@@ -267,78 +295,84 @@ body {
   animation: float 6s infinite ease-in-out;
 }
 
+/* Shooting stars */
+.shooting-stars {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 0;
+  overflow: hidden;
+}
+
+.shooting-star {
+  position: absolute;
+  background: linear-gradient(to right, rgba(255,255,255,0) 0%, rgba(255,255,255,0.8) 50%, rgba(255,255,255,0) 100%);
+  transform: rotate(-45deg);
+  transform-origin: 0% 0%;
+  animation: shootingStar linear;
+  opacity: 0;
+}
+
 @keyframes float {
-  0% { transform: translateY(0px); }
+  0% { transform: translateY(0); }
   50% { transform: translateY(-20px); }
-  100% { transform: translateY(0px); }
+  100% { transform: translateY(0); }
 }
 
-/* Animación de entrada */
+@keyframes shootingStar {
+  0% {
+    transform: translateX(0) translateY(0) rotate(-45deg);
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  70% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateX(1000px) translateY(1000px) rotate(-45deg);
+    opacity: 0;
+  }
+}
+
 @keyframes fadeIn {
-  0% { opacity: 0; transform: translateY(20px); }
-  100% { opacity: 1; transform: translateY(0); }
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
+/* Registro */
+.register-link {
+  margin-top: 15px;
+  font-size: 0.9rem;
+  text-align: center;
+}
+
+.register-link a {
+  color: var(--white);
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.register-link a:hover {
+  color: var(--light-purple);
+  text-decoration: underline;
+}
+
+/* Responsive */
 @media (max-width: 768px) {
-  html {
-    font-size: 18px; /* Aumentar tamaño base para móviles */
-  }
-
-  .welcome-container {
-    margin: 0;
-    padding: 2rem 1rem;
-    width: 100%;
-    min-height: 100vh;
-    border-radius: 0;
-    background: rgba(255, 255, 255, 0.2);
-  }
-
-  h1, .h1 {
-    font-size: 2.5rem;
-    margin-top: 1rem;
-  }
-
-  .subtitle {
-    font-size: 1.3rem;
-    margin-bottom: 2rem;
-  }
-
-  .access-box {
-    padding: 1.5rem;
-    width: 95%;
-    margin: 0 auto;
-  }
-
-  .oauth-btn, .btn-access {
-    padding: 1rem;
-    font-size: 1rem;
-  }
-
-  .input-group input {
-    padding: 1rem;
-    font-size: 1rem;
-  }
-
-  .note {
-    font-size: 0.9rem;
-    margin-top: 1.5rem;
-  }
+  html { font-size: 15px; }
+  h1 { font-size: 2.2rem; }
+  .subtitle { font-size: 1.2rem; }
 }
 
 @media (max-width: 480px) {
-  html {
-    font-size: 20px; /* Tamaño aún mayor para pantallas muy pequeñas */
-  }
-
-  .welcome-container {
-    padding: 1.5rem 0.5rem;
-  }
-
-  h1, .h1 {
-    font-size: 2rem;
-  }
-
-  .subtitle {
-    font-size: 1.1rem;
-  }
+  html { font-size: 14px; }
+  h1 { font-size: 2rem; }
+  .subtitle { font-size: 1rem; }
+  .btn-access { font-size: 0.95rem; padding: 10px 20px; }
+  .register-link { font-size: 0.85rem; }
 }
