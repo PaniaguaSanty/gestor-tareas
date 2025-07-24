@@ -12,6 +12,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -77,6 +78,16 @@ public class UserServiceImpl implements CRUD<UserResponseDto, UserRequestDto> {
         User user = userRepository.findByDni(dni)
                 .orElseThrow(() -> new NotFoundException("User not found.."));
         return userMapper.convertToDto(user);
+    }
+
+    public Optional<UserResponseDto> findByUsername(String username) {
+        return userRepository.findByUsername(username)
+                .map(userMapper::convertToDto);
+    }
+
+    public Optional<UserResponseDto> findByEmail(String email) {
+        return userRepository.findByEmail(email)
+                .map(userMapper::convertToDto);
     }
 
     @Override

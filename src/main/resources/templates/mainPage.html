@@ -1,165 +1,356 @@
-<!-- Client view  -->
 <!doctype html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Home</title>
-    <!-- 1) Bootstrap CSS -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TeamBoard | Organización de Equipos</title>
+    <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-    <!-- 2) Bootstrap Icons -->
+    <!-- Bootstrap Icons -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
-    <!-- 3) Tu CSS personalizado -->
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
+    <!-- CSS personalizado -->
     <link rel="stylesheet" th:href="@{/css/mainPage.css}" href="/static/css/mainPage.css">
+    <style>
+        /* Animación de estrellas fugaces */
+        .shooting-star {
+            position: fixed;
+            width: 3px;
+            height: 20px;
+            background: linear-gradient(to bottom, rgba(255,255,255,0) 0%, rgba(255,255,255,1) 50%, rgba(255,255,255,0) 100%);
+            animation: shooting 5s infinite linear;
+            opacity: 0;
+            z-index: -1;
+        }
+
+        @keyframes shooting {
+            0% {
+                transform: translate(0, 0) rotate(30deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+            }
+            100% {
+                transform: translate(500px, 300px) rotate(30deg);
+                opacity: 0;
+            }
+        }
+    </style>
 </head>
 
-<body class="bg-dashboard">
+<body>
 <!-- Navbar -->
 <header>
-    <!-- TODO: CAMBIAR EL BACKGROUND COLOR Y DEJARLO MEJOR. -->
-    <ul class="nav nav-pills nav-fill">
-        <li class="nav-item">
-            <a class="nav-link" aria-current="page" href="#">Home</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" href="#">Application Name</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" href="#">Configuration</a>
-        </li>
-
-    </ul>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-transparent">
+        <div class="container">
+            <a class="navbar-brand fw-bold" href="#">
+                <i class="bi bi-kanban me-2"></i>TeamBoard
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Features</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Pricing</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Contact</a>
+                    </li>
+                    <li class="nav-item ms-2">
+                        <a th:href="@{/login}" class="btn btn-outline-light">Login</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
 </header>
-<!-- About Us section for To-Do App -->
-<section class="bg-dashboard py-4">
-    <div class="container border border-0">
-        <div class="row align-items-center rounded-4 shadow-lg p-3 mb-5 rounded px-4 py-2 border-bottom">
-            <div class="col-md-6 mb-4 mb-md-0">
-                <h2 class="fw-bold text-primary mb-3">About Us</h2>
-                <p class="text-light fs-5">
-                    ¡Bienvenido a nuestra aplicación de tareas en equipo! Esta plataforma está diseñada para ayudar a
-                    usted y a su equipo a mantenerse organizados, enfocados y productivos. Ya sea que esté gestionando
-                    un pequeño proyecto en equipo o coordinando tareas en una empresa, nuestra interfaz intuitiva
-                    facilita el seguimiento del progreso y la colaboración de manera eficiente.
-                </p>
+
+<!-- Hero Section -->
+<section class="hero-section">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-6">
+                <h1 class="display-3 fw-bold mb-4">Organiza tu equipo, multiplica tu productividad</h1>
+                <p class="lead mb-5">La plataforma todo en uno para gestionar proyectos, tareas y equipos de manera eficiente y colaborativa.</p>
+                <div class="d-flex gap-3">
+                    <a href="#" class="btn btn-outline-light btn-lg px-4 py-2">Ver Demo</a>
+                </div>
             </div>
-            <!-- Carrusel de imágenes -->
-            <div class="col-md-6">
-                <div id="carouselExampleDark" class="carousel carousel-dark slide carousel-fade"
-                     data-bs-ride="carousel">
-                    <div class="carousel-indicators">
-                        <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="0" class="active"
-                                aria-current="true" aria-label="Slide 1"></button>
-                        <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="1"
-                                aria-label="Slide 2"></button>
-                        <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="2"
-                                aria-label="Slide 3"></button>
-                    </div>
-                    <div class="carousel-inner rounded-3 fixed-carousel-height">
-                        <div class="carousel-item active" data-bs-interval="10000">
-                            <img src="/img/group.jpg" alt="Team Dashboard">
-                            <div class="carousel-caption d-none d-md-block">
-                                <h5>Team Dashboard</h5>
-                                <p><strong>View tasks and deadlines for your whole team.</strong></p>
-                            </div>
-                        </div>
-                        <div class="carousel-item" data-bs-interval="10000">
-                            <img src="/img/team.jpg" alt="Task View">
-                            <div class="carousel-caption d-none d-md-block">
-                                <h5>Organized Task View</h5>
-                                <p><strong>Break down your goals with task categories and priorities.</strong></p>
-                            </div>
-                        </div>
-                        <div class="carousel-item" data-bs-interval="10000">
-                            <img src="/img/persons.jpg" alt="Collaboration Tools">
-                            <div class="carousel-caption d-none d-md-block">
-                                <h5>Real-Time Collaboration</h5>
-                                <p><strong>Work together with live updates and comments.</strong></p>
-                            </div>
-                        </div>
-                    </div>
-                    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleDark"
-                            data-bs-slide="prev">
-                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                        <span class="visually-hidden">Previous</span>
-                    </button>
-                    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleDark"
-                            data-bs-slide="next">
-                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                        <span class="visually-hidden">Next</span>
-                    </button>
+            <div class="col-lg-6 text-center">
+                <img src="https://images.unsplash.com/photo-1573164713988-8665fc963095?q=80&w=2069&auto=format&fit=crop" alt="TeamBoard Dashboard" class="img-fluid rounded-3 shadow-lg">
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Features Section -->
+<section class="features-section">
+    <div class="container">
+        <div class="text-center mb-5">
+            <h2 class="display-4 fw-bold">Potencia tu flujo de trabajo</h2>
+            <p class="lead">Descubre las herramientas que transformarán la forma en que tu equipo colabora</p>
+        </div>
+
+        <div class="row g-4">
+            <div class="col-md-6 col-lg-3">
+                <div class="feature-card text-center">
+                    <i class="bi bi-kanban feature-icon"></i>
+                    <h3 class="h4">Tableros Kanban</h3>
+                    <p>Organiza tus tareas con tableros visuales. Arrastra y suelta entre columnas para reflejar el progreso.</p>
+                </div>
+            </div>
+
+            <div class="col-md-6 col-lg-3">
+                <div class="feature-card text-center">
+                    <i class="bi bi-people feature-icon"></i>
+                    <h3 class="h4">Gestión de Equipos</h3>
+                    <p>Asigna tareas, establece responsables y sigue el progreso de cada miembro del equipo.</p>
+                </div>
+            </div>
+
+            <div class="col-md-6 col-lg-3">
+                <div class="feature-card text-center">
+                    <i class="bi bi-bell feature-icon"></i>
+                    <h3 class="h4">Notificaciones</h3>
+                    <p>Mantente informado con alertas en tiempo real sobre cambios y actualizaciones importantes.</p>
+                </div>
+            </div>
+
+            <div class="col-md-6 col-lg-3">
+                <div class="feature-card text-center">
+                    <i class="bi bi-graph-up feature-icon"></i>
+                    <h3 class="h4">Reportes</h3>
+                    <p>Genera informes detallados y mide el rendimiento de tu equipo con métricas clave.</p>
                 </div>
             </div>
         </div>
     </div>
 </section>
 
-<section class="info-section">
+<!-- Team Creation Section -->
+<section class="team-section">
     <div class="container">
-        <div class="row gy-4">
-            <!-- Columna Izquierda: Problema que resuelve la app -->
-            <div class="col-md-6">
-                <div class="p-4 border-bottom shadow-lg p-3 mb-5 rounded h-100">
-                    <h2 class="mb-3">¿Qué problema resuelve?</h2>
-                    <p>
-                        Muchas veces es difícil coordinar tareas, hacer seguimiento del
-                        progreso y mantener a todo el equipo alineado. Nuestra aplicación
-                        te brinda una vista clara tipo tablero donde puedes:
-                    </p>
-                    <ul>
-                        <li>Crear tableros y listas personalizables.</li>
-                        <li>Arrastrar y soltar tareas para cambiar su estado.</li>
-                        <li>Asignar responsables y fechas de entrega.</li>
-                        <li>Recibir notificaciones en tiempo real.</li>
+        <div class="row align-items-center">
+            <div class="col-lg-6">
+                <div class="p-4 rounded-3">
+                    <h2 class="display-5 fw-bold mb-4">¡Crea tu propio equipo en segundos!</h2>
+                    <p class="fs-5 mb-4">Invita a tus compañeros, asigna roles y comienza a colaborar de inmediato. Con TeamBoard, la creación de equipos es rápida, sencilla y poderosa.</p>
+                    <ul class="fs-5">
+                        <li class="mb-2"><i class="bi bi-check-circle-fill text-success me-2"></i> Sin límites de miembros</li>
+                        <li class="mb-2"><i class="bi bi-check-circle-fill text-success me-2"></i> Roles personalizables</li>
+                        <li class="mb-2"><i class="bi bi-check-circle-fill text-success me-2"></i> Integración instantánea</li>
                     </ul>
-                    <p>
-                        Olvídate de las hojas de cálculo desordenadas y los emails
-                        infinitos. Con esta app tendrás todo centralizado y fácil de
-                        entender.
-                    </p>
+                    <a th:href="@{/registro}" class="btn btn-light btn-lg mt-3 px-4 py-2 fw-bold">Crear Equipo Ahora</a>
+                </div>
+            </div>
+            <div class="col-lg-6 text-center">
+                <img src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?q=80&w=2070&auto=format&fit=crop" alt="Creación de equipos" class="img-fluid rounded-3 shadow">
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Functionality Sections -->
+<section class="functionality-sections">
+    <div class="container">
+        <!-- Funcionalidad 1 -->
+        <div class="row align-items-center mb-5">
+            <div class="col-md-6">
+                <img src="https://images.unsplash.com/photo-1552664730-d307ca884978?q=80&w=2070&auto=format&fit=crop" alt="Tableros personalizables" class="img-fluid rounded-3 shadow">
+            </div>
+            <div class="col-md-6">
+                <h2 class="fw-bold mb-3">Tableros y listas totalmente personalizables</h2>
+                <p class="fs-5">Adapta tu espacio de trabajo a tus necesidades específicas. Crea tableros para cada proyecto, listas para cada fase, y personaliza flujos de trabajo con solo unos clics.</p>
+                <ul class="fs-5">
+                    <li class="mb-2"><i class="bi bi-check-circle-fill text-primary me-2"></i> Columnas personalizadas</li>
+                    <li class="mb-2"><i class="bi bi-check-circle-fill text-primary me-2"></i> Etiquetas y categorías</li>
+                    <li class="mb-2"><i class="bi bi-check-circle-fill text-primary me-2"></i> Plantillas reutilizables</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Funcionalidad 2 -->
+        <div class="row align-items-center mb-5">
+            <div class="col-md-6 order-md-2">
+                <img src="https://images.unsplash.com/photo-1581291518633-83b4ebd1d83e?q=80&w=2070&auto=format&fit=crop" alt="Arrastrar y soltar" class="img-fluid rounded-3 shadow">
+            </div>
+            <div class="col-md-6 order-md-1">
+                <h2 class="fw-bold mb-3">Arrastra y suelta para una gestión intuitiva</h2>
+                <p class="fs-5">Actualiza el estado de tus tareas con un simple gesto. Mueve tarjetas entre columnas para reflejar el progreso en tiempo real, sin complicaciones.</p>
+                <ul class="fs-5">
+                    <li class="mb-2"><i class="bi bi-check-circle-fill text-primary me-2"></i> Interacción fluida</li>
+                    <li class="mb-2"><i class="bi bi-check-circle-fill text-primary me-2"></i> Actualización instantánea</li>
+                    <li class="mb-2"><i class="bi bi-check-circle-fill text-primary me-2"></i> Experiencia de usuario optimizada</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Funcionalidad 3 -->
+        <div class="row align-items-center mb-5">
+            <div class="col-md-6">
+                <img src="https://images.unsplash.com/photo-1552664730-d307ca884978?q=80&w=2070&auto=format&fit=crop" alt="Asignar tareas" class="img-fluid rounded-3 shadow">
+            </div>
+            <div class="col-md-6">
+                <h2 class="fw-bold mb-3">Asignación clara de responsables y fechas</h2>
+                <p class="fs-5">Define claramente quién es responsable de cada tarea y cuándo debe completarse. Evita malentendidos y asegura la rendición de cuentas.</p>
+                <ul class="fs-5">
+                    <li class="mb-2"><i class="bi bi-check-circle-fill text-primary me-2"></i> Asignación múltiple</li>
+                    <li class="mb-2"><i class="bi bi-check-circle-fill text-primary me-2"></i> Recordatorios automáticos</li>
+                    <li class="mb-2"><i class="bi bi-check-circle-fill text-primary me-2"></i> Vista de calendario integrada</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Funcionalidad 4 -->
+        <div class="row align-items-center">
+            <div class="col-md-6 order-md-2">
+                <img src="https://images.unsplash.com/photo-1551836022-d5d88e9218df?q=80&w=2070&auto=format&fit=crop" alt="Notificaciones en tiempo real" class="img-fluid rounded-3 shadow">
+            </div>
+            <div class="col-md-6 order-md-1">
+                <h2 class="fw-bold mb-3">Notificaciones en tiempo real</h2>
+                <p class="fs-5">Mantente al tanto de todo lo importante sin salir de la aplicación. Recibe alertas instantáneas sobre cambios, comentarios y fechas límite.</p>
+                <ul class="fs-5">
+                    <li class="mb-2"><i class="bi bi-check-circle-fill text-primary me-2"></i> Personalización de alertas</li>
+                    <li class="mb-2"><i class="bi bi-check-circle-fill text-primary me-2"></i> Integración con email</li>
+                    <li class="mb-2"><i class="bi bi-check-circle-fill text-primary me-2"></i> Historial de notificaciones</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Testimonials Section -->
+<section class="testimonials">
+    <div class="container">
+        <div class="text-center mb-5">
+            <h2 class="display-4 fw-bold">Lo que dicen nuestros usuarios</h2>
+            <p class="lead">Equipos de todo el mundo están transformando su productividad</p>
+        </div>
+
+        <div class="row g-4">
+            <div class="col-md-4">
+                <div class="testimonial-card p-4 rounded-3 h-100">
+                    <div class="d-flex align-items-center mb-4">
+                        <img src="https://randomuser.me/api/portraits/women/32.jpg" class="rounded-circle me-3" width="60" alt="User">
+                        <div>
+                            <h5 class="mb-0">María López</h5>
+                            <p class="mb-0 text-muted">Project Manager</p>
+                        </div>
+                    </div>
+                    <p class="mb-0">"TeamBoard ha revolucionado la forma en que nuestro equipo gestiona proyectos. La transparencia y colaboración que ofrece es incomparable."</p>
                 </div>
             </div>
 
-            <!-- Columna Derecha: Otras imágenes o información -->
-            <div class="col-md-6">
-                <div class="p-4 border-bottom shadow-lg p-3 mb-5 rounded h-100 d-flex flex-column justify-content-center align-items-center">
-                    <!-- Aquí podrías poner más imágenes, un video o estadísticas -->
-                    <img
-                            src="https://via.placeholder.com/500x300?text=Otra+Imagen"
-                            class="img-fluid rounded mb-3"
-                            alt="Otra información"
-                    />
-                    <h3 class="mt-3">Funcionalidades Destacadas</h3>
-                    <p class="text-center">
-                        Explora todo lo que nuestra aplicación te ofrece: etiquetas,
-                        comentarios, adjuntos y más.
-                    </p>
-                    <a href="#" class="btn btn-outline-secondary mt-auto">Ver más</a>
+            <div class="col-md-4">
+                <div class="testimonial-card p-4 rounded-3 h-100">
+                    <div class="d-flex align-items-center mb-4">
+                        <img src="https://randomuser.me/api/portraits/men/54.jpg" class="rounded-circle me-3" width="60" alt="User">
+                        <div>
+                            <h5 class="mb-0">Carlos Rodríguez</h5>
+                            <p class="mb-0 text-muted">CTO</p>
+                        </div>
+                    </div>
+                    <p class="mb-0">"La facilidad para asignar tareas y el seguimiento en tiempo real nos ha ahorrado innumerables horas de reuniones. ¡Una herramienta imprescindible!"</p>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="testimonial-card p-4 rounded-3 h-100">
+                    <div class="d-flex align-items-center mb-4">
+                        <img src="https://randomuser.me/api/portraits/women/68.jpg" class="rounded-circle me-3" width="60" alt="User">
+                        <div>
+                            <h5 class="mb-0">Ana Martínez</h5>
+                            <p class="mb-0 text-muted">Marketing Lead</p>
+                        </div>
+                    </div>
+                    <p class="mb-0">"La personalización de flujos de trabajo ha sido un cambio radical para nuestro departamento. Ahora cada equipo tiene exactamente lo que necesita."</p>
                 </div>
             </div>
         </div>
     </div>
 </section>
-<!-- =======================
-     Sección Final / Call To Action
-======================= -->
+
+<!-- CTA Section -->
 <section class="cta-section">
-    <div class="container">
-        <h2 class="mb-4">¿Listo para empezar?</h2>
-        <p class="mb-4">
-            Regístrate ahora y lleva la productividad de tu equipo al siguiente
-            nivel. ¡Es gratis y sin compromiso!
-        </p>
-        <a th:href="@{/dashboard}" class="btn btn-primary btn-lg">Comenzar Ahora</a>
+    <div class="container text-center py-5">
+        <h2 class="display-4 fw-bold mb-3">¿Listo para transformar tu productividad?</h2>
+        <p class="lead mb-4">Únete a miles de equipos que ya están trabajando de manera más inteligente con TeamBoard</p>
+        <a th:href="@{/onboarding/work-mode}" class="btn btn-light btn-lg px-5 py-3 fw-bold">Comienza Gratis Ahora</a>
+        <p class="mt-3">Sin tarjeta de crédito • Cancelación en cualquier momento</p>
     </div>
 </section>
 
 <!-- Footer -->
-<footer class="bg-dark text-white text-center py-3">
-    <p>&copy; 2025 To-do app. Todos los derechos reservados.</p>
+<footer class="footer py-4">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-md-6 mb-3 mb-md-0">
+                <a class="navbar-brand fw-bold" href="#">
+                    <i class="bi bi-kanban me-2"></i>TeamBoard
+                </a>
+                <p class="mb-0 mt-2">Transformando la colaboración en equipos desde 2025</p>
+            </div>
+            <div class="col-md-6 text-md-end">
+                <ul class="list-inline mb-0">
+                    <li class="list-inline-item"><a href="#" class="text-white">Términos</a></li>
+                    <li class="list-inline-item mx-3"><a href="#" class="text-white">Privacidad</a></li>
+                    <li class="list-inline-item"><a href="#" class="text-white">Contacto</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="row mt-4">
+            <div class="col-12 text-center">
+                <p class="mb-0">&copy; 2025 TeamBoard. Todos los derechos reservados.</p>
+            </div>
+        </div>
+    </div>
 </footer>
-
 
 <!-- Bootstrap JS + Popper -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+<!-- Shooting stars animation -->
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const createShootingStar = () => {
+            const star = document.createElement('div');
+            star.classList.add('shooting-star');
+
+            // Position randomly at the top
+            star.style.left = `${Math.random() * 100}%`;
+            star.style.top = `${Math.random() * 20}%`;
+
+            // Random animation duration and delay
+            const duration = Math.random() * 3 + 2;
+            const delay = Math.random() * 5;
+
+            star.style.animation = `shooting ${duration}s linear ${delay}s infinite`;
+
+            document.body.appendChild(star);
+
+            // Remove star after animation to prevent DOM overload
+            setTimeout(() => {
+                star.remove();
+            }, (duration + delay) * 1000);
+        };
+
+        // Create initial stars
+        for (let i = 0; i < 5; i++) {
+            createShootingStar();
+        }
+
+        // Create new stars periodically
+        setInterval(createShootingStar, 3000);
+    });
+</script>
 </body>
 </html>

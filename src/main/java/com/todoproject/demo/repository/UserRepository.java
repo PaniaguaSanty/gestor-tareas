@@ -14,6 +14,12 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     Optional<User> findByDni(String dni);
 
+    Optional<User> findByEmail(String email);
+
+    Optional<User> findByUsername(String username);
+
+    boolean existsByUsername(String username);
+
     @Query("SELECT u FROM User u WHERE " +
            "(:search IS NULL OR :search = '' OR LOWER(u.name) LIKE LOWER(CONCAT('%', :search, '%'))) " +
            "AND u.active = :status")
