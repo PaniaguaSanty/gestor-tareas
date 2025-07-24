@@ -12,8 +12,6 @@
 <div class="shooting-stars" id="shooting-stars"></div>
 <div class="welcome-container">
     <h1>Bienvenido</h1>
-    <p class="subtitle">Formulario de acceso</p>
-
     <div class="access-box">
         <!-- Formulario principal -->
         <form action="/login" method="post" class="main-form">
@@ -92,8 +90,8 @@
             const startY = Math.random() * 30;
 
             // Duración y retraso aleatorio
-            const duration = Math.random() * 2 + 1;
-            const delay = Math.random() * 10 + 5;
+            const duration = Math.random() * 2 + 2;
+            const delay = Math.random() * 10 + 3;
 
             star.style.left = `${startX}%`;
             star.style.top = `${startY}%`;
@@ -112,14 +110,12 @@
                 star.remove();
             });
         }
-
         // Crear varias estrellas fugaces
         for (let i = 0; i < 8; i++) {
             createShootingStar();
         }
-
         // Seguir creando estrellas cada cierto tiempo
-        setInterval(createShootingStar, 5000);
+        setInterval(createShootingStar, 3000);
     });
 </script>
 </body>

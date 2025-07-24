@@ -1,42 +1,69 @@
 package com.todoproject.demo.config;
 
+import com.todoproject.demo.service.CustomOAuth2UserService;
+import com.todoproject.demo.service.CustomUserDetailsService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
 
-    private static final String ACCESS_TOKEN = System.getenv("API_KEY") != null
-            ? System.getenv("API_KEY")
-            : "TEAM123";
+    private final CustomUserDetailsService uds;
+    private final CustomOAuth2UserService ouds;
+
+    public SecurityConfig(CustomUserDetailsService uds, CustomOAuth2UserService ouds) {
+        this.uds = uds;
+        this.ouds = ouds;
+    }
 
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+    public static PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
+
+    @Bean
+    DaoAuthenticationProvider daoAuthenticationProvider() {
+        DaoAuthenticationProvider prov = new DaoAuthenticationProvider();
+        prov.setUserDetailsService(uds);
+        prov.setPasswordEncoder(passwordEncoder());
+        return prov;
+    }
+
+    @Bean
+    SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .csrf().disable()
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/", "/welcome", "/login", "/error","/mainPage" ,"/favicon.ico").permitAll()
-                        .requestMatchers("/css/**", "/img/**", "/js/**").permitAll()
+                        .requestMatchers(
+                                "/", "/welcome", "/login", "/registro", "/error", "/favicon.ico",
+                                "/css/**", "/img/**", "/js/**"
+                        ).permitAll()
                         .anyRequest().authenticated()
                 )
                 .formLogin(form -> form
-                        .loginPage("/login")  // Página de login personalizada
+                        .loginPage("/login")
+                        .usernameParameter("email")    // tu login.html usa name="email"
+                        .passwordParameter("password") // y name="password"
+                        .defaultSuccessUrl("/mainPage", true)
                         .permitAll()
                 )
                 .oauth2Login(oauth -> oauth
-                        .loginPage("/login")  // Misma página para login OAuth
+                        .loginPage("/login")
+                        .userInfoEndpoint(u -> u.userService(ouds))
                         .defaultSuccessUrl("/mainPage", true)
                 )
-                .addFilterBefore(new ApiKeyFilter(ACCESS_TOKEN), BasicAuthenticationFilter.class)
-                .sessionManagement(session -> session
-                        .sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)  // Cambiado a IF_REQUIRED para OAuth
-                );
+                .sessionManagement(sess -> sess
+                        .sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)
+                )
+                .authenticationProvider(daoAuthenticationProvider());
 
         return http.build();
     }
