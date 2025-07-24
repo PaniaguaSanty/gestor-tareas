@@ -1,65 +1,68 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Acceso a Team Board</title>
-    <!-- Tu CSS local -->
-    <link rel="stylesheet" th:href="@{/css/login.css}" />
-
-    <!-- Font Awesome desde CDN -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
+    <title>Login</title>
+    <link rel="stylesheet" th:href="@{/css/login.css}" href="/static/css/login.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"/>
 </head>
 <body>
 <div class="particles" id="particles"></div>
+<div class="shooting-stars" id="shooting-stars"></div>
 <div class="welcome-container">
     <h1>Bienvenido</h1>
-    <p class="subtitle">Formulario de acceso</p>
-
     <div class="access-box">
-        <!-- Mostrar error si existe -->
-        <div th:if="${param.error}" class="error-message">
-            <i class="fas fa-exclamation-circle"></i>
-            <span th:text="${session.SPRING_SECURITY_LAST_EXCEPTION?.message}">Error de autenticación</span>
-        </div>
+        <!-- Formulario principal -->
+        <form action="/login" method="post" class="main-form">
+            <div class="input-group">
+                <label for="email">Correo electrónico:</label>
+                <input type="email" id="email" name="email" placeholder="Ingresa tu correo" required>
+                <i class="fas fa-envelope"></i>
+            </div>
 
-        <!-- Botones OAuth -->
-        <a href="/oauth2/authorization/google" class="oauth-btn google">
-            <i class="fab fa-google"></i>
-            <span>Continuar con Google</span>
-        </a>
+            <div class="input-group">
+                <label for="password">Contraseña:</label>
+                <input type="password" id="password" name="password" placeholder="Ingresa tu contraseña" required>
+                <i class="fas fa-lock"></i>
+            </div>
 
-        <a href="/oauth2/authorization/github" class="oauth-btn github">
-            <i class="fab fa-github"></i>
-            <span>Continuar con GitHub</span>
-        </a>
+            <button type="submit" class="btn-access">
+                <span>
+                    <a th:href="@{/mainPage}">Acceder</a>
+                </span>
+                <i class="fas fa-arrow-right"></i>
+            </button>
+        </form>
+
+        <p class="register-link">
+            ¿No tienes una cuenta? <a href="/registro">Crea una cuenta</a>
+        </p>
 
         <div class="divider">
             <span class="divider-text">O</span>
         </div>
 
-        <!-- Formulario tradicional con API Key -->
-        <form action="/login" method="post">
-            <div class="input-group">
-                <label for="token">Token de acceso:</label>
-                <input type="password" id="token" name="token" placeholder="Ingresa tu token" required>
-                <i class="fas fa-key"></i>
-            </div>
-            <button type="submit" class="btn-access">
-                <span>Acceder</span>
-                <i class="fas fa-arrow-right"></i>
-            </button>
-        </form>
+        <!-- Sección OAuth compacta -->
+        <div class="oauth-section">
+            <a href="/oauth2/authorization/google" class="oauth-btn google">
+                <i class="fab fa-google"></i>
+                <span>Continuar con Google</span>
+            </a>
 
-        <p class="note">
-            <i class="fas fa-info-circle"></i>
-            Solicita el token al administrador del sistema
-        </p>
+            <a href="/oauth2/authorization/github" class="oauth-btn github">
+                <i class="fab fa-github"></i>
+                <span>Continuar con GitHub</span>
+            </a>
+        </div>
+
+        <div class="divider">
+            <span class="divider-text">O</span>
+        </div>
     </div>
 </div>
 
 <script>
-    // Crear partículas decorativas
     document.addEventListener('DOMContentLoaded', function() {
         const particles = document.getElementById('particles');
         for (let i = 0; i < 20; i++) {
@@ -74,6 +77,45 @@
             particle.style.animationDelay = `${Math.random() * 5}s`;
             particles.appendChild(particle);
         }
+
+        // Crear estrellas fugaces
+        const shootingStarsContainer = document.getElementById('shooting-stars');
+
+        function createShootingStar() {
+            const star = document.createElement('div');
+            star.classList.add('shooting-star');
+
+            // Posición inicial aleatoria
+            const startX = Math.random() * 100;
+            const startY = Math.random() * 30;
+
+            // Duración y retraso aleatorio
+            const duration = Math.random() * 2 + 2;
+            const delay = Math.random() * 10 + 3;
+
+            star.style.left = `${startX}%`;
+            star.style.top = `${startY}%`;
+            star.style.animationDuration = `${duration}s`;
+            star.style.animationDelay = `${delay}s`;
+
+            // Tamaño aleatorio
+            const size = Math.random() * 4 + 6;
+            star.style.width = `${size}px`;
+            star.style.height = `${size * 4}px`;
+
+            shootingStarsContainer.appendChild(star);
+
+            // Eliminar la estrella después de la animación
+            star.addEventListener('animationend', function() {
+                star.remove();
+            });
+        }
+        // Crear varias estrellas fugaces
+        for (let i = 0; i < 8; i++) {
+            createShootingStar();
+        }
+        // Seguir creando estrellas cada cierto tiempo
+        setInterval(createShootingStar, 3000);
     });
 </script>
 </body>

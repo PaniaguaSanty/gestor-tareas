@@ -18,6 +18,9 @@ public class UserResponseDto {
     private String email;
     private String dni;
     private String avatarUrl;
+    private String username;
+    private String password;
     private boolean active;
     private List<User> users;
+
 }

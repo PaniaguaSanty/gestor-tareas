@@ -21,4 +21,9 @@ public class NavigationController {
         return "dashboard";
     }
 
+    @GetMapping("/login")
+    public String loginForm() {
+        return "login";
+    }
+
 }
