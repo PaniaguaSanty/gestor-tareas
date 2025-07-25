@@ -1,3 +1,4 @@
+#Compose.yaml for local db
 services:
   postgres:
     image: postgres:latest

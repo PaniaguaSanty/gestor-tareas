@@ -1,0 +1,73 @@
+/* select-work-mode.css */
+
+/* Fondo igual al dashboard */
+.bg-dashboard {
+  background: linear-gradient(
+    180deg,
+    #764ba2 0%,
+    #8e79d3 20%,
+    #ff9a9e 40%,
+    #ff7eb3 60%,
+    #667eea 80%,
+    #764ba2 100%
+  );
+  min-height: 100vh;
+  background-attachment: fixed;
+  background-size: cover;
+}
+
+/* Tarjetas de modo de trabajo */
+.work-mode-card {
+  transition: transform 0.3s, box-shadow 0.3s;
+  cursor: pointer;
+  height: 100%;
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 12px;
+  backdrop-filter: blur(5px);
+  border: 1px solid rgba(255,255,255,0.2);
+}
+.work-mode-card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+}
+.work-mode-card.selected {
+  border: 3px solid #667eea;
+  background-color: rgba(102, 126, 234, 0.1);
+}
+
+/* Ocultar radio native */
+.mode-radio {
+  display: none;
+}
+
+/* Títulos y textos */
+h1.display-4,
+h3.card-title {
+  color: white;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.3);
+}
+p.lead,
+.card-text,
+ul.text-start {
+  color: rgba(255,255,255,0.9);
+}
+
+/* Lista puntos */
+ul.text-start li {
+  margin-bottom: 0.5rem;
+}
+
+/* Botón continuar */
+.btn-continue {
+  background: #667eea;
+  border: none;
+  padding: 1rem 2rem;
+  font-size: 1.1rem;
+  font-weight: 600;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  transition: all 0.2s ease;
+}
+.btn-continue:hover {
+  background: #5a6ed0;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.2);
+}

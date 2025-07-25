@@ -36,32 +36,37 @@ public class SecurityConfig {
         prov.setPasswordEncoder(passwordEncoder());
         return prov;
     }
-
     @Bean
     SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .csrf().disable()
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(
-                                "/", "/welcome", "/login", "/registro", "/error", "/favicon.ico",
-                                "/css/**", "/img/**", "/js/**"
+                                "/", "/welcome", "/login", "/registro", "/error",
+                                "/favicon.ico", "/css/**", "/img/**", "/js/**"
                         ).permitAll()
                         .anyRequest().authenticated()
                 )
                 .formLogin(form -> form
                         .loginPage("/login")
-                        .usernameParameter("email")    // tu login.html usa name="email"
-                        .passwordParameter("password") // y name="password"
-                        .defaultSuccessUrl("/mainPage", true)
+                        .usernameParameter("email")
+                        .passwordParameter("password")
+                        .defaultSuccessUrl("/mainPage", true)  // true = siempre redirigir
                         .permitAll()
                 )
                 .oauth2Login(oauth -> oauth
                         .loginPage("/login")
                         .userInfoEndpoint(u -> u.userService(ouds))
-                        .defaultSuccessUrl("/mainPage", true)
+                        .defaultSuccessUrl("/mainPage", true)  // ¡IMPORTANTE! agregar alwaysUse
+                        .failureUrl("/login?error=true")       // Manejo de errores
                 )
                 .sessionManagement(sess -> sess
                         .sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)
+                        .invalidSessionUrl("/login?invalid-session=true")
+                )
+                .logout(logout -> logout
+                        .logoutSuccessUrl("/login?logout=true")
+                        .permitAll()
                 )
                 .authenticationProvider(daoAuthenticationProvider());
 

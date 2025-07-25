@@ -1,4 +1,3 @@
-// src/main/java/com/todoproject/demo/model/User.java
 package com.todoproject.demo.model;
 
 import jakarta.persistence.*;
@@ -10,7 +9,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 @Entity
-@Table(name = "users")
+@Table(name = "app_user")
 @Getter @Setter
 @NoArgsConstructor @AllArgsConstructor
 public class User implements UserDetails {
@@ -18,20 +17,22 @@ public class User implements UserDetails {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String name;
-    private String email;
-    private String dni;
-    private String avatarUrl;
-    private boolean active;
-
     @Column(unique = true, nullable = false)
     private String username;
 
     @Column(unique = true, nullable = false)
     private String password;
 
+    @Column(unique = true, nullable = false)
+    private String email;
+
     // PARA REGISTRO LOCAL / OAuth
     private String provider;  // "LOCAL", "GOOGLE", "GITHUB"
+    private String name;
+    private String dni;
+    private String avatarUrl;
+    private boolean active;
+
 
     // ROLES de Spring Security, p. ej. ["ROLE_USER", "ROLE_ADMIN"]
     @ElementCollection(fetch = FetchType.EAGER)
