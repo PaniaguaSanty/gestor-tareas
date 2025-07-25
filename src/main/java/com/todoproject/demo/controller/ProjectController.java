@@ -90,10 +90,8 @@ public class ProjectController {
         return ResponseEntity.ok(projects);
     }
 
-    //método para mostrar la lista de proyectos...
 
 
-    //url para probar el método: http://localhost:8080/projects/list
     @GetMapping("/list")
     public String findAllProjects(Model model) {
         logger.info("Entering in findAllProjects method..");

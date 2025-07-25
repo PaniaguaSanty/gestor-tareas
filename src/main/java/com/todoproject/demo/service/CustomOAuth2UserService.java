@@ -2,8 +2,10 @@ package com.todoproject.demo.service;
 
 import com.todoproject.demo.model.User;
 import com.todoproject.demo.repository.UserRepository;
+import jakarta.transaction.Transactional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
@@ -30,69 +32,99 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
     }
 
     @Override
+    @Transactional
     public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
-        OAuth2User oauth = super.loadUser(userRequest);
-        String provider = userRequest.getClientRegistration().getRegistrationId().toUpperCase();
-        logger.info("Proveedor detectado: " + userRequest.getClientRegistration().getRegistrationId());
-        Map<String, Object> attrs = oauth.getAttributes();
+        try {
+            OAuth2User oauth = super.loadUser(userRequest);
+            String provider = userRequest.getClientRegistration().getRegistrationId().toUpperCase();
+            logger.info("Proveedor detectado: " + provider);
+            Map<String, Object> attrs = oauth.getAttributes();
 
-        final String email;
-        final String name;
-        final String avatarUrl;
-        final String usernameAttrKey;  // clave para DefaultOAuth2User
+            final String email;
+            final String name;
+            final String avatarUrl;
+            final String usernameAttrKey;
 
-        switch (provider) {
-            case "GOOGLE" -> {
-                email = (String) attrs.get("email");
-                name = (String) attrs.get("name");
-                avatarUrl = (String) attrs.get("picture");
-                usernameAttrKey = "email";       // Google tiene "email"
+            switch (provider) {
+                case "GOOGLE" -> {
+                    email = (String) attrs.get("email");
+                    name = (String) attrs.get("name");
+                    avatarUrl = (String) attrs.get("picture");
+                    usernameAttrKey = "email";
+                }
+                case "GITHUB" -> {
+                    String ghLogin = (String) attrs.get("login");
+                    String ghEmail = (String) attrs.get("email");
+                    String ghName = (String) attrs.get("name");
+
+                    email = (ghEmail != null && !ghEmail.isEmpty())
+                            ? ghEmail
+                            : ghLogin + "@github.local";
+                    name = (ghName != null && !ghName.isEmpty())
+                            ? ghName
+                            : ghLogin;
+                    avatarUrl = (String) attrs.get("avatar_url");
+                    usernameAttrKey = "login";
+                }
+                default -> throw new OAuth2AuthenticationException(
+                        new OAuth2Error("invalid_provider"),
+                        "Proveedor no soportado: " + provider
+                );
             }
-            case "GITHUB" -> {
-                // GitHub no siempre expone 'email'
-                String ghEmail = (String) attrs.get("email");
-                String ghLogin = (String) attrs.get("login");
-                email = (ghEmail != null) ? ghEmail : ghLogin + "@github.local";
-                name = ghLogin;
-                avatarUrl = (String) attrs.get("avatar_url");
-                usernameAttrKey = "login";        // usamos 'login' como clave única
-            }
-            default -> throw new OAuth2AuthenticationException(
-                    new OAuth2Error("invalid_provider"),
-                    "Proveedor OAuth2 no soportado: " + provider
+
+            User user = repo.findByEmail(email)
+                    .map(existingUser -> {
+                        logger.info("Actualizando usuario existente: {}", email);
+                        existingUser.setName(name);
+                        existingUser.setProvider(provider);
+                        existingUser.setAvatarUrl(avatarUrl);
+                        return repo.save(existingUser);
+                    })
+                    .orElseGet(() -> {
+                        logger.info("Registrando nuevo usuario: {}", email);
+                        User newUser = new User();
+                        newUser.setEmail(email);
+
+                        // Generar username seguro
+                        String cleanBase = email.split("@")[0].replaceAll("[^a-zA-Z0-9]", "");
+                        String usernameBase = cleanBase.length() > 20
+                                ? cleanBase.substring(0, 20)
+                                : cleanBase;
+                        String uniqueUsername = usernameBase + "_" + UUID.randomUUID().toString().substring(0, 8);
+
+                        newUser.setUsername(uniqueUsername);
+                        newUser.setName(name);
+                        newUser.setAvatarUrl(avatarUrl);
+                        newUser.setProvider(provider);
+                        newUser.setActive(true);
+                        newUser.setRoles(List.of("ROLE_USER"));
+
+                        String randomPwd = UUID.randomUUID().toString();
+                        newUser.setPassword(passwordEncoder.encode(randomPwd));
+
+                        return repo.save(newUser);
+                    });
+
+            return new DefaultOAuth2User(
+                    user.getAuthorities(),
+                    attrs,
+                    usernameAttrKey
+            );
+
+        } catch (DataIntegrityViolationException e) {
+            logger.error("Error de integridad en BD", e);
+            throw new OAuth2AuthenticationException(
+                    new OAuth2Error("database_error"),
+                    "Error al guardar usuario",
+                    e
+            );
+        } catch (Exception e) {
+            logger.error("Error inesperado en OAuth2", e);
+            throw new OAuth2AuthenticationException(
+                    new OAuth2Error("server_error"),
+                    "Error interno del servidor",
+                    e
             );
         }
-
-        User user = repo.findByEmail(email)
-                .map(u -> {
-                    logger.info("Usuario ya existe: " + email);
-                    u.setName(name);
-                    u.setProvider(provider);
-                    u.setAvatarUrl(avatarUrl);
-                    return repo.save(u);
-                })
-                .orElseGet(() -> {
-                    logger.info("Registrando nuevo usuario: " + email);
-                    User u = new User();
-                    u.setEmail(email);
-                    // para localizar el username en la entidad
-                    u.setUsername(email.split("@")[0]);
-                    u.setName(name);
-                    u.setAvatarUrl(avatarUrl);
-                    u.setProvider(provider);
-                    u.setActive(true);
-                    u.setRoles(List.of("ROLE_USER"));
-
-                    // contraseña aleatoria codificada
-                    String randomPwd = UUID.randomUUID().toString();
-                    u.setPassword(passwordEncoder.encode(randomPwd));
-                    return repo.save(u);
-                });
-
-        return new DefaultOAuth2User(
-                user.getAuthorities(),
-                attrs,
-                usernameAttrKey
-        );
     }
 }

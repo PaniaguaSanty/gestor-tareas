@@ -53,7 +53,8 @@ public class OnboardingController {
         String username = principal.getName();
         logger.info("Procesando modo de trabajo para usuario: {}", username);
 
-        UserResponseDto user = userService.findByUsername(username).orElseThrow(() -> new NotFoundException("Usuario no encontrado con username: " + username));
+        UserResponseDto user = userService.findByEmail(username)
+                .orElseThrow(() -> new NotFoundException("Usuario no encontrado con username: " + username));
 
         if ("TEAM".equals(workModeDto.getMode())) {
             logger.info("Usuario {} seleccionó modo EQUIPO", username);
@@ -74,7 +75,7 @@ public class OnboardingController {
             // Guardar teamDni en sesión para el siguiente paso
             session.setAttribute("teamDni", savedTeam.getDni());
 
-            return "redirect:/onboarding/create-project";
+            return "redirect:/projects/create/" + savedTeam.getDni();
         }
     }
 
@@ -93,7 +94,8 @@ public class OnboardingController {
         String username = principal.getName();
         logger.info("Creando equipo para usuario: {}", username);
 
-        UserResponseDto user = userService.findByUsername(username).orElseThrow(() -> new NotFoundException("Usuario no encontrado con username: " + username));
+        UserResponseDto user = userService.findByUsername(username)
+                .orElseThrow(() -> new NotFoundException("Usuario no encontrado con username: " + username));
 
         // Crear equipo usando DTO
         TeamResponseDto savedTeam = teamService.create(teamRequest);
