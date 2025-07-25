@@ -1,24 +1,17 @@
-#Compose.yaml for local db
-services:
-  postgres:
-    image: postgres:latest
-    environment:
-      POSTGRES_DB: todoappdb
-      POSTGRES_USER: todoappuser
-      POSTGRES_PASSWORD: secretpassword
-    ports:
-      - "5432:5432"
-    volumes:
-      - postgres-data:/var/lib/postgresql/data
+#COMPOSE.YAML
+version: "3.8"
 
-  app:  # ¡Nuevo servicio para tu app!
+services:
+  app:
     build: .
     ports:
       - "8080:8080"
     environment:
       SPRING_PROFILES_ACTIVE: dev
-    depends_on:
-      - postgres
-
-volumes:
-  postgres-data:
+      DATABASE_URL:  ${DATABASE_URL}
+      DATABASE_USERNAME: ${DATABASE_USERNAME}
+      DATABASE_PASSWORD: ${DATABASE_PASSWORD}
+      GOOGLE_CLIENT_ID: tu-google-client-id
+      GOOGLE_CLIENT_SECRET: tu-google-client-secret
+      GITHUB_CLIENT_ID: tu-github-client-id
+      GITHUB_CLIENT_SECRET: tu-github-client-secret
