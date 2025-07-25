@@ -1,4 +1,3 @@
-// src/main/java/com/todoproject/demo/model/User.java
 package com.todoproject.demo.model;
 
 import jakarta.persistence.*;
@@ -10,7 +9,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 @Entity
-@Table(name = "users")
+@Table(name = "app_user")
 @Getter @Setter
 @NoArgsConstructor @AllArgsConstructor
 public class User implements UserDetails {
