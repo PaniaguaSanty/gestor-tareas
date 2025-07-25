@@ -1,12 +1,13 @@
+#APPLICATION-DEV.YML
 spring:
   config:
     activate:
       on-profile: dev
 
   datasource:
-    url: jdbc:postgresql://localhost:5432/todoappdb
-    username: todoappuser
-    password: secretpassword
+    url: ${DATABASE_URL}
+    username: ${DATABASE_USERNAME}
+    password: ${DATABASE_PASSWORD}
     driver-class-name: org.postgresql.Driver
 
   jpa:
@@ -38,7 +39,6 @@ spring:
               - user:email
             redirect-uri: "http://localhost:8080/login/oauth2/code/github"
 
-# Configuración específica de desarrollo
 logging:
   level:
     root: INFO

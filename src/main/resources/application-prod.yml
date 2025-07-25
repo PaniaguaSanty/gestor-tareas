@@ -1,3 +1,4 @@
+#APPLICATION-PROD.YML
 spring:
   datasource:
     url: ${DATABASE_URL}

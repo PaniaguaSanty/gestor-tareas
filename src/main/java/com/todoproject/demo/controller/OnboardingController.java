@@ -53,7 +53,7 @@ public class OnboardingController {
         String username = principal.getName();
         logger.info("Procesando modo de trabajo para usuario: {}", username);
 
-        UserResponseDto user = userService.findByEmail(username)
+        UserResponseDto user = userService.findByUsername(username)
                 .orElseThrow(() -> new NotFoundException("Usuario no encontrado con username: " + username));
 
         if ("TEAM".equals(workModeDto.getMode())) {
