@@ -1,7 +1,7 @@
 spring:
   config:
     activate:
-      on-profile: dev  # Perfil específico para desarrollo
+      on-profile: dev
 
   datasource:
     url: jdbc:postgresql://localhost:5432/todoappdb
@@ -12,6 +12,7 @@ spring:
   jpa:
     hibernate:
       ddl-auto: update
+    show-sql: true
 
   sql:
     init:
@@ -28,11 +29,19 @@ spring:
               - openid
               - profile
               - email
-            redirect-uri: "{baseUrl}/login/oauth2/code/google"
+            redirect-uri: "http://localhost:8080/login/oauth2/code/google"
           github:
             client-id: ${GITHUB_CLIENT_ID}
             client-secret: ${GITHUB_CLIENT_SECRET}
             scope:
               - read:user
               - user:email
-            redirect-uri: "{baseUrl}/login/oauth2/code/github"
+            redirect-uri: "http://localhost:8080/login/oauth2/code/github"
+
+# Configuración específica de desarrollo
+logging:
+  level:
+    root: INFO
+    org.hibernate.SQL: DEBUG
+    org.hibernate.type.descriptor.sql.BasicBinder: TRACE
+    com.todoproject.demo: DEBUG
