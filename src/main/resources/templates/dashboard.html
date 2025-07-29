@@ -14,9 +14,6 @@
     <!-- Dragula para drag & drop -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/dragula/3.7.3/dragula.min.css" rel="stylesheet">
 
-    <!-- Fuentes -->
-    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
-
     <!-- CSS personalizado -->
     <link rel="stylesheet" th:href="@{/css/dashboard.css}" href="/static/css/dashboard.css">
 </head>
@@ -220,7 +217,6 @@
             e.stopPropagation();
             const taskCard = this.closest('.task-card');
             const taskId = taskCard.getAttribute('data-task-id');
-
 
             // Enviar solicitud al backend para desactivar la tarea
             disableTask(taskId, taskCard);

@@ -2,38 +2,44 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Create Project</title>
+    <title>Crear Proyecto | Team Board</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" th:href="@{/css/projectForm.css}" href="/static/css/projectForm.css">
 </head>
 <body>
 <div class="form-wrapper">
     <div class="card position-relative">
-        <a th:href="@{/teams/detail/{dni}(dni=${project.teamDni})}" class="btn btn-outline-light position-absolute top-0 start-0 m-3">
+        <a th:href="@{/teams/detail/{dni}(dni=${project.teamDni})}" class="back-btn">
             ←
         </a>
-        <h2>Create Project</h2>
+
+        <h2>Crear Proyecto</h2>
+
         <form th:action="@{/projects/save}" th:object="${project}" method="post">
-            <input type="hidden" th:field="*{teamDni}" />  <!-- este se setea en el backend -->
+            <input type="hidden" th:field="*{teamDni}"/>  <!-- este se setea en el backend -->
 
-            <div class="mb-3">
-                <label for="name" class="form-label">Name</label>
-                <input type="text" class="form-control" id="name" th:field="*{name}" required>
+            <div class="mb-4">
+                <label for="name" class="form-label">Nombre del Proyecto</label>
+                <input type="text" class="form-control" id="name" th:field="*{name}"
+                       placeholder="Ej: Sitio Web Corporativo" required>
             </div>
 
-            <div class="mb-3">
-                <label for="startDate" class="form-label">Start Date</label>
-                <input type="date" class="form-control" id="startDate" th:field="*{startDate}" required>
+            <div class="row">
+                <div class="col-md-6 mb-4">
+                    <label for="startDate" class="form-label">Fecha de Inicio</label>
+                    <input type="date" class="form-control" id="startDate" th:field="*{startDate}" required>
+                </div>
+
+                <div class="col-md-6 mb-4">
+                    <label for="finishDate" class="form-label">Fecha de Finalización</label>
+                    <input type="date" class="form-control" id="finishDate" th:field="*{finishDate}" required>
+                </div>
             </div>
 
-            <div class="mb-3">
-                <label for="finishDate" class="form-label">Finish Date</label>
-                <input type="date" class="form-control" id="finishDate" th:field="*{finishDate}" required>
-            </div>
-
-            <div class="mb-3">
-                <label for="description" class="form-label">Description</label>
-                <textarea class="form-control" id="description" th:field="*{description}"></textarea>
+            <div class="mb-4">
+                <label for="description" class="form-label">Descripción</label>
+                <textarea class="form-control" id="description" th:field="*{description}"
+                          placeholder="Describe los objetivos y características del proyecto..."></textarea>
             </div>
 
             <button type="submit" class="btn btn-primary w-100">
@@ -43,5 +49,34 @@
         </form>
     </div>
 </div>
+
+<script>
+    // Establecer fecha mínima para la fecha de finalización
+    const startDate = document.getElementById('startDate');
+    const finishDate = document.getElementById('finishDate');
+
+    // Establecer fecha mínima para la fecha de inicio (hoy)
+    const today = new Date().toISOString().split('T')[0];
+    startDate.min = today;
+
+    startDate.addEventListener('change', function() {
+        finishDate.min = this.value;
+
+        // Si la fecha de finalización es anterior a la nueva fecha mínima, restablecerla
+        if(finishDate.value && finishDate.value < this.value) {
+            finishDate.value = this.value;
+        }
+    });
+
+    // Manejar el envío del formulario: mostrar spinner
+    document.querySelector('form').addEventListener('submit', function(e) {
+        const submitBtn = this.querySelector('button[type="submit"]');
+        const spinner = submitBtn.querySelector('.spinner-border');
+
+        // Mostrar spinner y deshabilitar botón
+        spinner.style.display = 'inline-block';
+        submitBtn.disabled = true;
+    });
+</script>
 </body>
 </html>

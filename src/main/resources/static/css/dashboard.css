@@ -1,226 +1,288 @@
-/* Fondo de atardecer */
+/* dashboard.css - Versión optimizada manteniendo el estilo original */
+
+/* Variables de color */
+:root {
+  --space-black: #090b0f;
+  --deep-blue: #0d1b2a;
+  --midnight-blue: #1b263b;
+  --galaxy-blue: #415a77;
+  --sky-blue: #778da9;
+  --starlight-white: rgba(255, 255, 255, 0.8);
+  --overlay-dark: rgba(9, 11, 15, 0.6);
+  --border-light: rgba(255, 255, 255, 0.15);
+  --accent-blue: rgba(164, 212, 255, 0.2);
+}
+
+/* Fondo de “atardecer planetario” */
 .bg-dashboard {
   background: linear-gradient(
     180deg,
-    #764ba2 0%,     /* morado profundo arriba */
-    #8e79d3 20%,    /* morado medio */
-    #ff9a9e 40%,    /* rosa pastel */
-    #ff7eb3 60%,    /* rosa más fuerte */
-    #667eea 80%,    /* azul violeta */
-    #764ba2 100%    /* vuelta a morado */
+    var(--space-black) 0%,
+    var(--deep-blue) 25%,
+    var(--midnight-blue) 50%,
+    var(--galaxy-blue) 75%,
+    var(--sky-blue) 100%
   );
   min-height: 100vh;
   background-attachment: fixed;
-  background-size: cover;
+  position: relative;
 }
 
+/* Efectos de nebulosa */
+.bg-dashboard::before {
+  content: "";
+  position: absolute;
+  top: -20%;
+  left: -20%;
+  width: 140%;
+  height: 140%;
+  background: radial-gradient(circle at 30% 30%, rgba(164,212,255,0.06), transparent 60%),
+              radial-gradient(circle at 70% 70%, rgba(200,220,255,0.04), transparent 60%);
+  pointer-events: none;
+  z-index: 0;
+}
+.bg-dashboard::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: url('https://www.transparenttextures.com/patterns/stardust.png');
+  opacity: 0.08;
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* HEADER STICKY */
 .sticky-header {
   position: sticky;
   top: 0;
   z-index: 1020;
-  background: rgba(118, 75, 162, 0.7);
-  backdrop-filter: blur(10px);
-  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-  border-bottom: 1px solid rgba(255,255,255,0.1);
+  background: var(--overlay-dark);
+  backdrop-filter: blur(8px);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+  border-bottom: 1px solid var(--border-light);
 }
 
+/* SECCIÓN DE EQUIPO */
 .team-section {
-  background: rgba(255,255,255,0.1);
-  backdrop-filter: blur(5px);
+  background: var(--overlay-dark);
+  backdrop-filter: blur(6px);
   padding: 8px 0;
-  border-bottom: 1px solid rgba(255,255,255,0.1);
+  border-bottom: 1px solid var(--border-light);
+  position: relative;
+  z-index: 2;
 }
 
 .team-badge {
-  background: rgba(255,255,255,0.2);
-  border: 1px solid rgba(255,255,255,0.3);
+  background: var(--accent-blue);
+  border: 1px solid var(--border-light);
   border-radius: 20px;
   padding: 4px 12px;
   font-size: 0.9rem;
-  color: white;
+  color: var(--starlight-white);
 }
 
+/* COLUMNAS KANBAN */
 .kanban-column {
-  background: rgba(255, 255, 255, 0.15); /* fondo muy transparente */
+  background: var(--overlay-dark);
   border-radius: 12px;
-  box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.6);
   height: calc(100vh - 200px);
   min-height: 400px;
   overflow-y: auto;
-  backdrop-filter: blur(5px);
-  border: 1px solid rgba(255,255,255,0.2);
+  backdrop-filter: blur(6px);
+  border: 1px solid var(--border-light);
+  position: relative;
+  z-index: 2;
 }
 
 .kanban-column-header {
   position: sticky;
   top: 0;
-  z-index: 10;
-  padding: 12px 15px;
+  z-index: 3;
+  padding: 14px 15px;
   border-radius: 12px 12px 0 0;
-  font-weight: 700;
-  color: white;
-  backdrop-filter: blur(5px);
+  font-weight: 800;
+  color: var(--starlight-white);
+  backdrop-filter: blur(8px);
+  font-size: 1.1rem;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.5);
 }
 
-.todo-header {
-  background: rgba(255, 154, 158, 0.4);
-}
-
-.doing-header {
-  background: rgba(102, 126, 234, 0.4);
-}
-
-.done-header {
-  background: rgba(142, 121, 211, 0.4);
-}
+/* Colores de encabezados */
+.todo-header   { background: rgba(30, 60, 115, 0.6); }
+.doing-header { background: rgba(20, 90, 145, 0.6); }
+.done-header   { background: rgba(60, 120, 180, 0.6); }
 
 .task-count {
-  background: rgba(0,0,0,0.25); /* Fondo más oscuro */
+  background: rgba(0, 0, 0, 0.5);
   border-radius: 12px;
-  padding: 3px 10px; /* Más grande */
-  font-size: 0.9rem; /* Tamaño aumentado */
-  color: white;
-  font-weight: 700; /* Más grueso */
+  padding: 4px 12px;
+  font-size: 0.9rem;
+  color: var(--starlight-white);
+  font-weight: 700;
 }
 
-/* Tarjetas transparentes y compactas */
+/* TARJETAS DE TAREA */
 .task-card {
-  background: rgba(255, 255, 255, 0.25); /* Aumentamos opacidad */
+  background: rgba(255, 255, 255, 0.1);
   border-radius: 8px;
-  border: none;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.50); /* Sombra más pronunciada */
-  margin-bottom: 10px;
-  transition: all 0.2s ease;
+  border: 1px solid var(--border-light);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.7);
+  margin-bottom: 12px;
+  transition: all 0.3s ease;
   cursor: grab;
-  backdrop-filter: blur(3px);
-  border: 1px solid rgba(255,255,255,0.5); /* Borde más visible */
+  backdrop-filter: blur(4px);
+  position: relative;
 }
 
 .task-card:hover {
-  background: rgba(255, 255, 255, 0.25);
-  transform: translateY(-3px);
-  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  transform: translateY(-4px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.8);
 }
 
 .high-priority {
-  border-left: 5px solid #ff7eb3; /* Más grueso */
-  background: rgba(255, 126, 179, 0.1); /* Fondo sutil */
+  border-left: 5px solid #5a86ac;
+  background: rgba(90, 134, 172, 0.15);
 }
-
-
 .medium-priority {
-  border-left: 5px solid #8e79d3; /* Más grueso */
-  background: rgba(142, 121, 211, 0.1); /* Fondo sutil */
+  border-left: 5px solid #4e6e8e;
+  background: rgba(78, 110, 142, 0.15);
 }
-
 .low-priority {
-  border-left: 5px solid #667eea; /* Más grueso */
-  background: rgba(102, 126, 234, 0.1); /* Fondo sutil */
+  border-left: 5px solid #3a556e;
+  background: rgba(58, 85, 110, 0.15);
 }
 
 .task-title {
-  font-weight: 700; /* Más grueso */
-  font-size: 1rem; /* Tamaño aumentado */
-  margin-bottom: 5px;
-  color: white;
-  padding: 12px 15px 5px 15px; /* Más espacio */
-  text-shadow: 0 1px 2px rgba(0,0,0,0.3); /* Sombra de texto */
+  font-weight: 700;
+  font-size: 1rem;
+  margin: 0;
+  padding: 12px 15px 5px;
+  color: var(--starlight-white);
+  text-shadow: 0 1px 2px rgba(0,0,0,0.5);
 }
-
-.task-card .card-body {
-  padding: 5px 15px 12px 15px; /* Más espacio vertical */
-}
-
 
 .task-meta {
-  font-size: 0.9rem; /* Tamaño aumentado */
-  color: rgba(255, 255, 255, 0.95); /* Menos transparencia */
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  padding: 0 15px 10px 15px;
-  font-weight: 500; /* Más grueso */
-  text-shadow: 0 1px 1px rgba(0,0,0,0.2); /* Sombra de texto */
-}
-
-.kanban-column-header {
-  position: sticky;
-  top: 0;
-  z-index: 10;
-  padding: 14px 15px; /* Más padding */
-  border-radius: 12px 12px 0 0;
-  font-weight: 800; /* Más grueso */
-  color: white;
-  backdrop-filter: blur(5px);
-  font-size: 1.1rem; /* Tamaño aumentado */
-  text-shadow: 0 1px 2px rgba(0,0,0,0.3); /* Sombra de texto */
-}
-
-.assignee-container {
-  display: flex;
-  justify-content: flex-end;
-  margin-top: 8px;
-}
-
-.assignee-avatar {
-   width: 24px;
-   height: 24px;
-   border: 2px solid rgba(255, 255, 255, 0.3);
-   margin-left: -6px;
-   box-shadow: 0 0 0 1px rgba(0,0,0,0.1);
-}
-
-.text-white {
-  color: white !important;
+  font-size: 0.9rem;
+  color: var(--starlight-white);
+  padding: 0 15px 10px;
+  font-weight: 500;
+  text-shadow: 0 1px 1px rgba(0,0,0,0.4);
 }
 
 .add-task-btn {
-   background: rgba(255, 255, 255, 0.2);
-   border: 1px dashed rgba(255, 255, 255, 0.4);
-   color: white;
-   width: 100%;
-   padding: 10px;
-   border-radius: 8px;
-   transition: all 0.3s ease;
-   font-weight: 500;
-   margin-top: 10px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px dashed var(--border-light);
+  color: var(--starlight-white);
+  width: 100%;
+  padding: 10px;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+  font-weight: 500;
+  margin-top: 10px;
 }
 
 .add-task-btn:hover {
-   background: rgba(255, 255, 255, 0.3);
-   border: 1px dashed rgba(255, 255, 255, 0.7);
+  background: rgba(255, 255, 255, 0.1);
+  border-color: var(--starlight-white);
 }
 
 .delete-task-btn {
-   position: absolute;
-   top: 8px;
-   right: 8px;
-   background: rgba(255, 255, 255, 0.2);
-   border: none;
-   width: 24px;
-   height: 24px;
-   border-radius: 50%;
-   display: flex;
-   align-items: center;
-   justify-content: center;
-   color: rgba(255, 255, 255, 0.8);
-   opacity: 0;
-   transition: opacity 0.3s ease;
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  background: rgba(255, 255, 255, 0.1);
+  border: none;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--starlight-white);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  cursor: pointer;
 }
 
 .task-card:hover .delete-task-btn {
-   opacity: 1;
+  opacity: 1;
 }
 .delete-task-btn:hover {
-   background: rgba(255, 99, 99, 0.6);
-   color: white;
+  background: rgba(255, 99, 99, 0.6);
+  color: white;
 }
 
-/* Footer con transparencia */
+/* AVATARES */
+.assignee-container {
+  display: flex;
+  justify-content: flex-end;
+  margin: 8px 15px;
+}
+.assignee-avatar {
+  width: 24px;
+  height: 24px;
+  border: 2px solid var(--border-light);
+  margin-left: -6px;
+  box-shadow: 0 0 0 1px rgba(0,0,0,0.2);
+}
+
+/* FOOTER */
 footer {
-  background: rgba(118, 75, 162, 0.3);
-  backdrop-filter: blur(5px);
+  background: var(--overlay-dark);
+  backdrop-filter: blur(8px);
   font-size: 0.85rem;
-  color: rgba(255, 255, 255, 0.8);
-  border-top: 1px solid rgba(255,255,255,0.1);
+  color: var(--starlight-white);
+  border-top: 1px solid var(--border-light);
+  position: relative;
+  z-index: 2;
+}
+
+/* RESPONSIVE */
+@media (max-width: 992px) {
+  .kanban-column {
+    height: auto;
+    min-height: 300px;
+  }
+}
+
+@media (max-width: 768px) {
+  .sticky-header nav {
+    gap: 1rem;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .team-section .row {
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+  }
+
+  .kanban-column-header {
+    padding: 12px 15px;
+  }
+}
+
+@media (max-width: 576px) {
+  .sticky-header {
+    padding: 8px 0;
+  }
+
+  .sticky-header .container {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .kanban-column-header {
+    font-size: 1rem;
+  }
+
+  .task-title {
+    font-size: 0.95rem;
+  }
+
+  .task-meta {
+    font-size: 0.85rem;
+  }
 }

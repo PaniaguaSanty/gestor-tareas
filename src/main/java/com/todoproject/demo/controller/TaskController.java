@@ -45,7 +45,7 @@ public class TaskController {
             @RequestBody TaskRequestDto taskRequestDto) {
 
         logger.info("PUT /tasks/{} - Updating task", code);
-        // Asegúrate de que el código de la ruta y del body coincidan o asigna el código de la ruta al DTO
+        // que el código de la ruta y del body coincidan o asigna el código de la ruta al DTO
         taskRequestDto.setCode(code);
         TaskResponseDto updatedTask = taskService.update(taskRequestDto);
         return ResponseEntity.ok(updatedTask);

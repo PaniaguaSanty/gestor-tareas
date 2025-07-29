@@ -9,6 +9,7 @@ import com.todoproject.demo.model.User;
 import com.todoproject.demo.repository.TeamRepository;
 import com.todoproject.demo.repository.UserRepository;
 import com.todoproject.demo.util.CRUD;
+import jakarta.transaction.Transactional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -129,6 +130,7 @@ public class TeamServiceImpl implements CRUD<TeamResponseDto, TeamRequestDto> {
     /**
      * Gestión de usuarios en el equipo
      */
+    @Transactional
     public TeamResponseDto addUserToTeam(String userDni, String teamDni) {
         logger.info("Entering in addUserToTeam method...");
 
@@ -138,15 +140,11 @@ public class TeamServiceImpl implements CRUD<TeamResponseDto, TeamRequestDto> {
         Team team = teamRepository.findByDni(teamDni)
                 .orElseThrow(() -> new NotFoundException("Team not found with DNI " + teamDni));
 
-        if (!team.getUsers().contains(user)) {
-            user.setTeam(team);             // 1. Set team on user (owner of relation)
-            userRepository.save(user);     // 2. Save the user first
-
-            team.getUsers().add(user);     // 3. Optional, keeps list updated in memory (not needed for DB)
-            // teamRepository.save(team);  // 4. Not necessary unless other changes in Team
-        } else {
-            logger.info("User already exists in the team.");
-        }
+        // Usamos el helper que inicializa y sincroniza
+        team.addUser(user);
+        // Salvamos el usuario (dueño de la relación)
+        userRepository.save(user);
+        teamRepository.save(team);
 
         return teamMapper.convertToDto(team);
     }
