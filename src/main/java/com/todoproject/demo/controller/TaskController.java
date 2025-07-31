@@ -11,6 +11,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Map;
+
 @Controller
 @RequestMapping("/tasks")
 public class TaskController {
@@ -22,33 +24,31 @@ public class TaskController {
         this.taskService = taskService;
     }
 
-    @PostMapping("/project/{projectCode}")
+    @PostMapping("/{projectCode}/tasks")
     public ResponseEntity<TaskResponseDto> createTask(
             @PathVariable String projectCode,
-            @RequestBody TaskRequestDto taskRequestDto) {
-
-        logger.info("POST /tasks/project/{} - Creating task", projectCode);
-        TaskResponseDto response = taskService.create(taskRequestDto, projectCode);
-        return ResponseEntity.status(HttpStatus.CREATED).body(response);
+            @RequestBody TaskRequestDto taskRequestDto
+    ) {
+        // Estado por defecto: TODO
+        taskRequestDto.setState("TODO");
+        TaskResponseDto newTask = taskService.create(taskRequestDto, projectCode);
+        return ResponseEntity.ok(newTask);
     }
 
-    @GetMapping("/{code}")
-    public ResponseEntity<TaskResponseDto> getTask(@PathVariable String code) {
-        logger.info("GET /tasks/{} - Fetching task", code);
-        TaskResponseDto task = taskService.findOne(code);
-        return ResponseEntity.ok(task);
-    }
-
-    @PutMapping("/{code}")
-    public ResponseEntity<TaskResponseDto> updateTask(
-            @PathVariable String code,
-            @RequestBody TaskRequestDto taskRequestDto) {
-
-        logger.info("PUT /tasks/{} - Updating task", code);
-        // Asegúrate de que el código de la ruta y del body coincidan o asigna el código de la ruta al DTO
-        taskRequestDto.setCode(code);
-        TaskResponseDto updatedTask = taskService.update(taskRequestDto);
-        return ResponseEntity.ok(updatedTask);
+    @PutMapping("/{taskCode}/state")
+    public ResponseEntity<?> updateTaskState(
+            @PathVariable String taskCode,
+            @RequestBody Map<String, String> request
+    ) {
+        try {
+            String newState = request.get("state");
+            taskService.changeTaskState(taskCode, TaskState.valueOf(newState));
+            taskService.changeTaskState(taskCode, TaskState.valueOf(newState));
+            return ResponseEntity.ok().build();
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(Map.of("message", "Error actualizando estado"));
+        }
     }
 
     @DeleteMapping("/{code}")
@@ -65,6 +65,17 @@ public class TaskController {
         return ResponseEntity.noContent().build();
     }
 
+    @PutMapping("/{taskCode}/disable")
+    public ResponseEntity<?> disableTaskByCode(@PathVariable String taskCode) {
+        try {
+            taskService.disableTaskByCode(taskCode);
+            return ResponseEntity.ok().build();
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(Map.of("message", "Error desactivando tarea"));
+        }
+    }
+
     @PatchMapping("/{code}/state")
     public ResponseEntity<Void> changeTaskState(
             @PathVariable String code,
@@ -73,5 +84,12 @@ public class TaskController {
         logger.info("PATCH /tasks/{}/state - Changing state to {}", code, newState);
         taskService.changeTaskState(code, newState);
         return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("/{code}")
+    public ResponseEntity<TaskResponseDto> getTask(@PathVariable String code) {
+        logger.info("GET /tasks/{} - Fetching task", code);
+        TaskResponseDto task = taskService.findOne(code);
+        return ResponseEntity.ok(task);
     }
 }

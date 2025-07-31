@@ -8,6 +8,26 @@
     <!-- CSS personalizado -->
     <link rel="stylesheet" th:href="@{/css/select-work-mode.css}" href="/static/css/select-work-mode.css">
 
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const soloCard = document.getElementById('soloCard');
+            const teamCard = document.getElementById('teamCard');
+            const soloRadio = document.getElementById('modeSolo');
+            const teamRadio = document.getElementById('modeTeam');
+
+            soloCard.addEventListener('click', () => {
+                soloCard.classList.add('selected');
+                teamCard.classList.remove('selected');
+                soloRadio.checked = true;
+            });
+
+            teamCard.addEventListener('click', () => {
+                teamCard.classList.add('selected');
+                soloCard.classList.remove('selected');
+                teamRadio.checked = true;
+            });
+        });
+    </script>
 </head>
 <body class="bg-dashboard">
 <div class="container py-5">
@@ -41,10 +61,10 @@
             <!-- Modo Equipo -->
             <div class="col-md-6">
                 <label for="modeTeam">
-                    <div class="card work-mode-card p-4" id="teamCard">
+                    <div class="card work-mode-card p-4 disabled-mode" id="teamCard">
                         <div class="card-body text-center">
                             <i class="bi bi-people-fill display-1 text-primary mb-4"></i>
-                            <h3 class="card-title">Modo Equipo</h3>
+                            <h3 class="card-title">Modo Equipo(PRÓXIMAMENTE)</h3>
                             <p class="card-text">
                                 Perfecto para colaborar. Crea o únete a un equipo para trabajar
                                 en conjunto en proyectos compartidos.
@@ -68,26 +88,5 @@
         </div>
     </form>
 </div>
-
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const soloCard = document.getElementById('soloCard');
-        const teamCard = document.getElementById('teamCard');
-        const soloRadio = document.getElementById('modeSolo');
-        const teamRadio = document.getElementById('modeTeam');
-
-        soloCard.addEventListener('click', () => {
-            soloCard.classList.add('selected');
-            teamCard.classList.remove('selected');
-            soloRadio.checked = true;
-        });
-
-        teamCard.addEventListener('click', () => {
-            teamCard.classList.add('selected');
-            soloCard.classList.remove('selected');
-            teamRadio.checked = true;
-        });
-    });
-</script>
 </body>
 </html>

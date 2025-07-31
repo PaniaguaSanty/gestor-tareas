@@ -1,27 +1,31 @@
 /* mainPage.css */
 /* Variables de color */
 :root {
-  --deep-purple: #690eea;
-  --medium-purple: #764ba2;
-  --light-purple: #8e79d3;
-  --pink: #ff9a9e;
-  --hot-pink: #ff7eb3;
-  --blue: #667eea;
+  --navy-blue: #001f3f;
+  --deep-blue: #0a3d62;
+  --medium-blue: #1e6091;
+  --light-blue: #4ea8de;
+  --sky-blue: #89c2d9;
+  --ice-blue: #caf0f8;
   --white: #ffffff;
   --light-gray: rgba(255, 255, 255, 0.7);
-  --dark: #1a1a2e;
+  --error-red: #ff6b6b;
 }
 
+/* 1️⃣ Scroll suave al usar enlaces de ancla */
+html {
+  scroll-behavior: smooth;
+}
 /* Estilos generales */
 body {
   background: linear-gradient(
-    135deg,
-    var(--deep-purple) 0%,
-    var(--medium-purple) 20%,
-    var(--pink) 40%,
-    var(--hot-pink) 60%,
-    var(--blue) 80%,
-    var(--deep-purple) 100%
+    155deg,
+    var(--navy-blue) 0%,
+    var(--deep-blue) 20%,
+    var(--medium-blue) 40%,
+    var(--light-blue) 60%,
+    var(--sky-blue) 80%,
+    var(--ice-blue) 100%
   );
   background-attachment: fixed;
   background-size: cover;
@@ -29,6 +33,7 @@ body {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   overflow-x: hidden;
 }
+
 
 /* Secciones */
 section {
@@ -38,6 +43,7 @@ section {
 .hero-section {
   padding-top: 80px;
   padding-bottom: 60px;
+  animation: slideDown 0.8s ease-out both;
 }
 
 .features-section {
@@ -47,7 +53,7 @@ section {
 }
 
 .team-section {
-  background: linear-gradient(135deg, var(--blue), var(--light-purple));
+  background: linear-gradient(135deg, var(--blue), var(--deep-blue));
   padding: 6rem 0;
 }
 
@@ -59,11 +65,11 @@ section {
 
 .testimonials {
   padding: 5rem 0;
-  background: linear-gradient(135deg, var(--pink), var(--hot-pink));
+  background: linear-gradient(135deg, var(--blue), var(--hot-blue));
 }
 
 .cta-section {
-  background: linear-gradient(135deg, var(--light-purple), var(--deep-purple));
+  background: linear-gradient(135deg, var(--light-blue), var(--deep-blue));
   border-radius: 20px;
   margin: 0 auto;
   max-width: 1200px;
@@ -88,7 +94,7 @@ section {
 .feature-icon {
   font-size: 3rem;
   margin-bottom: 20px;
-  color: var(--light-purple);
+  color: var(--light-blue);
 }
 
 /* Sección de testimonios */
@@ -119,4 +125,52 @@ section {
   .hero-section .col-lg-6:first-child {
     margin-bottom: 2rem;
   }
+}
+
+/* 2️⃣ Keyframes para la animación de bajar */
+@keyframes slideDown {
+  0% {
+    opacity: 0;
+    transform: translateY(-50px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Animación pulsante */
+@keyframes pulse {
+  0%, 100% {
+    box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.5);
+  }
+  50% {
+    box-shadow: 0 0 15px 5px rgba(255, 255, 255, 0.3);
+  }
+}
+
+.btn-cta {
+  position: relative;
+  transition: background 0.7s ease, box-shadow 0.2s ease;
+  animation: pulse 2.5s infinite ease-in-out;
+}
+
+/* Hover: fondo azul medio y glow LED */
+.btn-cta:hover {
+  background: var(--medium-blue) !important;
+  color: var(--white) !important;
+  box-shadow:
+    0 0 8px var(--light-blue),
+    0 0 16px var(--sky-blue),
+    0 0 64px var(--ice-blue);
+}
+
+.btn-cta:focus,
+.btn-cta:active {
+  background: var(--deep-blue) !important;
+  color: var(--white) !important;
+  box-shadow:
+    inset 0 0 8px var(--light-blue),
+    inset 0 0 16px var(--sky-blue);
+  outline: none;
 }

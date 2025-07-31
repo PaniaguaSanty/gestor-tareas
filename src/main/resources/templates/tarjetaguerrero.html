@@ -1,0 +1,870 @@
+<!---
+
+Just an idea for next features...
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project Warriors - Busca tu equipo épico</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;900&family=Roboto:wght@300;400;700&display=swap"
+          rel="stylesheet">
+    <style>
+        :root {
+            --primary: #1a1a2e;
+            --secondary: #16213e;
+            --accent: #0f3460;
+            --highlight: #e94560;
+            --gold: #ffd700;
+            --silver: #c0c0c0;
+            --bronze: #cd7f32;
+            --neon-blue: #00f3ff;
+            --neon-pink: #ff00aa;
+        }
+
+        body {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            font-family: 'Roboto', sans-serif;
+            min-height: 100vh;
+            background-attachment: fixed;
+            padding-bottom: 50px;
+            overflow-x: hidden;
+        }
+
+        .header-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 3.5rem;
+            font-weight: 800;
+            text-align: center;
+            margin: 30px 0 20px;
+            background: linear-gradient(45deg, var(--neon-blue), var(--neon-pink));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 20px rgba(0, 243, 255, 0.5);
+            letter-spacing: 2px;
+            position: relative;
+            animation: glow 2s infinite alternate;
+        }
+
+        @keyframes glow {
+            from {
+                text-shadow: 0 0 10px rgba(0, 243, 255, 0.5), 0 0 20px rgba(255, 0, 170, 0.5);
+            }
+            to {
+                text-shadow: 0 0 20px rgba(0, 243, 255, 0.8), 0 0 40px rgba(255, 0, 170, 0.8);
+            }
+        }
+
+        .warrior-card {
+            background: rgba(30, 30, 46, 0.9);
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            transition: all 0.3s ease;
+            border: 2px solid var(--accent);
+            position: relative;
+            margin-bottom: 30px;
+            transform-style: preserve-3d;
+        }
+
+        .warrior-card:hover {
+            transform: translateY(-10px) rotateX(5deg);
+            box-shadow: 0 15px 35px rgba(233, 69, 96, 0.3);
+            border-color: var(--highlight);
+        }
+
+        .character-display {
+            height: 300px;
+            position: relative;
+            border-bottom: 3px solid var(--highlight);
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .character-display img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .warrior-card:hover .character-display img {
+            transform: scale(1.05);
+        }
+
+        .character-name {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(233, 69, 96, 0.85);
+            padding: 15px;
+            text-align: center;
+            font-weight: 700;
+            font-size: 1.8rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+            letter-spacing: 2px;
+            font-family: 'Orbitron', sans-serif;
+        }
+
+        .stats-container {
+            padding: 20px;
+        }
+
+        .badge-rpg {
+            background: linear-gradient(45deg, var(--accent), var(--highlight));
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-weight: 600;
+            margin: 5px;
+            display: inline-block;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+            font-size: 0.9rem;
+            text-transform: uppercase;
+        }
+
+        .achievement-badge {
+            background: rgba(15, 52, 96, 0.7);
+            border: 1px solid var(--highlight);
+            border-radius: 10px;
+            padding: 10px;
+            margin: 10px 0;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        .achievement-badge:hover {
+            transform: translateX(5px);
+            background: rgba(233, 69, 96, 0.3);
+        }
+
+        .achievement-icon {
+            font-size: 1.8rem;
+            color: var(--gold);
+            margin-right: 10px;
+            text-shadow: 0 0 8px rgba(255, 215, 0, 0.7);
+        }
+
+        .rank-indicator {
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: var(--gold);
+            text-shadow: 0 0 8px rgba(255, 215, 0, 0.7);
+            font-family: 'Orbitron', sans-serif;
+        }
+
+        .progress-rpg {
+            height: 20px;
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.1);
+            overflow: visible;
+            margin: 15px 0;
+            position: relative;
+        }
+
+        .progress-bar-rpg {
+            background: linear-gradient(90deg, var(--accent), var(--highlight));
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(233, 69, 96, 0.5);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .progress-bar-rpg::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            animation: progressGlow 1.5s infinite;
+        }
+
+        @keyframes progressGlow {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+
+        .section-title {
+            color: var(--highlight);
+            border-bottom: 2px solid var(--highlight);
+            padding-bottom: 10px;
+            margin: 25px 0 15px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-family: 'Orbitron', sans-serif;
+        }
+
+        .recommendation {
+            background: rgba(26, 26, 46, 0.6);
+            border-left: 4px solid var(--highlight);
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 0 8px 8px 0;
+            transition: all 0.3s ease;
+        }
+
+        .recommendation:hover {
+            transform: scale(1.02);
+            background: rgba(26, 26, 46, 0.8);
+        }
+
+        .recommendation-stars {
+            color: var(--gold);
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+            text-shadow: 0 0 5px rgba(255, 215, 0, 0.5);
+        }
+
+        .btn-invite {
+            background: linear-gradient(45deg, var(--highlight), #ff6b81);
+            border: none;
+            padding: 12px 30px;
+            font-weight: bold;
+            letter-spacing: 1px;
+            border-radius: 30px;
+            transition: all 0.3s;
+            box-shadow: 0 5px 15px rgba(233, 69, 96, 0.4);
+            font-family: 'Orbitron', sans-serif;
+            text-transform: uppercase;
+        }
+
+        .btn-invite:hover {
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 8px 20px rgba(233, 69, 96, 0.6);
+            background: linear-gradient(45deg, #ff6b81, var(--highlight));
+        }
+
+        .search-section {
+            background: rgba(22, 33, 62, 0.9);
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+            margin-bottom: 40px;
+            border: 1px solid var(--neon-blue);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .search-section::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            right: -50%;
+            bottom: -50%;
+            background: linear-gradient(45deg, transparent, rgba(0, 243, 255, 0.1), transparent);
+            transform: rotate(45deg);
+            animation: scan 4s linear infinite;
+            z-index: 0;
+        }
+
+        @keyframes scan {
+            0% { transform: translateY(-100%) rotate(45deg); }
+            100% { transform: translateY(100%) rotate(45deg); }
+        }
+
+        .filter-badge {
+            cursor: pointer;
+            transition: all 0.2s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .filter-badge:hover {
+            transform: scale(1.1);
+            box-shadow: 0 0 15px var(--neon-blue);
+        }
+
+        .rpg-counter {
+            background: rgba(15, 52, 96, 0.7);
+            border-radius: 10px;
+            padding: 20px;
+            text-align: center;
+            border: 1px solid var(--highlight);
+            margin-top: 20px;
+            position: relative;
+            z-index: 1;
+            transition: all 0.3s ease;
+        }
+
+        .rpg-counter:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(233, 69, 96, 0.3);
+        }
+
+        .counter-number {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: var(--gold);
+            text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+            font-family: 'Orbitron', sans-serif;
+        }
+
+        .counter-label {
+            font-size: 0.9rem;
+            opacity: 0.8;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .navbar-custom {
+            background: rgba(10, 15, 30, 0.9);
+            border-bottom: 1px solid var(--neon-blue);
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(10px);
+        }
+
+        .footer {
+            background: rgba(10, 15, 30, 0.9);
+            border-top: 1px solid var(--neon-blue);
+            padding: 20px 0;
+            margin-top: 50px;
+            text-align: center;
+        }
+
+        .warrior-counter {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.2rem;
+            background: rgba(233, 69, 96, 0.2);
+            padding: 5px 15px;
+            border-radius: 20px;
+            display: inline-block;
+            margin-bottom: 20px;
+        }
+
+        .mission-badge {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            background: var(--gold);
+            color: var(--primary);
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-weight: bold;
+            font-size: 1.2rem;
+            box-shadow: 0 0 15px rgba(255, 215, 0, 0.7);
+            z-index: 2;
+        }
+
+        .mission-badge i {
+            font-size: 1.5rem;
+        }
+
+        @media (max-width: 768px) {
+            .character-display {
+                height: 250px;
+            }
+
+            .header-title {
+                font-size: 2.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<nav class="navbar navbar-expand-lg navbar-dark navbar-custom sticky-top">
+    <div class="container">
+        <a class="navbar-brand" href="#">
+            <i class="fas fa-fist-raised me-2"></i>
+            <span style="font-family: 'Orbitron', sans-serif;">PROJECT_WARRIORS</span>
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item">
+                    <a class="nav-link active" href="#"><i class="fas fa-home me-1"></i> Inicio</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#"><i class="fas fa-users me-1"></i> Guerreros</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#"><i class="fas fa-project-diagram me-1"></i> Proyectos</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#"><i class="fas fa-trophy me-1"></i> Logros</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#"><i class="fas fa-envelope me-1"></i> Contacto</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<div class="container py-4">
+    <h1 class="header-title">PROJECT WARRIORS</h1>
+    <p class="lead text-center mb-5" style="font-family: 'Orbitron', sans-serif; letter-spacing: 1px;">Busca guerreros
+        tecnológicos para completar tu equipo épico</p>
+
+<div class="search-section">
+    <h3 class="text-center mb-4" style="font-family: 'Orbitron', sans-serif;"><i class="fas fa-search me-2"></i>ENCUENTRA
+        A TU EQUIPO</h3>
+    <div class="row">
+        <div class="col-md-8">
+            <div class="input-group mb-4">
+                <span class="input-group-text bg-dark text-light"><i class="fas fa-users"></i></span>
+                <input type="text" class="form-control bg-dark text-light"
+                       placeholder="¿Qué habilidades necesitas? (Ej: Java, React, UX Design)">
+            </div>
+
+            <div class="mb-4">
+                <h5>Roles requeridos:</h5>
+                <div>
+                    <span class="badge-rpg filter-badge">Frontend <i class="fas fa-plus ms-1"></i></span>
+                    <span class="badge-rpg filter-badge">Backend</span>
+                    <span class="badge-rpg filter-badge">Full Stack</span>
+                    <span class="badge-rpg filter-badge">Diseñador UI/UX</span>
+                    <span class="badge-rpg filter-badge">DevOps</span>
+                    <span class="badge-rpg filter-badge">QA Tester</span>
+                </div>
+            </div>
+
+            <div class="mb-4">
+                <h5>Nivel de experiencia:</h5>
+                <div>
+                    <span class="badge-rpg filter-badge">Novato</span>
+                    <span class="badge-rpg filter-badge">Guerrero</span>
+                    <span class="badge-rpg filter-badge">Veterano</span>
+                    <span class="badge-rpg filter-badge">Maestro</span>
+                </div>
+            </div>
+
+            <div class="mb-4">
+                <h5>Stack Tecnológico:</h5>
+                <div>
+                    <span class="badge-rpg filter-badge">Java</span>
+                    <span class="badge-rpg filter-badge">Spring Boot</span>
+                    <span class="badge-rpg filter-badge">React</span>
+                    <span class="badge-rpg filter-badge">Node.js</span>
+                    <span class="badge-rpg filter-badge">AWS</span>
+                    <span class="badge-rpg filter-badge">Docker</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="rpg-counter">
+                <div class="counter-number">47</div>
+                <div class="counter-label">GUERREROS DISPONIBLES</div>
+            </div>
+
+            <div class="rpg-counter mt-3">
+                <div class="counter-number">12</div>
+                <div class="counter-label">PROYECTOS ACTIVOS</div>
+            </div>
+
+            <div class="rpg-counter mt-3">
+                <div class="counter-number">126</div>
+                <div class="counter-label">MISIONES COMPLETADAS</div>
+            </div>
+
+            <div class="d-grid mt-4">
+                <button class="btn btn-invite">
+                    <i class="fas fa-bolt me-2"></i>BUSCAR GUERREROS
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="text-center mb-4">
+    <div class="warrior-counter">
+        <i class="fas fa-shield-alt me-2"></i> GUERREROS ENCONTRADOS: 8
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-6">
+        <div class="warrior-card">
+            <div class="mission-badge" title="Misiones completadas">
+                <i class="fas fa-medal"></i>
+            </div>
+            <div class="character-display">
+                <img src="https://i.imgur.com/6ZycmoU.png" alt="Guerrero Tecnológico">
+            </div>
+
+            <div class="character-name">VICTOR "EL INVENCIBLE"</div>
+            <div class="rank-indicator">Rango: Guerrero ★★★★☆</div>
+
+            <div class="stats-container">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <div>
+                        <h5>Especialización Principal</h5>
+                        <span class="badge-rpg">Backend Developer</span>
+                    </div>
+                    <div class="text-end">
+                        <h5>Nivel de XP</h5>
+                        <span class="badge-rpg">Lvl 27</span>
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <h5>Habilidades Técnicas</h5>
+                    <div>
+                        <span class="badge-rpg">Java</span>
+                        <span class="badge-rpg">Spring Boot</span>
+                        <span class="badge-rpg">MySQL</span>
+                        <span class="badge-rpg">REST API</span>
+                        <span class="badge-rpg">Docker</span>
+                    </div>
+                </div>
+
+                <h5>Progreso de Habilidades</h5>
+                <div class="mt-2">
+                    <small>Java Spring Boot</small>
+                    <div class="progress progress-rpg">
+                        <div class="progress-bar progress-bar-rpg" style="width: 95%"></div>
+                    </div>
+
+                    <small>Base de datos</small>
+                    <div class="progress progress-rpg">
+                        <div class="progress-bar progress-bar-rpg" style="width: 85%"></div>
+                    </div>
+
+                    <small>DevOps</small>
+                    <div class="progress progress-rpg">
+                        <div class="progress-bar progress-bar-rpg" style="width: 75%"></div>
+                    </div>
+                </div>
+
+                <h5 class="section-title">Logros Épicos</h5>
+                <div class="achievement-badge">
+                    <i class="fas fa-trophy achievement-icon"></i>
+                    <strong>Completo 10 misiones sin fallas</strong>
+                    <div class="text-muted">Proyectos completados exitosamente</div>
+                </div>
+
+                <div class="achievement-badge">
+                    <i class="fas fa-medal achievement-icon"></i>
+                    <strong>Maestro de Spring Boot</strong>
+                    <div class="text-muted">Dominio comprobado en aplicaciones empresariales</div>
+                </div>
+
+                <h5 class="section-title">Recomendaciones</h5>
+                <div class="recommendation">
+                    <div class="recommendation-stars">
+                        ★★★★★
+                    </div>
+                    <p>"El mejor programador con el que he trabajado. Su código es impecable y siempre entrega antes
+                        de tiempo."</p>
+                    <small class="text-muted">- Proyecto: Sistema de Gestión de Gimnasios</small>
+                </div>
+
+                <div class="recommendation">
+                    <div class="recommendation-stars">
+                        ★★★★☆
+                    </div>
+                    <p>"Brindó soluciones magistrales a tiempo. Su trabajo fue fundamental para el éxito del
+                        proyecto."</p>
+                    <small class="text-muted">- Proyecto: Plataforma E-Commerce</small>
+                </div>
+
+                <div class="text-center mt-4">
+                    <button class="btn btn-invite">
+                        <i class="fas fa-handshake me-2"></i>INVITAR A MI PROYECTO
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-6">
+        <div class="warrior-card">
+            <div class="mission-badge" title="Misiones completadas">
+                <i class="fas fa-crown"></i>
+            </div>
+            <div class="character-display">
+                <img src="https://i.imgur.com/5xJzB7y.png" alt="Guerrera Tecnológica">
+            </div>
+
+            <div class="character-name">SOFIA "LA IMPLACABLE"</div>
+            <div class="rank-indicator">Rango: Maestra ★★★★★</div>
+
+            <div class="stats-container">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <div>
+                        <h5>Especialización Principal</h5>
+                        <span class="badge-rpg">Full Stack Developer</span>
+                    </div>
+                    <div class="text-end">
+                        <h5>Nivel de XP</h5>
+                        <span class="badge-rpg">Lvl 42</span>
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <h5>Habilidades Técnicas</h5>
+                    <div>
+                        <span class="badge-rpg">React</span>
+                        <span class="badge-rpg">Node.js</span>
+                        <span class="badge-rpg">MongoDB</span>
+                        <span class="badge-rpg">AWS</span>
+                        <span class="badge-rpg">TypeScript</span>
+                    </div>
+                </div>
+
+                <h5>Progreso de Habilidades</h5>
+                <div class="mt-2">
+                    <small>React & Redux</small>
+                    <div class="progress progress-rpg">
+                        <div class="progress-bar progress-bar-rpg" style="width: 98%"></div>
+                    </div>
+
+                    <small>Node.js</small>
+                    <div class="progress progress-rpg">
+                        <div class="progress-bar progress-bar-rpg" style="width: 92%"></div>
+                    </div>
+
+                    <small>Cloud Computing</small>
+                    <div class="progress progress-rpg">
+                        <div class="progress-bar progress-bar-rpg" style="width: 88%"></div>
+                    </div>
+                </div>
+
+                <h5 class="section-title">Logros Épicos</h5>
+                <div class="achievement-badge">
+                    <i class="fas fa-crown achievement-icon"></i>
+                    <strong>Reina del Frontend</strong>
+                    <div class="text-muted">Diseños galardonados en 5 proyectos consecutivos</div>
+                </div>
+
+                <div class="achievement-badge">
+                    <i class="fas fa-bolt achievement-icon"></i>
+                    <strong>Velocidad de Implementación</strong>
+                    <div class="text-muted">Récord de entrega de funcionalidades complejas</div>
+                </div>
+
+                <h5 class="section-title">Recomendaciones</h5>
+                <div class="recommendation">
+                    <div class="recommendation-stars">
+                        ★★★★★
+                    </div>
+                    <p>"Sofía transformó completamente nuestro proyecto. Su atención al detalle y habilidades
+                        técnicas son excepcionales."</p>
+                    <small class="text-muted">- Proyecto: Plataforma de Aprendizaje</small>
+                </div>
+
+                <div class="recommendation">
+                    <div class="recommendation-stars">
+                        ★★★★★
+                    </div>
+                    <p>"Nunca había trabajado con alguien tan completo. Domina frontend, backend y despliegue en la
+                        nube."</p>
+                    <small class="text-muted">- Proyecto: Sistema de Reservas</small>
+                </div>
+
+                <div class="text-center mt-4">
+                    <button class="btn btn-invite">
+                        <i class="fas fa-handshake me-2"></i>INVITAR A MI PROYECTO
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row mt-4">
+    <div class="col-md-4 mb-4">
+        <div class="warrior-card h-100">
+            <div class="character-display">
+                <img src="https://tse1.mm.bing.net/th/id/OIP.1DYLMWnzQISFDcN5-Wp-igHaJC?r=0&pid=ImgDet&w=120&h=120&c=7&dpr=1,3&rs=1&o=7&rm=3"
+                     alt="Guerrero DevOps">
+
+            </div>
+            <div class="character-name">MARCO "EL DETALLISTA"</div>
+            <div class="rank-indicator">Rango: Veterano ★★★★☆</div>
+            <div class="stats-container">
+                <div class="d-flex justify-content-between mb-3">
+                    <span class="badge-rpg">Frontend Developer</span>
+                    <span class="badge-rpg">Lvl 35</span>
+                </div>
+                <div class="mb-3">
+                    <span class="badge-rpg">React</span>
+                    <span class="badge-rpg">Vue.js</span>
+                    <span class="badge-rpg">CSS3</span>
+                </div>
+                <div class="achievement-badge">
+                    <i class="fas fa-paint-brush achievement-icon"></i>
+                    <strong>Maestro de UI/UX</strong>
+                </div>
+                <div class="text-center mt-3">
+                    <button class="btn btn-invite btn-sm">
+                        <i class="fas fa-handshake me-2"></i>INVITAR
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-4 mb-4">
+        <div class="warrior-card h-100">
+            <div class="character-display">
+                <img src="https://i.pinimg.com/736x/14/78/db/1478db28c858f2d6ea328a23c0dbf0d2.jpg"
+                     alt="Guerrero Frontend">
+            </div>
+            <div class="character-name">LENA "LA DEPLOYER"</div>
+            <div class="rank-indicator">Rango: Maestra ★★★★★</div>
+            <div class="stats-container">
+                <div class="d-flex justify-content-between mb-3">
+                    <span class="badge-rpg">DevOps Engineer</span>
+                    <span class="badge-rpg">Lvl 48</span>
+                </div>
+                <div class="mb-3">
+                    <span class="badge-rpg">Docker</span>
+                    <span class="badge-rpg">Kubernetes</span>
+                    <span class="badge-rpg">AWS</span>
+                </div>
+                <div class="achievement-badge">
+                    <i class="fas fa-server achievement-icon"></i>
+                    <strong>Infraestructura Imparable</strong>
+                </div>
+                <div class="text-center mt-3">
+                    <button class="btn btn-invite btn-sm">
+                        <i class="fas fa-handshake me-2"></i>INVITAR
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-4 mb-4">
+        <div class="warrior-card h-100">
+            <div class="character-display">
+                <img src="data:image/webp;base64,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"
+                     alt="Guerrero Mobile">
+            </div>
+            <div class="character-name">RAÚL "EL DEVOPS"</div>
+            <div class="rank-indicator">Rango: Guerrero ★★★☆☆</div>
+            <div class="stats-container">
+                <div class="d-flex justify-content-between mb-3">
+                    <span class="badge-rpg">Mobile Developer</span>
+                    <span class="badge-rpg">Lvl 22</span>
+                </div>
+                <div class="mb-3">
+                    <span class="badge-rpg">React Native</span>
+                    <span class="badge-rpg">Flutter</span>
+                    <span class="badge-rpg">Firebase</span>
+                </div>
+                <div class="achievement-badge">
+                    <i class="fas fa-mobile-alt achievement-icon"></i>
+                    <strong>Especialista en Apps</strong>
+                </div>
+                <div class="text-center mt-3">
+                    <button class="btn btn-invite btn-sm">
+                        <i class="fas fa-handshake me-2"></i>INVITAR
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="text-center mt-5">
+    <button class="btn btn-outline-light">
+        <i class="fas fa-users me-2"></i>VER MÁS GUERREROS DISPONIBLES
+    </button>
+</div>
+</div>
+
+<footer class="footer">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4 mb-3">
+                <h5 style="font-family: 'Orbitron', sans-serif;">PROJECT WARRIORS</h5>
+                <p>Encuentra a los mejores guerreros tecnológicos para tus proyectos épicos.</p>
+            </div>
+            <div class="col-md-4 mb-3">
+                <h5>Enlaces Rápidos</h5>
+                <ul class="list-unstyled">
+                    <li><a href="#" class="text-light"><i class="fas fa-chevron-right me-2"></i> Buscar Guerreros</a>
+                    </li>
+                    <li><a href="#" class="text-light"><i class="fas fa-chevron-right me-2"></i> Publicar Proyecto</a>
+                    </li>
+                    <li><a href="#" class="text-light"><i class="fas fa-chevron-right me-2"></i> Sistema de Logros</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="col-md-4">
+                <h5>Contacto</h5>
+                <ul class="list-unstyled">
+                    <li><i class="fas fa-envelope me-2"></i> contacto@projectwarriors.com</li>
+                    <li><i class="fas fa-phone me-2"></i> +1 (123) 456-7890</li>
+                    <li><i class="fas fa-map-marker-alt me-2"></i> Ciudad Tecnológica, Digitaland</li>
+                </ul>
+            </div>
+        </div>
+        <hr class="my-4">
+        <p class="text-center">© 2023 Project Warriors. Todos los derechos reservados. ¡Preparados para la batalla
+            tecnológica!</p>
+    </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+    // Efectos de hover para las tarjetas de guerreros
+    document.addEventListener('DOMContentLoaded', function() {
+        const warriorCards = document.querySelectorAll('.warrior-card');
+
+        warriorCards.forEach(card => {
+            card.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateY(-10px) rotateX(5deg)';
+                this.style.boxShadow = '0 15px 35px rgba(233, 69, 96, 0.3)';
+                this.style.borderColor = '#e94560';
+            });
+
+            card.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateY(0) rotateX(0)';
+                this.style.boxShadow = '0 10px 30px rgba(0, 0, 0, 0.5)';
+                this.style.borderColor = '#0f3460';
+            });
+        });
+
+        // Filtros interactivos
+        const filterBadges = document.querySelectorAll('.filter-badge');
+        filterBadges.forEach(badge => {
+            badge.addEventListener('click', function() {
+                this.classList.toggle('bg-dark');
+
+                if(this.classList.contains('bg-dark')) {
+                    this.style.boxShadow = '0 0 15px var(--neon-blue)';
+                } else {
+                    this.style.boxShadow = '';
+                }
+            });
+        });
+
+        // Botón de búsqueda
+        const searchBtn = document.querySelector('.btn-invite');
+        searchBtn.addEventListener('click', function() {
+            this.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i> BUSCANDO GUERREROS...';
+            setTimeout(() => {
+                this.innerHTML = '<i class="fas fa-bolt me-2"></i> BUSCAR GUERREROS';
+            }, 2000);
+        });
+    });
+</script>
+</body>
+</html>
+
+--->

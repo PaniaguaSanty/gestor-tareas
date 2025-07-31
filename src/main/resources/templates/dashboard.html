@@ -1,77 +1,66 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" lang="">
 <head>
     <meta charset="UTF-8">
     <title>Dashboard - Team Board</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-
     <!-- Bootstrap Icons -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
-
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <!-- Dragula para drag & drop -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/dragula/3.7.3/dragula.min.css" rel="stylesheet">
-
-    <!-- Fuentes -->
-    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
-
     <!-- CSS personalizado -->
     <link rel="stylesheet" th:href="@{/css/dashboard.css}" href="/static/css/dashboard.css">
 </head>
 <body class="bg-dashboard d-flex flex-column min-vh-100">
-
-<!-- HEADER STICKY -->
-<header class="sticky-header py-2">
+<!-- Header sticky -->
+<header class="sticky-header slide-down">
     <div class="container d-flex justify-content-between align-items-center">
-        <div class="d-flex align-items-center">
-            <i class="bi bi-kanban-fill text-white me-2 fs-4"></i>
-            <h1 class="text-white fs-5 fw-bold m-0">Team Board</h1>
+        <!-- Logo y nombre del equipo -->
+        <div class="d-flex align-items-center gap-3">
+            <div class="logo">
+                <i class="bi bi-kanban fs-4 text-light-blue"></i>
+            </div>
+            <div>
+                <h1 class="team-name h6 mb-0" th:text="${project.teamName}">Team name</h1>
+                <p class="project-name small mb-0" th:text="${project.name}">Project name</p>
+            </div>
         </div>
-        <nav class="d-flex align-items-center gap-3">
-            <a href="#" class="text-white text-decoration-none small"><i class="bi bi-house me-1"></i> Home</a>
-            <a href="#" class="text-white text-decoration-none small"><i class="bi bi-app-indicator me-1"></i> App</a>
-            <a href="#" class="text-white text-decoration-none small"><i class="bi bi-gear me-1"></i> Config</a>
-            <a th:href="@{/teams/list}" class="btn btn-sm btn-outline-light">
-                <i class="bi bi-people me-1"></i> Ver equipos
+
+        <!-- Nav centrado -->
+        <div class="nav-links d-flex justify-content-center">
+            <a th:href="@{/mainPage}" class="nav-link active">
+                <i class="fas fa-home me-1"></i> Home
             </a>
-            <button class="btn btn-sm btn-light">
-                <i class="bi bi-person-plus-fill me-1"></i> Invitar
-            </button>
-        </nav>
-    </div>
-</header>
+            <a href="#" class="nav-link">
+                <i class="fas fa-tasks me-1"></i> Backlog
+            </a>
+            <a th:href="@{/teams/list}" class="nav-link">
+                <i class="fas fa-users me-1"></i> Equipo
+            </a>
+            <a href="#" class="nav-link">
+                <i class="fas fa-chart-line me-1"></i> Notificaciones
+            </a>
+        </div>
 
-<!-- SECCIÓN DE EQUIPO -->
-<section class="team-section">
-    <div class="container-fluid px-4">
-        <div class="row align-items-center">
-            <div class="col-auto">
-                <div class="team-badge text-white d-flex align-items-center">
-                    <i class="bi bi-people-fill me-2"></i>
-                    <span th:text="${project.teamName}">Development Team</span>
-                </div>
+        <!-- Avatares y acciones -->
+        <div class="d-flex align-items-center gap-3">
+            <div class="notification">
+                <button class="btn btn-link text-white p-0">
+                    <i class="fas fa-bell"></i>
+                </button>
             </div>
-
-            <!-- Avatares de los usuarios -->
-            <div class="col d-flex align-items-center gap-2">
-                <div th:each="user : ${team.users}">
-                    <img th:src="@{${user.avatarUrl}}"
-                         class="assignee-avatar rounded-circle"
-                         width="30" height="30"
-                         alt="avatar">
-                </div>
-            </div>
-
-            <div class="col-auto">
-                <button class="btn btn-sm btn-outline-light">
-                    <i class="bi bi-plus-circle me-1"></i> Invitar
+            <div class="configuration">
+                <button class="btn btn-link text-white p-0">
+                    <i class="fas fa-cog"></i>
                 </button>
             </div>
         </div>
     </div>
-</section>
+</header>
 
 <!-- TABLERO KANBAN -->
 <main class="flex-grow-1 py-4">
@@ -91,12 +80,22 @@
                     <div class="p-2" id="todo-column">
                         <div th:each="task : ${tasksByState.get('TODO')}"
                              class="task-card"
-                             th:attr="data-task-id=${task.id}"
+                             th:attr="data-task-taskCode=${task.code}"
                              th:classappend="${task.priority == 'HIGH'} ? 'high-priority' :
                                        (${task.priority == 'MEDIUM'} ? 'medium-priority' : 'low-priority')">
                             <button class="delete-task-btn">
                                 <i class="bi bi-trash"></i>
                             </button>
+
+                            <div class="card-body">
+                                <!-- Mostrar prioridad -->
+                                <span class="badge"
+                                      th:classappend="${task.priority == 'HIGH'} ? 'bg-danger' :
+                                        (${task.priority == 'MEDIUM'} ? 'bg-warning' : 'bg-success')"
+                                      th:text="${task.priority}">
+                                     Prioridad
+                                </span>
+                            </div>
                             <div class="card-body">
                                 <h6 class="task-title" th:text="${task.title}">Implementar drag & drop</h6>
                                 <p class="task-meta mb-0" th:text="${task.description}">Agregar funcionalidad de
@@ -110,10 +109,58 @@
                                 </div>
                             </div>
                         </div>
-
                         <button class="add-task-btn">
                             <i class="bi bi-plus-circle me-2"></i> Agregar tarea
                         </button>
+                    </div>
+                </div>
+                <!-- Modal para agregar tarea (modificado para AJAX) -->
+                <div class="modal fade" id="addTaskModal" tabindex="-1" aria-labelledby="addTaskModalLabel"
+                     aria-hidden="true">
+                    <div class="modal-dialog modal-lg">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="addTaskModalLabel">Agregar nueva tarea</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                        aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <form id="taskForm">
+                                    <div class="mb-3">
+                                        <label for="taskTitle" class="form-label">Título *</label>
+                                        <input type="text" class="form-control" id="taskTitle" required>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="taskDescription" class="form-label">Descripción</label>
+                                        <textarea class="form-control" id="taskDescription" rows="3"></textarea>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="taskPriority" class="form-label">Prioridad</label>
+                                        <select class="form-select" id="taskPriority">
+                                            <option value="LOW">Baja</option>
+                                            <option value="MEDIUM" selected>Media</option>
+                                            <option value="HIGH">Alta</option>
+                                        </select>
+                                    </div>
+                                    <!-- Selector de usuario asignado -->
+                                    <div class="mb-3" th:if="${team != null}">
+                                        <label for="taskAssignee" class="form-label">Asignar a</label>
+                                        <select class="form-select" id="taskAssignee">
+                                            <option value="">Ninguno</option>
+                                            <option th:each="user : ${team.users}"
+                                                    th:value="${user.email}"
+                                                    th:text="${user.name}">
+                                            </option>
+                                        </select>
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar
+                                </button>
+                                <button type="button" class="btn btn-primary" id="saveTaskBtn">Guardar tarea</button>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -132,12 +179,21 @@
                     <div class="p-2" id="doing-column">
                         <div th:each="task : ${tasksByState.get('DOING')}"
                              class="task-card"
-                             th:attr="data-task-id=${task.id}"
+                             th:attr="data-task-taskCode=${task.code}"
                              th:classappend="${task.priority == 'HIGH'} ? 'high-priority' :
                                                (${task.priority == 'MEDIUM'} ? 'medium-priority' : 'low-priority')">
                             <button class="delete-task-btn">
                                 <i class="bi bi-trash"></i>
                             </button>
+                            <div class="card-body">
+                                <!-- Mostrar prioridad -->
+                                <span class="badge"
+                                      th:classappend="${task.priority == 'HIGH'} ? 'bg-danger' :
+                                        (${task.priority == 'MEDIUM'} ? 'bg-warning' : 'bg-success')"
+                                      th:text="${task.priority}">
+                                        Prioridad
+                                </span>
+                            </div>
                             <div class="card-body">
                                 <h6 class="task-title" th:text="${task.title}">Diseñar tarjetas de tareas</h6>
                                 <p class="task-meta mb-0" th:text="${task.description}">Crear diseño visual para las
@@ -151,7 +207,6 @@
                                 </div>
                             </div>
                         </div>
-
                         <button class="add-task-btn">
                             <i class="bi bi-plus-circle me-2"></i> Agregar tarea
                         </button>
@@ -173,12 +228,21 @@
                     <div class="p-2" id="done-column">
                         <div th:each="task : ${tasksByState.get('DONE')}"
                              class="task-card"
-                             th:attr="data-task-id=${task.id}"
+                             th:attr="data-task-taskCode=${task.code}"
                              th:classappend="${task.priority == 'HIGH'} ? 'high-priority' :
                                                (${task.priority == 'MEDIUM'} ? 'medium-priority' : 'low-priority')">
                             <button class="delete-task-btn">
                                 <i class="bi bi-trash"></i>
                             </button>
+                            <div class="card-body">
+                                <!-- Mostrar prioridad -->
+                                <span class="badge"
+                                      th:classappend="${task.priority == 'HIGH'} ? 'bg-danger' :
+                                        (${task.priority == 'MEDIUM'} ? 'bg-warning' : 'bg-success')"
+                                      th:text="${task.priority}">
+                                        Prioridad
+                                </span>
+                            </div>
                             <div class="card-body">
                                 <h6 class="task-title" th:text="${task.title}">Crear estructura HTML</h6>
                                 <p class="task-meta mb-0" th:text="${task.description}">Diseñar la estructura básica del
@@ -213,57 +277,147 @@
 <!-- Dragula para drag & drop -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/dragula/3.7.3/dragula.min.js"></script>
 
+<!-- Axios para el modal -->
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 <script>
-    // Funcionalidad para botones de eliminar
-    document.querySelectorAll('.delete-task-btn').forEach(button => {
-        button.addEventListener('click', function(e) {
-            e.stopPropagation();
-            const taskCard = this.closest('.task-card');
-            const taskId = taskCard.getAttribute('data-task-id');
-
-
-            // Enviar solicitud al backend para desactivar la tarea
-            disableTask(taskId, taskCard);
+    // Funcionalidad para abrir modal
+    document.querySelectorAll('.add-task-btn').forEach(button => {
+        button.addEventListener('click', function () {
+            const modal = new bootstrap.Modal(document.getElementById('addTaskModal'));
+            modal.show();
         });
     });
 
-    // Función para desactivar la tarea en el backend
-    function disableTask(taskId, taskCard) {
-        fetch(`/tasks/disable/${taskId}`, {
-            method: 'PUT',
+    // Funcionalidad para guardar tarea con AJAX
+    document.getElementById('saveTaskBtn').addEventListener('click', async function () {
+        const title = document.getElementById('taskTitle').value;
+        const description = document.getElementById('taskDescription').value;
+        const priority = document.getElementById('taskPriority').value;
+        const assigneeId = document.getElementById('taskAssignee')?.value || null;
+
+        // Validación
+        if (!title.trim()) {
+            alert('El título es obligatorio');
+            return;
+        }
+
+        const taskData = {
+            title: title,
+            description: description,
+            priority: priority,
+            userId: assigneeId ? parseInt(assigneeId) : null,
+            state: "TODO" // Estado fijo
+        };
+
+        try {
+            const projectCode = '[[${project.code}]]'; // Thymeleaf inline expression
+            const response = await axios.post(`/tasks/${projectCode}/tasks`, taskData, {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-Requested-With': 'XMLHttpRequest'
+                }
+            });
+
+            if (response.status === 200) {
+                const newTask = response.data;
+
+                // Agregar la nueva tarea al DOM
+                addTaskToColumn(newTask, 'TODO');
+
+                // Actualizar contador
+                updateTaskCount('todo-column');
+
+                // Cerrar modal y resetear formulario
+                bootstrap.Modal.getInstance(document.getElementById('addTaskModal')).hide();
+                document.getElementById('taskForm').reset();
+            }
+        } catch (error) {
+            console.error('Error al crear tarea:', error);
+            showNotification(
+                'Error al crear la tarea: ' + error.response?.data?.message || error.message,
+                'error'
+            );
+        }
+    });
+
+    // Función para agregar tarea al DOM
+    function addTaskToColumn(task, columnState) {
+        const columnId = `${columnState.toLowerCase()}-column`;
+        const column = document.getElementById(columnId);
+        const priorityClass = getPriorityClass(task.priority);
+
+        const taskCard = document.createElement('div');
+        taskCard.className = `task-card ${priorityClass}`;
+        taskCard.setAttribute('data-task-taskCode', task.code);
+
+        taskCard.innerHTML = `
+            <button class="delete-task-btn">
+                <i class="bi bi-trash"></i>
+            </button>
+            <div class="card-body">
+                <h6 class="task-title">${task.title}</h6>
+                <p class="task-meta mb-0">${task.description || ''}</p>
+                ${task.assignedUserName ? `
+                    <div class="assignee-container">
+                        <img src="${task.assignedUserAvatarUrl || ''}"
+                             class="assignee-avatar rounded-circle"
+                             width="24" height="24" alt="avatar">
+                    </div>
+                ` : ''}
+            </div>
+        `;
+
+        // Insertar antes del botón "Agregar tarea"
+        const addButton = column.querySelector('.add-task-btn');
+        column.insertBefore(taskCard, addButton);
+
+        // Agregar evento para eliminar
+        taskCard.querySelector('.delete-task-btn').addEventListener('click', function (e) {
+            e.stopPropagation();
+            disableTask(task.code, taskCard);
+        });
+    }
+
+    function getPriorityClass(priority) {
+        switch (priority) {
+            case 'HIGH': return 'high-priority';
+            case 'MEDIUM': return 'medium-priority';
+            default: return 'low-priority';
+        }
+    }
+
+    // Actualizar contadores de tareas
+    function updateTaskCount(columnId) {
+        const column = document.getElementById(columnId);
+        const tasks = column.querySelectorAll('.task-card').length;
+        const header = column.closest('.kanban-column').querySelector('.kanban-column-header');
+        const countElement = header.querySelector('.task-count');
+        countElement.textContent = tasks;
+    }
+
+    function showNotification(message, type) {
+        // Implementar notificación bonita (puedes usar Toastr o similar)
+        alert(`${type === 'success' ? '✅' : '❌'} ${message}`);
+    }
+
+    function disableTask(taskCode, taskCard) {
+        axios.put(`/tasks/${taskCode}/disable`, {}, {
             headers: {
                 'Content-Type': 'application/json',
                 'X-Requested-With': 'XMLHttpRequest'
             }
         })
-        .then(response => {
-            if (response.ok) {
-                // Animación de desvanecimiento
+            .then(response => {
                 taskCard.style.opacity = '0';
                 setTimeout(() => {
                     taskCard.remove();
                     updateTaskCounts();
                 }, 300);
-            } else if (response.status === 404) {
-                throw new Error('Tarea no encontrada');
-            } else {
-                throw new Error('Error del servidor');
-            }
-        })
-        .catch(error => {
-            console.error('Error:', error);
-            alert('Error al eliminar la tarea: ' + error.message);
-        });
-    }
-
-    // Actualizar contadores de tareas
-    function updateTaskCounts() {
-        document.querySelectorAll('.kanban-column').forEach(column => {
-            const header = column.querySelector('.kanban-column-header');
-            const countElement = header.querySelector('.task-count');
-            const tasks = column.querySelectorAll('.task-card');
-            countElement.textContent = tasks.length;
-        });
+            })
+            .catch(error => {
+                console.error('Error eliminando tarea:', error);
+                alert('Error al eliminar la tarea');
+            });
     }
 
     // Inicializar drag & drop
@@ -271,7 +425,20 @@
         document.getElementById('todo-column'),
         document.getElementById('doing-column'),
         document.getElementById('done-column')
-    ]);
+    ]).on('drop', function (el, target, source, sibling) {
+        const taskCode = el.dataset.taskCode;
+        const newState = target.id.replace('-column', '').toUpperCase();
+
+        // Actualizar estado en backend
+        axios.put(`/tasks/${taskCode}/state`, { state: newState }, {
+            headers: {
+                'Content-Type': 'application/json',
+                'X-Requested-With': 'XMLHttpRequest'
+            }
+        }).catch(error => {
+            console.error('Error actualizando estado:', error);
+        });
+    });
 </script>
 </body>
 </html>

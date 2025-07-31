@@ -1,16 +1,40 @@
-/* Fondo general */
+/* Variables de color */
+:root {
+    --navy-blue: #001f3f;
+    --deep-blue: #0a3d62;
+    --medium-blue: #1e6091;
+    --light-blue: #4ea8de;
+    --sky-blue: #89c2d9;
+    --ice-blue: #caf0f8;
+    --white: #ffffff;
+    --light-gray: rgba(255, 255, 255, 0.7);
+    --error-red: #ff6b6b;
+}
+
+/* Estilos globales */
 body {
-    background: linear-gradient(255deg, #660eea 0%, #760ba2 100%);
+    background: linear-gradient(
+        155deg,
+        var(--navy-blue) 0%,
+        var(--deep-blue) 20%,
+        var(--medium-blue) 40%,
+        var(--light-blue) 60%,
+        var(--sky-blue) 80%,
+        var(--ice-blue) 100%
+    );
+    background-attachment: fixed;
+    background-size: cover;
+    color: var(--white);
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     min-height: 100vh;
-    color: #fff;
     margin: 0;
     display: flex;
     align-items: center;
     justify-content: center;
+    padding: 1rem;
 }
 
-/* Contenedor centrado */
+/* Contenedor del formulario */
 .form-wrapper {
     display: flex;
     align-items: center;
@@ -18,18 +42,27 @@ body {
     width: 100%;
     padding: 1.5rem;
     box-sizing: border-box;
+    animation: fadeIn 0.8s ease-out both;
 }
 
-/* Tarjeta del formulario */
+/* Tarjeta de formulario */
 .card {
     width: 100%;
-    max-width: 650px; /* Aumentamos el ancho */
-    background-color: rgba(255, 255, 255, 0.15);
-    border-radius: 1rem;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
-    padding: 2.5rem;
-    color: #fff;
+    max-width: 650px;
+    background: rgba(255, 255, 255, 0.1);
     backdrop-filter: blur(10px);
+    border-radius: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    padding: 2.5rem;
+    color: var(--white);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    position: relative;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
 }
 
 /* Título del formulario */
@@ -37,70 +70,164 @@ body {
     font-weight: 700;
     font-size: 2rem;
     margin-bottom: 1.5rem;
-    border-bottom: 2px solid #10ac84;
-    padding-bottom: 1rem;
     text-align: center;
+    position: relative;
+    padding-bottom: 1rem;
 }
 
-/* Inputs y textarea */
+.card h2::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100px;
+    height: 3px;
+    background: var(--light-blue);
+    border-radius: 3px;
+}
+
+/* Elementos del formulario */
+.form-label {
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    color: var(--ice-blue);
+    display: block;
+}
+
 .form-control {
-    width: 100%; /* Ocupa todo el contenedor */
+    width: 100%;
     background-color: rgba(255, 255, 255, 0.9);
     border: none;
-    border-radius: 0.5rem;
-    color: #341f97;
+    border-radius: 10px;
+    color: var(--navy-blue);
     font-weight: 500;
-    padding: 0.5rem 1rem;
-    transition: box-shadow 0.3s ease;
-    box-sizing: border-box;
+    padding: 0.75rem 1.25rem;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 .form-control:focus {
+    background-color: rgba(255, 255, 255, 0.95);
+    box-shadow: 0 0 0 0.25rem rgba(78, 168, 222, 0.25);
     outline: none;
-    box-shadow: 0 0 8px #10ac84;
+    transform: translateY(-2px);
 }
 
-/* Textarea altura */
+.form-control::placeholder {
+    color: rgba(10, 61, 98, 0.6);
+}
+
 textarea.form-control {
-    min-height: 100px;
+    min-height: 120px;
     resize: vertical;
 }
 
-/* Botón Guardar */
+/* Botón principal */
 .btn-primary {
-    background-color: #10ac84;
+    background: linear-gradient(135deg, var(--light-blue), var(--medium-blue));
     border: none;
-    border-radius: 0.6rem;
+    border-radius: 10px;
     font-weight: 600;
-    padding: 0.75rem;
-    transition: background-color 0.3s ease;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 0.5rem;
+    padding: 0.85rem;
+    transition: all 0.4s ease;
+    margin-top: 1rem;
+    position: relative;
+    overflow: hidden;
+    z-index: 1;
+    font-size: 1.1rem;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    color: var(--white);
+}
+
+.btn-primary::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, var(--medium-blue), var(--deep-blue));
+    z-index: -1;
+    transition: transform 0.5s ease;
+    transform: scaleX(0);
+    transform-origin: right;
+}
+
+.btn-primary:hover::before {
+    transform: scaleX(1);
+    transform-origin: left;
 }
 
 .btn-primary:hover {
-    background-color: #079e6d;
+    transform: translateY(-3px);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
 }
 
-/* Spinner dentro del botón */
-.spinner-border {
-    color: #fff;
-    display: none;
+.btn-primary:active {
+    transform: translateY(1px);
 }
 
-/* Responsive */
+/* Botón de retroceso */
+.back-btn {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(5px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--white);
+    text-decoration: none;
+    transition: all 0.3s ease;
+    z-index: 10;
+}
+
+.back-btn:hover {
+    background: rgba(255, 255, 255, 0.25);
+    transform: translateX(-3px);
+}
+
+/* Animaciones */
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Diseño responsivo */
 @media (max-width: 768px) {
     .card {
         max-width: 90%;
         padding: 2rem;
     }
+
+    .card h2 {
+        font-size: 1.75rem;
+    }
 }
 
 @media (max-width: 576px) {
     .card {
-        width: 100%;
-        padding: 1.5rem;
+        padding: 1.75rem;
+    }
+
+    .form-control {
+        padding: 0.65rem 1rem;
+    }
+
+    .btn-primary {
+        padding: 0.75rem;
+        font-size: 1rem;
     }
 }

@@ -29,6 +29,26 @@ public class Team {
     // Un equipo puede abarcar varios proyectos
     @OneToMany(mappedBy = "team", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Project> projects = new ArrayList<>();
+
+    /**
+     * Garantiza que users nunca sea null y sincroniza ambas partes de la relación
+     */
+    public void addUser(User user) {
+        if (this.users == null) {
+            this.users = new ArrayList<>();
+        }
+        if (!this.users.contains(user)) {
+            this.users.add(user);
+            user.setTeam(this);
+        }
+    }
+
+    public void removeUser(User user) {
+        if (this.users != null && this.users.remove(user)) {
+            user.setTeam(null);
+        }
+    }
+
 }
 
 

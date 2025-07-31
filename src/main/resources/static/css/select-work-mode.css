@@ -1,15 +1,26 @@
 /* select-work-mode.css */
+/* Paleta de azules */
+:root {
+  --navy-blue: #001f3f;
+  --deep-blue: #0a3d62;
+  --medium-blue: #1e6091;
+  --light-blue: #4ea8de;
+  --sky-blue: #89c2d9;
+  --ice-blue: #caf0f8;
+  --white: #ffffff;
+  --overlay: rgba(255, 255, 255, 0.15);
+  --border-light: rgba(255, 255, 255, 0.2);
+}
 
-/* Fondo igual al dashboard */
 .bg-dashboard {
   background: linear-gradient(
-    180deg,
-    #764ba2 0%,
-    #8e79d3 20%,
-    #ff9a9e 40%,
-    #ff7eb3 60%,
-    #667eea 80%,
-    #764ba2 100%
+    160deg,
+    var(--navy-blue) 0%,
+    var(--deep-blue) 20%,
+    var(--medium-blue) 40%,
+    var(--light-blue) 60%,
+    var(--sky-blue) 80%,
+    var(--ice-blue) 100%
   );
   min-height: 100vh;
   background-attachment: fixed;
@@ -21,53 +32,68 @@
   transition: transform 0.3s, box-shadow 0.3s;
   cursor: pointer;
   height: 100%;
-  background: rgba(255, 255, 255, 0.15);
+  background: var(--overlay);
   border-radius: 12px;
   backdrop-filter: blur(5px);
-  border: 1px solid rgba(255,255,255,0.2);
+  border: 1px solid var(--border-light);
 }
 .work-mode-card:hover {
   transform: translateY(-10px);
-  box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
 }
 .work-mode-card.selected {
-  border: 3px solid #667eea;
-  background-color: rgba(102, 126, 234, 0.1);
+  border: 3px solid var(--medium-blue);
+  background-color: rgba(78, 168, 222, 0.2); /* rgba(light-blue, 0.2) */
 }
+
 
 /* Ocultar radio native */
 .mode-radio {
   display: none;
 }
 
-/* Títulos y textos */
+/* Textos y títulos */
 h1.display-4,
 h3.card-title {
-  color: white;
-  text-shadow: 0 1px 2px rgba(0,0,0,0.3);
+  color: var(--white);
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
 }
 p.lead,
 .card-text,
 ul.text-start {
-  color: rgba(255,255,255,0.9);
+  color: rgba(255, 255, 255, 0.9);
 }
 
-/* Lista puntos */
+/* Lista de puntos */
 ul.text-start li {
   margin-bottom: 0.5rem;
 }
 
-/* Botón continuar */
-.btn-continue {
-  background: #667eea;
+.btn-continue,
+.btn.btn-primary {
+  background: var(--medium-blue);
   border: none;
   padding: 1rem 2rem;
   font-size: 1.1rem;
   font-weight: 600;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
   transition: all 0.2s ease;
+  color: var(--white);
 }
-.btn-continue:hover {
-  background: #5a6ed0;
-  box-shadow: 0 6px 18px rgba(0,0,0,0.2);
+
+.btn-continue:hover,
+.btn.btn-primary:hover {
+  background: var(--deep-blue);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.2);
+}
+
+/* Modo deshabilitado */
+.work-mode-card.disabled-mode {
+  cursor: not-allowed;
+  opacity: 0.5;
+  pointer-events: auto; /* permite que JS detecte el click y lo ignore */
+}
+.work-mode-card.disabled-mode:hover {
+  transform: none;
+  box-shadow: none;
 }

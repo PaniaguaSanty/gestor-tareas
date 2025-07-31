@@ -1,10 +1,11 @@
 :root {
-  --deep-purple: #690eea;
-  --medium-purple: #764ba2;
-  --light-purple: #8e79d3;
-  --pink: #ff9a9e;
-  --hot-pink: #ff7eb3;
-  --blue: #667eea;
+  --navy-blue: #001f3f;
+  --deep-blue: #0a3d62;
+  --medium-blue: #1e6091;
+  --light-blue: #4ea8de;
+  --sky-blue: #89c2d9;
+  --ice-blue: #caf0f8;
+  --blue: #0077b6;
   --white: #ffffff;
   --light-gray: rgba(255, 255, 255, 0.7);
   --error-red: #ff6b6b;
@@ -27,13 +28,13 @@ html {
 
 body {
   background: linear-gradient(
-    135deg,
-    var(--deep-purple) 0%,
-    var(--medium-purple) 20%,
-    var(--pink) 40%,
-    var(--hot-pink) 60%,
-    var(--blue) 80%,
-    var(--deep-purple) 100%
+     275deg,
+        var(--navy-blue) 0%,
+        var(--deep-blue) 20%,
+        var(--medium-blue) 40%,
+        var(--light-blue) 60%,
+        var(--sky-blue) 80%,
+        var(--ice-blue) 100%
   );
   background-attachment: fixed;
   background-size: cover;
@@ -171,7 +172,7 @@ h1 {
 
 /* Botón de acceso */
 .btn-access {
-  background: linear-gradient(135deg, var(--blue), var(--light-purple));
+  background: linear-gradient(135deg, var(--navy-blue), var(--light-blue));
   border: none;
   border-radius: 50px;
   color: white;
@@ -191,7 +192,7 @@ h1 {
 }
 
 .btn-access:hover {
-  background: linear-gradient(135deg, var(--light-purple), var(--blue));
+  background: linear-gradient(135deg, var(--medium-blue), var(--light-blue));
   transform: translateY(-2px);
 }
 

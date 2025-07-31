@@ -7,34 +7,39 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
     <link rel="stylesheet" th:href="@{/css/teamDetail.css}" href="/static/css/teamDetail.css">
 </head>
-<body class="bg-light py-5">
-<div class="container border-bottom">
-    <div class="d-flex justify-content-between align-items-center mb-4 border-bottom">
-        <h1 th:text="${team.name}">Nombre del Equipo</h1>
-        <a class="btn btn-secondary" th:href="@{/teams/list}">
-            <i class="bi bi-arrow-left"></i> Volver a la lista
+<body>
+<div class="team-container">
+    <!-- Header del equipo -->
+    <div class="team-header">
+        <a th:href="@{/teams/list}" class="back-btn">
+            <i class="bi bi-arrow-left"></i>
         </a>
-    </div>
-    <p class="lead" th:text="${team.description}">Descripción del equipo...</p>
-    <!-- Sección de Usuarios -->
-    <div class="card mb-4">
-        <div class="card-header">
-            <h5 class="mb-0"><i class="bi bi-people-fill me-2"></i>Miembros del Equipo</h5>
+        <div class="team-info">
+            <h1 th:text="${team.name}">Nombre del Equipo</h1>
+            <p class="team-description" th:text="${team.description}">Descripción del equipo...</p>
         </div>
-        <div class="card-body">
-            <ul class="list-group mb-3">
+    </div>
+
+    <!-- Contenido principal -->
+    <div class="team-content">
+        <!-- Sección de miembros -->
+        <div class="team-section">
+            <div class="section-header">
+                <i class="bi bi-people-fill"></i>
+                <h2>Miembros del Equipo</h2>
+            </div>
+
+            <ul class="members-list">
                 <!-- Lista de usuarios asignados -->
-                <li class="list-group-item d-flex justify-content-between align-items-center"
-                    th:each="user : ${team.users}">
-                    <span class="d-flex align-items-center">
-                        <img th:src="@{${user.avatarUrl}}" class="rounded-circle me-2" width="30" height="30" alt="">
-                        <span th:text="${user.name}">Nombre Usuario</span>
-                    </span>
+                <li class="member-item" th:each="user : ${team.users}">
+                    <div class="member-info">
+                        <img th:src="@{${user.avatarUrl}}" class="member-avatar" alt="Avatar">
+                        <span class="member-name" th:text="${user.name}">Nombre Usuario</span>
+                    </div>
                     <!-- Botón para quitar usuario -->
-                    <form th:action="@{/teams/{teamDni}/users/{userDni}(teamDni=${team.dni}, userDni=${user.dni})}"
-                          method="post">
+                    <form th:action="@{/teams/{teamDni}/users/{userDni}(teamDni=${team.dni}, userDni=${user.dni})}" method="post">
                         <input type="hidden" name="_method" value="DELETE"/>
-                        <button type="submit" class="btn btn-sm btn-outline-danger">
+                        <button type="submit" class="remove-btn">
                             <i class="bi bi-person-x"></i> Quitar
                         </button>
                     </form>
@@ -42,9 +47,9 @@
             </ul>
 
             <!-- Formulario para añadir usuario -->
-            <form id="addUserForm" method="post" class="row g-2" th:inline="javascript">
-                <div class="col-auto">
-                    <select id="userSelect" class="form-select" required>
+            <div class="add-member-form">
+                <form id="addUserForm" method="post" class="row g-2" th:inline="javascript">
+                    <select id="userSelect" class="user-select" required>
                         <option value="" disabled selected>Selecciona un usuario</option>
                         <option th:each="u : ${allUsers}"
                                 th:value="${u.dni}"
@@ -52,68 +57,62 @@
                                 th:if="${!#lists.contains(team.users, u)}">
                         </option>
                     </select>
-                </div>
-                <div class="col-auto">
-                    <button type="submit" class="btn btn-primary">
+                    <button type="submit" class="add-btn">
                         <i class="bi bi-person-plus"></i> Añadir al Equipo
                     </button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Sección de proyectos -->
+        <div class="team-section">
+            <div class="section-header">
+                <i class="bi bi-folder-fill"></i>
+                <h2>Proyectos asignados</h2>
+                <a class="add-project-btn" th:href="@{/projects/create/{teamDni}(teamDni=${team.dni})}">
+                    <i class="bi bi-plus-lg"></i> Agregar Proyecto
+                </a>
+            </div>
+
+            <div class="projects-grid">
+                <!-- Itera en los projects pertenecientes a ese team en específico... -->
+                <div class="project-card" th:each="project : ${team.projects}">
+                    <div class="project-info">
+                        <h3 class="project-name" th:text="${project.name}">Nombre del Proyecto</h3>
+                        <p class="project-description" th:text="${project.description}">Descripción del proyecto...</p>
+                    </div>
+                    <a class="view-btn" th:href="@{/projects/detail/{code}(code=${project.code})}">
+                        <i class="bi bi-kanban"></i> Ver Dashboard
+                    </a>
                 </div>
-            </form>
-
-            <!-- Script JavaScript para enviar el formulario dinámicamente -->
-            <script th:inline="javascript">
-                /*<![CDATA[*/
-                const teamDni = /*[[${team.dni}]]*/ 'teamDniFallback';
-
-                document.getElementById("addUserForm").addEventListener("submit", function (e) {
-                    e.preventDefault();
-                    const selectedDni = document.getElementById("userSelect").value;
-                    if (!selectedDni) {
-                        alert('Por favor selecciona un usuario.');
-                        return;
-                    }
-
-                    const actionUrl = '/teams/' + teamDni + '/users/' + selectedDni;
-
-                    const dynamicForm = document.createElement("form");
-                    dynamicForm.method = "POST";
-                    dynamicForm.action = actionUrl;
-
-                    document.body.appendChild(dynamicForm);
-                    dynamicForm.submit();
-                });
-                /*]]>*/
-            </script>
+            </div>
         </div>
     </div>
 </div>
-<section>
-    <div class="container border-bottom mt-4">
-        <div class="d-flex justify-content-between align-items-center mb-4 border-bottom">
-            <h1>Proyectos asignados a este equipo</h1>
-            <div class="d-flex gap-4 justify-content-between align-items-center">
-                <a class="btn btn-secondary"
-                   th:href="@{/projects/create/{teamDni}(teamDni=${team.dni})}">
-                    + Agregar Proyecto
-                </a>
-            </div>
-        </div>
-        <div class="row">
-            <!-- Itera en los projects pertenecientes a ese team en específico... -->
-            <div class="col-md-4 mb-4" th:each="project : ${team.projects}">
-                <div class="card h-100 shadow-sm">
-                    <div class="card-body">
-                        <h5 class="card-title" th:text="${project.name}">Nombre del Proyecto</h5>
-                        <p class="card-text" th:text="${project.description}">Descripción del proyecto...</p>
-                    </div>
-                    <!-- Método para ver el dashboard del project... -->
-                    <a class="btn btn-secondary" th:href="@{/projects/detail/{code}(code=${project.code})}">Ver en
-                        Dashboard</a>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
+
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script th:inline="javascript">
+    /*<![CDATA[*/
+    const teamDni = /*[[${team.dni}]]*/ 'teamDniFallback';
+
+    document.getElementById("addUserForm").addEventListener("submit", function (e) {
+        e.preventDefault();
+        const selectedDni = document.getElementById("userSelect").value;
+        if (!selectedDni) {
+            alert('Por favor selecciona un usuario.');
+            return;
+        }
+
+        const actionUrl = '/teams/' + teamDni + '/users/' + selectedDni;
+
+        const dynamicForm = document.createElement("form");
+        dynamicForm.method = "POST";
+        dynamicForm.action = actionUrl;
+
+        document.body.appendChild(dynamicForm);
+        dynamicForm.submit();
+    });
+    /*]]>*/
+</script>
 </body>
 </html>

@@ -14,6 +14,7 @@ import org.springframework.security.oauth2.core.OAuth2Error;
 import org.springframework.security.oauth2.core.user.*;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -37,8 +38,8 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
         try {
             OAuth2User oauth = super.loadUser(userRequest);
             String provider = userRequest.getClientRegistration().getRegistrationId().toUpperCase();
-            logger.info("Proveedor detectado: " + provider);
-            Map<String, Object> attrs = oauth.getAttributes();
+            logger.info("Proveedor detectado: {}", provider);
+            Map<String, Object> attrs = new HashMap<>(oauth.getAttributes());  // Clonamos para poder modificar
 
             final String email;
             final String name;
@@ -105,11 +106,17 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
                         return repo.save(newUser);
                     });
 
+            // —————————————————————————————————————————————————————
+            // Inyectamos el username real en los atributos para que
+            // principal.getName() lo devuelva
+            attrs.put("username", user.getUsername());
+            // Y usamos "username" como llave de nombre de usuario:
             return new DefaultOAuth2User(
                     user.getAuthorities(),
                     attrs,
-                    usernameAttrKey
+                    "username"
             );
+            // —————————————————————————————————————————————————————
 
         } catch (DataIntegrityViolationException e) {
             logger.error("Error de integridad en BD", e);

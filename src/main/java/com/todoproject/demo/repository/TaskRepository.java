@@ -12,7 +12,11 @@ import java.util.Optional;
 @Repository
 public interface TaskRepository extends JpaRepository<Task, Long> {
     Optional<Task> findByCode(String code);
+
     List<Task> findByProject_Code(String code);
+
     @Query("SELECT t FROM Task t WHERE t.project.id = :projectId AND t.active = true")
     List<Task> findByProjectIdAndActiveTrue(@Param("projectId") Long projectId);
+
+    Long countByProjectId(Long id);
 }

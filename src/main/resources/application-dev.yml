@@ -1,23 +1,17 @@
-#APPLICATION-DEV.YML
 spring:
   config:
     activate:
       on-profile: dev
 
   datasource:
-    url: ${DATABASE_URL}
-    username: ${DATABASE_USERNAME}
-    password: ${DATABASE_PASSWORD}
+    url: jdbc:postgresql://dpg-d1v7s7je5dus739ia63g-a.oregon-postgres.render.com:5432/todoappdb_zaoo
+    username: todoappuser
+    password: 8iA81aXbWZKCJKEITRQMpxZraLu8So5j
     driver-class-name: org.postgresql.Driver
 
   jpa:
     hibernate:
       ddl-auto: update
-    show-sql: true
-
-  sql:
-    init:
-      mode: always
 
   security:
     oauth2:
@@ -32,8 +26,8 @@ spring:
               - email
             redirect-uri: "http://localhost:8080/login/oauth2/code/google"
           github:
-            client-id: ${GITHUB_CLIENT_ID}
-            client-secret: ${GITHUB_CLIENT_SECRET}
+            client-id: ${GITHUB_CLIENT_DEV_ID}
+            client-secret: ${GITHUB_CLIENT_DEV_SECRET}
             scope:
               - read:user
               - user:email
@@ -42,6 +36,4 @@ spring:
 logging:
   level:
     root: INFO
-    org.hibernate.SQL: DEBUG
-    org.hibernate.type.descriptor.sql.BasicBinder: TRACE
-    com.todoproject.demo: DEBUG
+    org.hibernate: WARN
