@@ -1,21 +1,24 @@
+/* Variables de color adaptadas de mainPage.css */
 :root {
-  --deep-purple: #690eea;
-  --medium-purple: #764ba2;
-  --light-purple: #8e79d3;
-  --pink: #ff9a9e;
-  --hot-pink: #ff7eb3;
-  --blue: #667eea;
+  --navy-blue: #001f3f;
+  --deep-blue: #0a3d62;
+  --medium-blue: #1e6091;
+  --light-blue: #4ea8de;
+  --sky-blue: #89c2d9;
+  --ice-blue: #caf0f8;
+  --white: #ffffff;
+  --light-gray: rgba(255, 255, 255, 0.7);
 }
 
 body {
   background: linear-gradient(
-      135deg,
-      var(--deep-purple) 0%,
-      var(--medium-purple) 20%,
-      var(--pink) 40%,
-      var(--hot-pink) 60%,
-      var(--blue) 80%,
-      var(--deep-purple) 100%
+    155deg,
+    var(--navy-blue) 0%,
+    var(--deep-blue) 20%,
+    var(--medium-blue) 40%,
+    var(--light-blue) 60%,
+    var(--sky-blue) 80%,
+    var(--ice-blue) 100%
   );
   min-height: 100vh;
   background-attachment: fixed;
@@ -29,7 +32,7 @@ body {
 }
 
 .welcome-container {
-  background: rgba(255, 255, 255, 0.1);
+  background: rgba(0, 31, 63, 0.3);
   backdrop-filter: blur(10px);
   border-radius: 20px;
   border: 1px solid rgba(255, 255, 255, 0.2);
@@ -56,7 +59,7 @@ h1 {
 }
 
 .access-box {
-  background: rgba(255, 255, 255, 0.15);
+  background: rgba(10, 61, 98, 0.3);
   backdrop-filter: blur(5px);
   border-radius: 15px;
   padding: 30px;
@@ -67,7 +70,7 @@ h1 {
 }
 
 .btn-access {
-  background: linear-gradient(135deg, var(--blue) 0%, var(--light-purple) 100%);
+  background: linear-gradient(135deg, var(--light-blue) 0%, var(--medium-blue) 100%);
   border: none;
   border-radius: 50px;
   color: white;
@@ -77,15 +80,16 @@ h1 {
   text-decoration: none;
   display: inline-block;
   transition: all 0.3s ease;
-  box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+  box-shadow: 0 4px 15px rgba(78, 168, 222, 0.4);
   position: relative;
   overflow: hidden;
+  animation: pulse 2.5s infinite ease-in-out;
 }
 
 .btn-access:hover {
   transform: translateY(-3px);
-  box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6);
-  background: linear-gradient(135deg, var(--light-purple) 0%, var(--blue) 100%);
+  box-shadow: 0 6px 20px rgba(78, 168, 222, 0.6);
+  background: linear-gradient(135deg, var(--medium-blue) 0%, var(--light-blue) 100%);
 }
 
 .btn-access:active {
@@ -102,7 +106,7 @@ h1 {
 .features {
   margin-top: 20px;
   padding: 30px;
-  background: rgba(255, 255, 255, 0.1);
+  background: rgba(30, 96, 145, 0.2);
   backdrop-filter: blur(5px);
   border-radius: 15px;
   border: 1px solid rgba(255, 255, 255, 0.2);
@@ -122,7 +126,7 @@ h1 {
 }
 
 .list-group-item {
-  background: rgba(255, 255, 255, 0.15);
+  background: rgba(137, 194, 217, 0.2);
   backdrop-filter: blur(5px);
   border: 1px solid rgba(255, 255, 255, 0.2);
   margin-bottom: 15px;
@@ -135,7 +139,7 @@ h1 {
 }
 
 .list-group-item:hover {
-  background: rgba(255, 255, 255, 0.25);
+  background: rgba(137, 194, 217, 0.3);
   transform: translateX(5px);
 }
 
@@ -158,6 +162,16 @@ h1 {
   100% { opacity: 1; transform: translateY(0); }
 }
 
+/* Animación pulsante */
+@keyframes pulse {
+  0%, 100% {
+    box-shadow: 0 0 0 0 rgba(78, 168, 222, 0.5);
+  }
+  50% {
+    box-shadow: 0 0 15px 5px rgba(78, 168, 222, 0.3);
+  }
+}
+
 /* Partículas */
 .particles {
   position: absolute;
@@ -171,7 +185,7 @@ h1 {
 
 .particle {
   position: absolute;
-  background: rgba(255, 255, 255, 0.6);
+  background: rgba(202, 240, 248, 0.6);
   border-radius: 50%;
   animation: rocketFloat 6s infinite ease-in-out;
 }
@@ -184,10 +198,11 @@ footer {
   text-align: center;
   padding: 15px 0;
   font-size: 0.9rem;
-  background: rgba(118, 75, 162, 0.3);
+  background: rgba(0, 31, 63, 0.5);
   backdrop-filter: blur(5px);
   border-top: 1px solid rgba(255, 255, 255, 0.1);
   color: #fff;
+  margin-top: auto;
 }
 
 /* Responsive */

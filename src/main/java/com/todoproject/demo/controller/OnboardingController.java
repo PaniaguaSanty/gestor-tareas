@@ -147,7 +147,6 @@ public class OnboardingController {
         // Limpiar la sesión
         session.removeAttribute("teamDni");
 
-        // Redirigir al dashboard usando el código del proyecto
         return "redirect:/projects/detail/" + savedProject.getCode();
     }
 }

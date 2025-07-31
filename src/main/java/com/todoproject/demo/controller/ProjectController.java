@@ -90,8 +90,6 @@ public class ProjectController {
         return ResponseEntity.ok(projects);
     }
 
-
-
     @GetMapping("/list")
     public String findAllProjects(Model model) {
         logger.info("Entering in findAllProjects method..");

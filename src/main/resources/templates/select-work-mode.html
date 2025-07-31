@@ -8,6 +8,26 @@
     <!-- CSS personalizado -->
     <link rel="stylesheet" th:href="@{/css/select-work-mode.css}" href="/static/css/select-work-mode.css">
 
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const soloCard = document.getElementById('soloCard');
+            const teamCard = document.getElementById('teamCard');
+            const soloRadio = document.getElementById('modeSolo');
+            const teamRadio = document.getElementById('modeTeam');
+
+            soloCard.addEventListener('click', () => {
+                soloCard.classList.add('selected');
+                teamCard.classList.remove('selected');
+                soloRadio.checked = true;
+            });
+
+            teamCard.addEventListener('click', () => {
+                teamCard.classList.add('selected');
+                soloCard.classList.remove('selected');
+                teamRadio.checked = true;
+            });
+        });
+    </script>
 </head>
 <body class="bg-dashboard">
 <div class="container py-5">
@@ -68,26 +88,5 @@
         </div>
     </form>
 </div>
-
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const soloCard = document.getElementById('soloCard');
-        const teamCard = document.getElementById('teamCard');
-        const soloRadio = document.getElementById('modeSolo');
-        const teamRadio = document.getElementById('modeTeam');
-
-        soloCard.addEventListener('click', () => {
-            soloCard.classList.add('selected');
-            teamCard.classList.remove('selected');
-            soloRadio.checked = true;
-        });
-
-        teamCard.addEventListener('click', () => {
-            teamCard.classList.add('selected');
-            soloCard.classList.remove('selected');
-            teamRadio.checked = true;
-        });
-    });
-</script>
 </body>
 </html>

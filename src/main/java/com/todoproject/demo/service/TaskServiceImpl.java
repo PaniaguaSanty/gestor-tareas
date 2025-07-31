@@ -4,10 +4,7 @@ import com.todoproject.demo.dto.request.TaskRequestDto;
 import com.todoproject.demo.dto.response.TaskResponseDto;
 import com.todoproject.demo.exception.NotFoundException;
 import com.todoproject.demo.mapper.TaskMapper;
-import com.todoproject.demo.model.Project;
-import com.todoproject.demo.model.Task;
-import com.todoproject.demo.model.TaskState;
-import com.todoproject.demo.model.User;
+import com.todoproject.demo.model.*;
 import com.todoproject.demo.repository.ProjectRepository;
 import com.todoproject.demo.repository.TaskRepository;
 import com.todoproject.demo.repository.UserRepository;
@@ -39,15 +36,38 @@ public class TaskServiceImpl {
     }
 
     public TaskResponseDto create(TaskRequestDto taskRequestDto, String projectCode) {
-        logger.info("Entering in create Task method...");
+        logger.info("Creating task for project: {}", projectCode);
         Project project = findProjectByCode(projectCode);
-
         User user = findUserIfPresent(taskRequestDto.getUserId());
 
-        Task task = buildTask(taskRequestDto, project, user);
-        Task savedTask = taskRepository.save(task);
+        Task task = new Task();
+        task.setTitle(taskRequestDto.getTitle());
+        task.setDescription(taskRequestDto.getDescription());
 
+        // Manejar prioridad
+        if (taskRequestDto.getPriority() != null) {
+            task.setPriority(Priority.valueOf(taskRequestDto.getPriority()));
+        } else {
+            task.setPriority(Priority.MEDIUM);
+        }
+
+        // Estado
+        task.setState(TaskState.valueOf(taskRequestDto.getState()));
+
+        task.setProject(project);
+        task.setAssignedTo(user);
+        task.setActive(true);
+
+        // Generar código único
+        task.setCode(generateTaskCode(project));
+
+        Task savedTask = taskRepository.save(task);
         return taskMapper.convertToDto(savedTask);
+    }
+
+    private String generateTaskCode(Project project) {
+        Long taskCount = taskRepository.countByProjectId(project.getId());
+        return project.getCode() + "-T" + (taskCount + 1);
     }
 
     private Project findProjectByCode(String code) {
@@ -119,7 +139,6 @@ public class TaskServiceImpl {
         return taskMapper.convertToDto(task);
     }
 
-
     public List<TaskResponseDto> findByProjectCode(String code) {
         List<Task> tasks = taskRepository.findByProject_Code(code);
         return tasks.stream()
@@ -150,6 +169,13 @@ public class TaskServiceImpl {
 
         task.setActive(false);
         taskRepository.save(task);
+    }
+
+    @Transactional
+    public void disableTaskByCode(String taskCode) {
+        logger.info("Disabling task by CODE: {}", taskCode);
+        Task task = taskRepository.findByCode(taskCode)
+                .orElseThrow(() -> new NotFoundException("Task not found with CODE: " + taskCode));
     }
 
     public List<TaskResponseDto> findActiveByProjectCode(String projectCode) {
