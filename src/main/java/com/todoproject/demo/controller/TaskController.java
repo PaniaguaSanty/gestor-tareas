@@ -64,6 +64,7 @@ public class TaskController {
         taskService.disableById(id);
         return ResponseEntity.noContent().build();
     }
+
     @PutMapping("/{taskCode}/disable")
     public ResponseEntity<?> disableTaskByCode(@PathVariable String taskCode) {
         try {

@@ -172,7 +172,7 @@ h1 {
 
 /* Botón de acceso */
 .btn-access {
-  background: linear-gradient(135deg, var(--navy-blue), var(--medium-blue));
+  background: linear-gradient(135deg, var(--navy-blue), var(--light-blue));
   border: none;
   border-radius: 50px;
   color: white;
