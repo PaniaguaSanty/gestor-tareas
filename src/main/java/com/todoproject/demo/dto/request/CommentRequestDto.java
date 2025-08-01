@@ -13,8 +13,12 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 public class CommentRequestDto {
 
+    private Long id;
     private String content;
     private LocalDateTime createdAt;
+    private String taskCode;
+    private Long authorId;
+
     //user request {autor que crea el comentario}
     //task request {El comentario debe ser asignado a una tarea en específico}
 }

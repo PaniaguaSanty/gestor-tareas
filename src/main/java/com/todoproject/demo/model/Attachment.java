@@ -20,6 +20,7 @@ public class Attachment {
     private String fileName;
     private String fileUrl;
     private LocalDateTime uploadedAt;
+    private boolean active;
 
     // Attachment pertenece a una tarea
     @ManyToOne(fetch = FetchType.LAZY)

@@ -8,7 +8,6 @@ import com.todoproject.demo.model.*;
 import com.todoproject.demo.repository.ProjectRepository;
 import com.todoproject.demo.repository.TaskRepository;
 import com.todoproject.demo.repository.UserRepository;
-import com.todoproject.demo.util.CRUD;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import org.slf4j.Logger;

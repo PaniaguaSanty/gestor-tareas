@@ -1,74 +1,170 @@
-/* Fondo general */
+/* Variables de color consistentes */
+:root {
+    --navy-blue: #001f3f;
+    --deep-blue: #0a3d62;
+    --medium-blue: #1e6091;
+    --light-blue: #4ea8de;
+    --sky-blue: #89c2d9;
+    --ice-blue: #caf0f8;
+    --white: #ffffff;
+    --light-gray: rgba(255, 255, 255, 0.7);
+    --card-bg: rgba(255, 255, 255, 0.08);
+    --card-hover: rgba(255, 255, 255, 0.12);
+}
+
+/* Estilos globales */
 body {
-    background: linear-gradient(290deg, #660eea 0%, #760ba2 100%);
-    font-family: 'Segoe UI', sans-serif;
-    color: #fff;
+    background: linear-gradient(
+        155deg,
+        var(--navy-blue) 0%,
+        var(--deep-blue) 20%,
+        var(--medium-blue) 40%,
+        var(--light-blue) 60%,
+        var(--sky-blue) 80%,
+        var(--ice-blue) 100%
+    );
+    background-attachment: fixed;
+    background-size: cover;
+    color: var(--white);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     min-height: 100vh;
+    padding: 2rem;
 }
 
 /* Contenedor principal */
 .container {
-    background-color: rgba(255, 255, 255, 0.1);
+    max-width: 1200px;
+    margin: 0 auto;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border-radius: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
     padding: 2rem;
-    border-radius: 1rem;
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
 }
 
-/* Título principal */
+/* Cabecera */
+.d-flex {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 2px solid var(--light-blue);
+}
+
 h1 {
-    color: #ffffff;
-    font-weight: 600;
     font-size: 2.5rem;
+    text-align: center;
+    flex-grow: 1;
 }
 
+/* Botones */
+.btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.8rem 1.5rem;
+    border-radius: 10px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    border: none;
+    cursor: pointer;
+}
+
+.btn-secondary {
+    background: linear-gradient(135deg, var(--light-blue), var(--medium-blue));
+    color: var(--white);
+}
+
+.btn-secondary:hover {
+    background: linear-gradient(135deg, var(--light-blue), var(--deep-blue));
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+.btn-primary {
+    background:  linear-gradient(135deg, var(--light-blue), var(--medium-blue));
+    border: 1px solid var(--deep-blue);
+    color: var(--sky-blue);
+}
+
+.btn-primary:hover {
+    background:  linear-gradient(135deg, var(--light-blue), var(--deep-blue));
+    color: var(--ice-blue);
+}
 
 /* Tarjetas de equipos */
+.row {
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 1.5rem;
+}
+
 .card {
-    background-color: #ffffff;
-    border: none;
-    border-radius: 1rem;
-    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
-    transition: transform 0.2s ease;
+    background: var(--card-bg);
+    backdrop-filter: blur(10px);
+    border-radius: 15px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    overflow: hidden;
+    transition: all 0.3s ease;
+    height: 100%;
 }
 
 .card:hover {
     transform: translateY(-5px);
+    background: var(--card-hover);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+}
+
+.card-body {
+    padding: 1.5rem;
 }
 
 .card-title {
-    color: #341f97;
-    font-size: 1.3rem;
-    font-weight: bold;
+    font-size: 1.5rem;
+    color: var(--light-blue);
+    margin-bottom: 1rem;
+    font-weight: 600;
 }
 
 .card-text {
-    color: #555;
+    color: var(--light-gray);
+    line-height: 1.6;
+    margin-bottom: 1.5rem;
+    min-height: 60px;
 }
 
-/* Botón ver detalles */
-.btn-primary {
-    background-color: #10ac84;
-    border: none;
-    border-radius: 0.5rem;
-    font-weight: 500;
-    transition: background-color 0.3s ease;
+.card-footer {
+    padding: 1rem 1.5rem;
+    background: rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+}
+/* Responsive */
+@media (max-width: 900px) {
+    .d-flex {
+        flex-direction: column;
+        gap: 1.5rem;
+    }
+
+    .btn {
+        width: 100%;
+        justify-content: center;
+    }
 }
 
-.btn-primary:hover {
-    background-color: #079e6d;
-}
+@media (max-width: 576px) {
+    body {
+        padding: 1rem;
+    }
 
-/* Botón de volver al dashboard */
-.btn-secondary {
-    background-color: #82589F;
-    border: none;
-    color: #fff;
-    font-weight: 500;
-    transition: background-color 0.3s ease;
-    border-radius: 0.5rem;
-}
+    .container {
+        padding: 1.5rem;
+    }
 
-.btn-secondary:hover {
-    background-color: #574b90;
+    h1 {
+        font-size: 2rem;
+    }
 }
-
