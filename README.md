@@ -2,7 +2,7 @@
 
 Un sistema de gestión de tareas colaborativo desarrollado con Java Spring Boot y Thymeleaf, que permite a equipos de trabajo organizar proyectos, asignar responsabilidades y dar seguimiento en tiempo real al progreso de los usuarios.
 
-👉 Demo desplegada en Render
+👉 Demo desplegada en Render: https://gestor-tareas-wsj4.onrender.com/
  (actualmente no disponible por suscripción)
 # 🖼️ Capturas de pantalla
 
