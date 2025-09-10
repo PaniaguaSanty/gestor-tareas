@@ -83,6 +83,7 @@ La aplicación estará disponible en:
 # 🖼️ Capturas de pantalla
 
 🔑 Pantalla de Login
+<img width="1907" height="885" alt="image" src="https://github.com/user-attachments/assets/7438a2d6-210a-4285-b0be-21704d21f381" />
 
 🏠 Dashboard principal
 
