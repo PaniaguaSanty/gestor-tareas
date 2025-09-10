@@ -68,9 +68,8 @@ cd gestor-tareas
 
 # 3. Configurar credenciales de base de datos en application.properties
 spring.datasource.url=jdbc:mysql://localhost:3306/gestor_tareas
-spring.datasource.username=tu_usuario
-spring.datasource.password=tu_password
-
+spring.datasource.username= user_db
+spring.datasource.password= db_pass
 # 4. Construir el proyecto
 mvn clean install
 
@@ -81,24 +80,18 @@ mvn spring-boot:run
 La aplicación estará disponible en:
 👉 http://localhost:8080/
 
-🖼️ Capturas de pantalla
+# 🖼️ Capturas de pantalla
 
-(Agrega aquí las imágenes de tu aplicación para que quede más atractivo visualmente)
+🔑 Pantalla de Login
 
-📂 Estructura del proyecto
-gestor-tareas/
- ┣ src/
- ┃ ┣ main/
- ┃ ┃ ┣ java/com/gestor_tareas/   # Código fuente (MVC)
- ┃ ┃ ┣ resources/
- ┃ ┃ ┃ ┣ templates/              # Vistas Thymeleaf
- ┃ ┃ ┃ ┣ static/                 # CSS y JS
- ┃ ┃ ┃ ┗ application.yml  # Configuración
- ┃ ┗ test/                       # Tests unitarios
- ┣ pom.xml                       # Dependencias Maven
- ┣ Dockerfile
- ┗ compose.yaml
- ┗ render.yaml
+🏠 Dashboard principal
+
+📂 Gestión de proyectos
+
+✅ Creación de tareas
+
+💬 Comentarios en una tarea
+
 
 🤝 Contribuciones
 
