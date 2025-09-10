@@ -124,4 +124,4 @@ Consulta el archivo LICENSE para más detalles.
 👤 Autor
 
 Santiago Paniagua
- · LinkedIn: Santiago Paniagua LinkedIn: https://www.linkedin.com/in/santiago-paniagua-9066a6252/
+LinkedIn: https://www.linkedin.com/in/santiago-paniagua-9066a6252/
