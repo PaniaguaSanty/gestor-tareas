@@ -82,16 +82,26 @@ La aplicación estará disponible en:
 
 # 🖼️ Capturas de pantalla
 
-🔑 Pantalla de Login
+🔑 Pantalla de Login con animaciones.
 <img width="1907" height="885" alt="image" src="https://github.com/user-attachments/assets/7438a2d6-210a-4285-b0be-21704d21f381" />
 
-🏠 Dashboard principal
-
+🏠 Principal
+<img width="1888" height="884" alt="image" src="https://github.com/user-attachments/assets/c7a639d8-8ecc-46bd-9b6e-8fb9dddf6a58" />
+<img width="1894" height="883" alt="image" src="https://github.com/user-attachments/assets/1c0aa277-1e34-4cd8-8eda-7a6eb535a4c5" />
+<img width="1909" height="878" alt="image" src="https://github.com/user-attachments/assets/8a1dced8-ec51-4d33-9db2-d7ee3ca254b8" />
+<img width="1896" height="894" alt="image" src="https://github.com/user-attachments/assets/4a57a76e-750c-4f56-85f4-571dd5e36ef7" />
+<img width="1905" height="855" alt="image" src="https://github.com/user-attachments/assets/37d939e3-6ada-4bdf-bda7-88077cc72ab3" />
+<img width="1912" height="883" alt="image" src="https://github.com/user-attachments/assets/da3fdbab-c0c9-4537-a9dc-e17418f3aa90" />
 📂 Gestión de proyectos
+<img width="1906" height="878" alt="image" src="https://github.com/user-attachments/assets/d717f0bd-9214-472b-ab0f-a7f8af9bab7b" />
+<img width="1899" height="879" alt="image" src="https://github.com/user-attachments/assets/17034f8c-978b-4c68-92c5-9d4a776f7e23" />
+
+📂 Tablero Kanban
+<img width="1910" height="884" alt="image" src="https://github.com/user-attachments/assets/08d5ff87-fb83-4892-93df-0ae4178866a7" />
 
 ✅ Creación de tareas
+<img width="1910" height="889" alt="image" src="https://github.com/user-attachments/assets/30535a2a-9c7e-4123-831d-7097a661aeb7" />
 
-💬 Comentarios en una tarea
 
 
 🤝 Contribuciones
