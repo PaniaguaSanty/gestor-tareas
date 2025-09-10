@@ -50,7 +50,7 @@ Arquitectura: MVC
 
 # Despliegue: Render (Docker-ready)
 
-# ⚡ Instalación y ejecución local
+⚡ Instalación y ejecución local
 Requisitos previos
 
 Java 17+
@@ -60,20 +60,20 @@ Maven 3+
 PostgreSQL
 
 Pasos
-# 1. Clonar el repositorio
+ 1. Clonar el repositorio
 git clone https://github.com/PaniaguaSanty/gestor-tareas.git
 
-# 2. Acceder al directorio
+ 2. Acceder al directorio
 cd gestor-tareas
 
-# 3. Configurar credenciales de base de datos en application.properties
+ 3. Configurar credenciales de base de datos en application.properties
 spring.datasource.url=jdbc:mysql://localhost:3306/gestor_tareas
 spring.datasource.username= user_db
 spring.datasource.password= db_pass
-# 4. Construir el proyecto
+ 4. Construir el proyecto
 mvn clean install
 
-# 5. Ejecutar
+ 5. Ejecutar
 mvn spring-boot:run
 
 
