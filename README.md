@@ -1,11 +1,11 @@
-📌 Gestor de Tareas
+# 📌 Gestor de Tareas
 
 Un sistema de gestión de tareas colaborativo desarrollado con Java Spring Boot y Thymeleaf, que permite a equipos de trabajo organizar proyectos, asignar responsabilidades y dar seguimiento en tiempo real al progreso de los usuarios.
 
 👉 Demo desplegada en Render
  (actualmente no disponible por suscripción)
 
-🚀 Funcionalidades principales
+# 🚀 Funcionalidades principales
 
 👥 Gestión de usuarios: creación de usuarios independientes, sin necesidad de estar asociados a un equipo.
 
@@ -21,7 +21,7 @@ Un sistema de gestión de tareas colaborativo desarrollado con Java Spring Boot 
 
 📊 Dashboard de seguimiento: visualización clara del estado de las tareas y el progreso de cada miembro.
 
-🔄 Flujo de creación de entidades
+# 🔄 Flujo de creación de entidades
 
 Users → Se crean primero, pueden existir sin equipo.
 
@@ -36,7 +36,7 @@ Attachments & Comments → Siempre asociados a una tarea.
 🔗 Ejemplo:
 User → Team → Project → Task → [Attachment | Comment]
 
-🛠️ Tecnologías utilizadas
+# 🛠️ Tecnologías utilizadas
 
 Backend: Java 17 · Spring Boot · Spring Data JPA
 
@@ -48,9 +48,9 @@ Control de dependencias: Maven
 
 Arquitectura: MVC
 
-Despliegue: Render (Docker-ready)
+# Despliegue: Render (Docker-ready)
 
-⚡ Instalación y ejecución local
+# ⚡ Instalación y ejecución local
 Requisitos previos
 
 Java 17+
