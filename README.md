@@ -94,19 +94,9 @@ git clone https://github.com/PaniaguaSanty/gestor-tareas.git
  2. Acceder al directorio
 cd gestor-tareas
 
- 3. Configurar credenciales de base de datos en application.properties
-spring.datasource.url=jdbc:mysql://localhost:3306/gestor_tareas
-spring.datasource.username= user_db
-spring.datasource.password= db_pass
- 4. Construir el proyecto
-mvn clean install
-
  5. Ejecutar
 mvn spring-boot:run
 
-
-La aplicación estará disponible en:
-👉 http://localhost:8080/
 
 
 🤝 Contribuciones
